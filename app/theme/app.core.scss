@@ -1,0 +1,99 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+@font-face {
+    font-family: 'BrandonOne';
+    src: url('../../fonts/brandonprinted-one-webfont.woff2') format('woff2'),
+         url('../../fonts/brandonprinted-one-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BrandonShadow';
+    src: url('../../fonts/brandonprintedtwo-shadow-webfont.woff2') format('woff2'),
+         url('../../fonts/brandonprintedtwo-shadow-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'BrandonExtras';
+    src: url('../../fonts/brandonprinted-extras-webfont.woff2') format('woff2'),
+         url('../../fonts/brandonprinted-extras-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.brandon-icon {
+  font-family: 'BrandonExtras';
+
+  &.key:before {
+    content: '\004b';
+  }
+
+  &.huge {
+    font-size: 144px;
+  }
+}
+
+/*
+ion-icon.ion-ios-arrow-back,
+ion-icon.ion-md-arrow-back {
+  font-family: 'BrandonExtras';
+  font-size: 3.4rem;
+  &:before {
+    content: '\006b';
+  }
+}
+*/
+
+ion-icon.ion-ios-arrow-forward,
+ion-icon.ion-md-arrow-forward {
+  font-family: 'BrandonExtras';
+  font-size: 3.4rem;
+  margin-top: -10px;
+  &:before {
+    content: '\003e';
+  }
+}
+
+.toolbar-title {
+  font-family: 'BrandonOne';
+  text-transform: lowercase;
+  padding-top: 4px;
+}
+
+.button:not(.searchbar-ios-cancel),
+.bar-button {
+  font-family: 'BrandonOne';
+  text-transform: lowercase;
+}
+
+ion-content .button-inner {
+  padding-top: 3px;
+}
+
+.preserve-whitespace {
+  white-space: pre-line;
+}
+
+// App Shared Imports
+// --------------------------------------------------
+// These are the various page imports which make up this app.
+// By default each design mode includes these shared imports.
+// App Shared Sass variables belong in app.variables.scss.
+
+@import "../pages/about/about";
+
+@import "../pages/tutorial/tutorial";
+
+@import "../pages/login/login";
+
+@import "../pages/map/map";
+
+@import "../pages/event-list/event-list";
+
+@import "../pages/member-list/member-list";
+
+@import "../pages/member-detail/member-detail";

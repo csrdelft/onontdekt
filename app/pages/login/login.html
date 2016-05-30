@@ -1,0 +1,38 @@
+
+<ion-navbar *navbar primary>
+  <ion-title>Inloggen</ion-title>
+</ion-navbar>
+
+<ion-content>
+
+  <ion-list class="login-page">
+    <form #loginForm="ngForm" novalidate>
+      <p padding-horizontal>
+        Gebruik je lidnummer en wachtwoord van de stek om in te loggen.
+      </p>
+
+      <ion-item>
+        <ion-input [(ngModel)]="login.username" ngControl="username" type="text" #username="ngForm" required autofocus placeholder="Lidnummer">
+        </ion-input>
+      </ion-item>
+      <p [hidden]="username.valid || submitted == false" danger padding-left>
+        Vul hier je lidnummer in.
+      </p>
+
+      <ion-item>
+        <ion-input [(ngModel)]="login.password" ngControl="password" type="password" #password="ngForm" required placeholder="Wachtwoord">
+        </ion-input>
+      </ion-item>
+      <p [hidden]="password.valid || submitted == false" danger padding-left>
+        Vul hier je wachtwoord in.
+      </p>
+
+      <ion-row>
+        <ion-col>
+          <button (click)="onLogin(loginForm)" type="submit" primary block>Inloggen</button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-list>
+
+</ion-content>

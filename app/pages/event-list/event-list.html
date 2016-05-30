@@ -1,0 +1,43 @@
+<ion-navbar *navbar primary>
+  <ion-title>Activiteiten</ion-title>
+</ion-navbar>
+
+<ion-content>
+
+  <div *ngIf="groups.length === 0 && failedToLoad === false" padding text-center>
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list class="event-list">
+
+    <ion-item-group *ngFor="let group of groups">
+
+      <ion-item-divider sticky light>
+        <strong>{{ group.date }}</strong>
+      </ion-item-divider>
+
+      <button ion-item *ngFor="let event of group.events" (click)="goToEventDetail(event)" [attr.category]="event._meta.category | lowercase">
+        <h3>{{ event.naam || event.titel }}</h3>
+        <p>
+          {{ event._meta.start }} &mdash;
+          {{ event._meta.end }} uur{{ event.locatie ? ': ' + event.locatie : '' }}
+        </p>
+      </button>
+
+    </ion-item-group>
+
+  </ion-list>
+
+  <div padding *ngIf="failedToLoad">
+    <p text-center>Het laden van de activiteiten is mislukt.</p>
+  </div>
+
+  <div padding *ngIf="!moreAvailable">
+    <p text-center>Geen activiteiten meer.</p>
+  </div>
+
+  <ion-infinite-scroll (infinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

@@ -1,0 +1,17 @@
+.ios {
+  .member-list {
+    ion-item-divider {
+      font-size: 1.6rem;
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+  }
+}
+
+.member-list {
+  margin-bottom: 0;
+
+  a[ion-item]:not([hidden]):last-of-type .item-inner {
+    border-bottom: none;
+  }
+}
