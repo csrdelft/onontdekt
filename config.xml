@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="nl.csrdelft.lustrum" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="nl.csrdelft.lustrum" android-versionCode="1" ios-CFBundleVersion="1" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Onontdekt</name>
   <description>
     Het XIe Lustrum der Civitas Studiosorum Reformatorum.
@@ -60,6 +60,47 @@
     <preference name="BackupWebStorage" value="local"/>
     <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
     <preference name="Orientation" value="all"/>
+    <config-file parent="CFBundleDevelopmentRegion" target="*-Info.plist">
+      <string>nl-NL</string>
+    </config-file>
+    <config-file parent="CFBundleLocalizations" target="*-Info.plist">
+      <array>
+        <string>nl-NL</string>
+      </array>
+    </config-file>
+    <config-file parent="LSApplicationQueriesSchemes" target="*-Info.plist">
+      <array>
+        <string>fb</string>
+        <string>twitter</string>
+        <string>gplus</string>
+        <string>pintrest</string>
+        <string>instagram</string>
+        <string>youtube</string>
+        <string>vnd.youtube</string>
+        <string>yelp</string>
+        <string>linkedin</string>
+        <string>tumblr</string>
+        <string>whatsapp</string>
+        <string>snapchat</string>
+        <string>comgooglemaps</string>
+        <string>amazon</string>
+        <string>skype</string>
+        <string>googledrive</string>
+        <string>itms-apps</string>
+      </array>
+    </config-file>
+    <config-file parent="UISupportedInterfaceOrientations" target="*-Info.plist">
+      <array>
+        <string>UIInterfaceOrientationPortrait</string>
+      </array>
+    </config-file>
+    <config-file parent="UISupportedInterfaceOrientations~ipad" target="*-Info.plist">
+      <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+      </array>
+    </config-file>
     <icon src="resources/ios/icon/icon.png" width="57" height="57"/>
     <icon src="resources/ios/icon/icon@2x.png" width="114" height="114"/>
     <icon src="resources/ios/icon/icon-40.png" width="40" height="40"/>
