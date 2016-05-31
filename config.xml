@@ -60,6 +60,7 @@
     <preference name="BackupWebStorage" value="local"/>
     <preference name="KeyboardDisplayRequiresUserAction" value="false"/>
     <preference name="Orientation" value="all"/>
+    <preference name="StatusBarStyle" value="default"/>
     <config-file parent="CFBundleDevelopmentRegion" target="*-Info.plist">
       <string>nl-NL</string>
     </config-file>

@@ -1,5 +1,5 @@
 import { NavController, Page, Platform } from 'ionic-angular';
-import { Splashscreen } from 'ionic-native';
+import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
 
@@ -29,7 +29,7 @@ export class TutorialPage {
 
   constructor(
     private nav: NavController,
-    platform: Platform
+    private platform: Platform
   ) {
     platform.ready().then(() => {
       Splashscreen.hide();
@@ -42,6 +42,18 @@ export class TutorialPage {
 
   onSlideChangeStart(slider) {
     this.showSkip = !slider.isEnd;
+  }
+
+  onPageDidEnter() {
+    this.platform.ready().then(() => {
+      StatusBar.styleDefault();
+    });
+  }
+
+  onPageWillLeave() {
+    this.platform.ready().then(() => {
+      StatusBar.styleLightContent();
+    });
   }
 
 }
