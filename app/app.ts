@@ -1,5 +1,6 @@
-import { enableProdMode, Type, ViewChild } from '@angular/core';
-import { AUTH_PROVIDERS } from 'angular2-jwt';
+import { enableProdMode, provide, Type, ViewChild } from '@angular/core';
+import { Http } from '@angular/http';
+import { AuthConfig, AuthHttp } from 'angular2-jwt';
 import { App, Nav, Platform } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 
@@ -19,7 +20,14 @@ enableProdMode();
     ApiData,
     AuthService,
     NotificationService,
-    AUTH_PROVIDERS
+    provide(AuthHttp, {
+      useFactory: (http) => {
+        return new AuthHttp(new AuthConfig({
+          headerName: 'X-CSR-Authorization'
+        }), http);
+      },
+      deps: [Http]
+    })
   ],
   config: {
     tabbarLayout: 'title-hide',
