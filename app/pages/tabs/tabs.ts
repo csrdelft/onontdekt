@@ -1,4 +1,5 @@
-import { Page } from 'ionic-angular';
+import { Page, Platform } from 'ionic-angular';
+import { StatusBar } from 'ionic-native';
 
 import { EventListPage } from '../event-list/event-list';
 import { MemberListPage } from '../member-list/member-list';
@@ -15,5 +16,13 @@ export class TabsPage {
   tab3Root = MapPage;
   tab4Root = AboutPage;
 
-  constructor() {}
+  constructor(
+    private platform: Platform
+  ) {}
+
+  onPageDidEnter() {
+    this.platform.ready().then(() => {
+      StatusBar.styleLightContent();
+    });
+  }
 }
