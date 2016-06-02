@@ -23,7 +23,7 @@ enableProdMode();
     provide(AuthHttp, {
       useFactory: (http) => {
         return new AuthHttp(new AuthConfig({
-          headerName: 'X-CSR-Authorization'
+          headerName: 'X-Csr-Authorization'
         }), http);
       },
       deps: [Http]
