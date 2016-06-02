@@ -21,7 +21,7 @@ export class EventListPage {
   groups: EventGroup[] = [];
 
   fromMoment: any = moment().startOf('day');
-  toMoment: any = moment(this.fromMoment).add(59, 'days').endOf('day');
+  toMoment: any = moment(this.fromMoment).add(27, 'days').endOf('day');
   moreAvailable: boolean = true;
   failedToLoad: boolean = false;
 
@@ -74,8 +74,8 @@ export class EventListPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.fromMoment.add(60, 'days');
-    this.toMoment.add(60, 'days');
+    this.fromMoment.add(28, 'days');
+    this.toMoment.add(28, 'days');
 
     this.updateSchedule(this.fromMoment, this.toMoment).then(hasEvents => {
       if (hasEvents === true) {
