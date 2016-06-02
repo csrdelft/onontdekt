@@ -33,7 +33,9 @@ export class EventListPage {
     this.updateSchedule(this.fromMoment, this.toMoment);
 
     platform.ready().then(() => {
-      Splashscreen.hide();
+      setTimeout(() => {
+        Splashscreen.hide();
+      }, 500);
     });
   }
 

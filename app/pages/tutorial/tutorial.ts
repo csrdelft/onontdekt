@@ -32,7 +32,9 @@ export class TutorialPage {
     private platform: Platform
   ) {
     platform.ready().then(() => {
-      Splashscreen.hide();
+      setTimeout(() => {
+        Splashscreen.hide();
+      }, 500);
     });
   }
 
