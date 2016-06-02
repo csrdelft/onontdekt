@@ -45,7 +45,7 @@ export class MemberDetailPage {
         {
           text: 'Maak nieuw contact',
           icon: !this.platform.is('ios') ? 'person-add' : null,
-          handler: () => this.saveNew
+          handler: () => this.saveNew()
         }, {
           text: 'Annuleer',
           icon: !this.platform.is('ios') ? 'close' : null,
@@ -84,16 +84,19 @@ export class MemberDetailPage {
     };
 
     let createdContact = Contacts.create(contact);
-    console.log(createdContact);
-    createdContact.save(
-      contact => {
-        this.notifier.notify('Succesvol opgeslagen in contacten');
-      },
-      err => {
-        console.log(err);
-        this.notifier.notify('Opslaan in contacten mislukt');
-      }
-    );
+    if (typeof createdContact === 'Contact') {
+      createdContact.save(
+        contact => {
+          this.notifier.notify('Succesvol opgeslagen in contacten');
+        },
+        err => {
+          console.log(err);
+          this.notifier.notify('Opslaan in contacten mislukt');
+        }
+      );
+    } else {
+      this.notifier.notify('Opslaan in contacten mislukt');
+    }
   }
 
   openCalendar() {
