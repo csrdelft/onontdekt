@@ -124,10 +124,12 @@ export class ApiData {
       return Promise.resolve(this._memberList);
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       this.getFromApi('/leden', 'get').then((res: Member[]) => {
         this._memberList = res;
         resolve(this._memberList);
+      }, error => {
+        reject();
       });
     });
   }
