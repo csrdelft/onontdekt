@@ -58,36 +58,35 @@ export class ApiData {
   }
 
   addEventMeta(event: Event) {
-    event._meta = {
-      start_moment: null,
-      end_moment: null,
-      start: null,
-      end: null,
-      category: null
-    };
+    let meta: any = {};
 
-    if (event.datum && event.tijd) {
-      event._meta.start_moment = moment(event.datum + ' ' + event.tijd);
-      event._meta.end_moment = moment(event._meta.start_moment).add(2, 'hours');
+    meta.start = moment(event.begin_moment || (event.datum + ' ' + event.tijd));
+    meta.end = event.eind_moment ? moment(event.eind_moment) : moment(meta.start).add(2, 'hours');
+
+    let sameDay: boolean = meta.start.isSame(meta.end, 'day');
+    let sameDayLate: boolean = moment(meta.start).add(1, 'day').isSame(meta.end, 'day') && meta.end.hour() < 8;
+    let allDay: boolean = meta.start.format('LT') === '00:00' && meta.end.format('LT') === '23:59';
+    if (!sameDay && !sameDayLate) {
+      let format: string = allDay ? 'dddd D MMMM' : 'dddd D MMMM LT';
+      meta.formattedListDate = meta.start.format(format) + ' – ' + meta.end.format(format);
+    } else if (allDay) {
+      meta.formattedListDate = 'Hele dag';
     } else {
-      event._meta.start_moment = moment(event.begin_moment);
-      event._meta.end_moment = moment(event.eind_moment);
+      meta.formattedListDate = meta.start.format('LT') + ' – ' + meta.end.format('LT') + ' uur';
     }
-
-    event._meta.start = event._meta.start_moment.format('LT');
-    event._meta.end = event._meta.end_moment.format('LT');
 
     if (event.maaltijd_id) {
-      event._meta.category = 'maaltijd';
+      meta.category = 'maaltijd';
       event.prijs = event.prijs.slice(0, -2) + ',' + event.prijs.substr(-2);
-      event._meta.present = _.indexOf(this._joinedEvents.maaltijden, Number(event.maaltijd_id)) !== -1;
+      meta.present = _.indexOf(this._joinedEvents.maaltijden, Number(event.maaltijd_id)) !== -1;
     } else if (event.id) {
-      event._meta.category = 'activiteit';
-      event._meta.present = _.indexOf(this._joinedEvents.activiteiten, Number(event.id)) !== -1;
+      meta.category = 'activiteit';
+      meta.present = _.indexOf(this._joinedEvents.activiteiten, Number(event.id)) !== -1;
     } else {
-      event._meta.category = 'agenda';
+      meta.category = 'agenda';
     }
 
+    event._meta = meta;
     return event;
   }
 

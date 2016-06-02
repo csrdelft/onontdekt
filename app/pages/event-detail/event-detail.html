@@ -10,7 +10,7 @@
     <p><a *ngIf="event.locatie" [href]="getLocationUrl(event.locatie)">
       {{ event.locatie }}
     </a></p>
-    <p subdued class="preserve-whitespace">{{ getDateTimes(event._meta.start_moment, event._meta.end_moment) }}</p>
+    <p subdued class="preserve-whitespace">{{ getDateTimes(event._meta.start, event._meta.end) }}</p>
     <p dark *ngIf="event.samenvatting" class="preserve-whitespace">{{ event.samenvatting }}</p>
     <p dark *ngIf="event.omschrijving" class="preserve-whitespace">{{ event.omschrijving }}</p>
     <p dark *ngIf="event.beschrijving" class="preserve-whitespace">{{ event.beschrijving }}</p>
@@ -40,7 +40,4 @@
     </ion-item>
   </ion-list>
 
-  <div padding>
-    <pre>{{event|json}}</pre>
-  </div>
 </ion-content>

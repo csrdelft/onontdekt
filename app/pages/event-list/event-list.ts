@@ -49,14 +49,8 @@ export class EventListPage {
           event = this.apiData.addEventMeta(event);
         });
 
-        let dateFormat = 'dddd D MMMM';
-
         let grouped = _.groupBy(events, event => {
-          let key = event._meta.start_moment.format(dateFormat);
-          if (!event._meta.start_moment.isSame(event._meta.end_moment, 'day')) {
-            key += ' – ' + event._meta.end_moment.format(dateFormat);
-          }
-          return key;
+          return event._meta.start.format('dddd D MMMM');
         });
 
         let mapped = _.map(grouped, (value, key) => {

@@ -19,8 +19,7 @@
       <button ion-item *ngFor="let event of group.events" (click)="goToEventDetail(event)" [attr.category]="event._meta.category | lowercase">
         <h3>{{ event.naam || event.titel }}</h3>
         <p>
-          {{ event._meta.start }} &mdash;
-          {{ event._meta.end }} uur{{ event.locatie ? ': ' + event.locatie : '' }}
+          {{ event._meta.formattedListDate }}{{ event.locatie ? ': ' + event.locatie : '' }}
         </p>
       </button>
 

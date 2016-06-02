@@ -12,10 +12,9 @@ export class Event {
   aanmelden_tot: string;
   afmelden_tot: string;
   _meta: {
-    start_moment: any;
-    end_moment: any;
-    start: string;
-    end: string;
+    start: any;
+    end: any;
+    formattedListDate: string;
     category: string;
     present?: boolean;
   };
