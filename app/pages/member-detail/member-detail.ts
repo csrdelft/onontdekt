@@ -29,9 +29,9 @@ export class MemberDetailPage {
   }
 
   getLocationUrl(huis) {
-    let q = this.member.huis.adres + ', ' + this.member.huis.woonplaats;
-    let url = 'geo:0,0?q=' + encodeURIComponent(q);
-    return this.sanitizer.bypassSecurityTrustUrl(url);
+    let q = encodeURIComponent(this.member.huis.adres + ', ' + this.member.huis.woonplaats);
+    let url = this.platform.is('ios') ? 'maps://maps.apple.com/?q=' : 'geo:0,0?q=';
+    return this.sanitizer.bypassSecurityTrustUrl(url + q);
   }
 
   save() {
