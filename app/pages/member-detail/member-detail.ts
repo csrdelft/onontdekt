@@ -34,6 +34,11 @@ export class MemberDetailPage {
     return this.sanitizer.bypassSecurityTrustUrl(url + q);
   }
 
+  getSafeUrl(scheme: string, target: string) {
+    let url = scheme + ':' + encodeURIComponent(target);
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
+
   save() {
     let actionSheet = ActionSheet.create({
       buttons: [

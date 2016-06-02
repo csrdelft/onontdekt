@@ -20,17 +20,17 @@
       <p>{{ member.id }}</p>
     </ion-item>
 
-    <a ion-item detail-none [href]="'mailto:' + member.email">
+    <a ion-item detail-none [href]="getSafeUrl('mailto', member.email)">
       <ion-icon name="mail" isActive="false" primary item-right></ion-icon>
       <p primary>e-mail</p>
       <h3>{{ member.email }}</h3>
     </a>
 
     <a ion-item detail-none [href]="'tel:' + member.mobiel">
-      <a button item-right clear [href]="'sms:' + member.mobiel">
+      <a button item-right clear [href]="getSafeUrl('sms', member.mobiel)">
         <ion-icon primary name="text" isActive="false"></ion-icon>
       </a>
-      <a button item-right clear [href]="'tel:' + member.mobiel">
+      <a button item-right clear [href]="getSafeUrl('tel', member.mobiel)">
         <ion-icon primary name="call" isActive="false"></ion-icon>
       </a>
       <p primary>mobiel</p>
