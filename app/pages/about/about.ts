@@ -1,11 +1,13 @@
 import { Loading, NavController, Page } from 'ionic-angular';
 
+import { SystemBrowser } from '../../directives/system-browser';
 import { AuthService } from '../../services/auth';
 import { TutorialPage } from '../tutorial/tutorial';
 
 
 @Page({
-  templateUrl: 'build/pages/about/about.html'
+  templateUrl: 'build/pages/about/about.html',
+  directives: [SystemBrowser]
 })
 export class AboutPage {
   constructor(
