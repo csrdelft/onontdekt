@@ -64,14 +64,17 @@ ion-icon.ion-md-arrow-forward {
   padding-top: 4px;
 }
 
-.button:not(.searchbar-ios-cancel),
-.bar-button {
-  font-family: 'BrandonOne';
-  text-transform: lowercase;
-}
 
-ion-content .button-inner {
-  padding-top: 3px;
+
+ion-content {
+  .button:not(.searchbar-ios-cancel) {
+    font-family: 'BrandonOne';
+    text-transform: lowercase;
+
+    .button-inner {
+      padding-top: 3px;
+    }
+  }
 }
 
 .preserve-whitespace {

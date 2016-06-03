@@ -26,7 +26,9 @@ interface MemberGroup {
 export class MemberListPage {
   groups: MemberGroup[] = [];
   queryText: string = '';
+  lastQueryText: string = '';
   searching: boolean = false;
+  searchFilteringActive: boolean = false;
   failedToLoad: boolean = false;
 
   constructor(
@@ -50,7 +52,16 @@ export class MemberListPage {
   }
 
   queryMembers() {
-    let queryText = this.queryText.toLowerCase().replace(/,|\.|-/g, ' ');
+    let queryText: string = this.queryText.toLowerCase().replace(/,|\.|-/g, ' ');
+    if (queryText === this.lastQueryText) return;
+
+    if (this.queryText.length === 0) {
+      setTimeout(() => {
+        // Timeout to let animations finish
+        this.searchFilteringActive = false;
+      }, 300);
+      return;
+    }
 
     this.groups.forEach(group => {
       group.hide = true;
@@ -68,10 +79,9 @@ export class MemberListPage {
         }
       });
     });
-  }
 
-  nonHidden(members: MemberShort[]) {
-    return _.filter(members, m => !m.hide);
+    this.searchFilteringActive = true;
+    this.lastQueryText = queryText;
   }
 
   startSearch(searchInput) {

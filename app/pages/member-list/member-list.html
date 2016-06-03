@@ -24,13 +24,13 @@
 
   <ion-list class="member-list">
 
-    <ion-item-group *ngFor="let group of groups" [hidden]="group.hide">
+    <ion-item-group *ngFor="let group of groups" [hidden]="searchFilteringActive && group.hide">
 
       <ion-item-divider sticky light>
         <strong>{{ group.char }}</strong>
       </ion-item-divider>
 
-      <a ion-item detail-none *ngFor="let member of nonHidden(group.members)" (click)="goToMemberDetail(member)">
+      <a ion-item detail-none *ngFor="let member of group.members" [hidden]="searchFilteringActive && member.hide" (click)="goToMemberDetail(member)">
         {{ member.voornaam }} <strong>{{ member.tussenvoegsel }} {{ member.achternaam }}</strong>
       </a>
 
