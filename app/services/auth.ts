@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, SqlStorage, Storage } from 'ionic-angular';
-// import { Push } from 'ionic-platform-web-client';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettings } from '../constants/app-settings';
+import { IonicPlatformService } from '../services/ionic-platform';
 
 
 @Injectable()
@@ -18,13 +18,13 @@ export class AuthService {
 
   constructor(
     private http: Http,
-    private authHttp: AuthHttp
-    // private push: Push
+    private authHttp: AuthHttp,
+    private ionicPlatform: IonicPlatformService
   ) {
     this.storage.get('userId').then(userId => {
       if (userId) {
         this.userId = userId;
-        this.registerPush();
+        this.ionicPlatform.pushRegister(userId);
       }
     }).catch(error => {
       console.log(error);
@@ -75,7 +75,7 @@ export class AuthService {
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.registerPush();
+        this.ionicPlatform.pushRegister(this.userId);
         resolve();
       }, error => {
         reject(error);
@@ -90,7 +90,7 @@ export class AuthService {
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.unregisterPush();
+    this.ionicPlatform.pushUnregister();
 
     if (reload) {
       location.reload();
@@ -172,19 +172,5 @@ export class AuthService {
         reject();
       });
     });
-  }
-
-  private registerPush(): void {
-    // let user = User.current();
-    // user.id = this.userId;
-    // user.save();
-
-    // this.push.register((token) => {
-    //   this.push.saveToken(token, {});
-    // });
-  }
-
-  private unregisterPush(): void {
-    // this.push.unregister();
   }
 }
