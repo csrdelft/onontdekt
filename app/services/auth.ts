@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, SqlStorage, Storage } from 'ionic-angular';
+// import { Push } from 'ionic-platform-web-client';
 import { Observable } from 'rxjs/Rx';
 
 import { AppSettings } from '../constants/app-settings';
@@ -13,14 +14,18 @@ export class AuthService {
   storage: Storage = new Storage(SqlStorage);
   localStorage: Storage = new Storage(LocalStorage);
   refreshSubscription: any;
-  userId: number;
+  userId: string;
 
   constructor(
     private http: Http,
     private authHttp: AuthHttp
+    // private push: Push
   ) {
     this.storage.get('userId').then(userId => {
-      this.userId = userId;
+      if (userId) {
+        this.userId = userId;
+        this.registerPush();
+      }
     }).catch(error => {
       console.log(error);
     });
@@ -65,10 +70,12 @@ export class AuthService {
       }).subscribe(res => {
         let data = res.json();
         this.storage.set('userId', data.userId);
+        this.userId = data.userId;
         this.storage.set('id_token', data.token);
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
+        this.registerPush();
         resolve();
       }, error => {
         reject(error);
@@ -78,10 +85,12 @@ export class AuthService {
 
   logout(reload: boolean = false) {
     this.storage.remove('userId');
+    this.userId = null;
     this.storage.remove('id_token');
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
+    this.unregisterPush();
 
     if (reload) {
       location.reload();
@@ -163,5 +172,19 @@ export class AuthService {
         reject();
       });
     });
+  }
+
+  private registerPush(): void {
+    // let user = User.current();
+    // user.id = this.userId;
+    // user.save();
+
+    // this.push.register((token) => {
+    //   this.push.saveToken(token, {});
+    // });
+  }
+
+  private unregisterPush(): void {
+    // this.push.unregister();
   }
 }
