@@ -1,10 +1,11 @@
-import { Alert, IonicApp, Loading, NavController, Page } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Alert, Loading, NavController } from 'ionic-angular';
 
 import { AuthService } from '../../services/auth';
 import { TabsPage } from '../tabs/tabs';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/login/login.html'
 })
 export class LoginPage {

@@ -11,10 +11,6 @@ $categories: (
 .event-list {
   margin-bottom: 0;
 
-  [ion-item]:not([hidden]):last-of-type .item-inner {
-    border-bottom: none;
-  }
-
   @each $category, $value in auxiliary-categories() {
    [ion-item][category=#{$category}] ion-label {
      border-left: 2px solid $value;

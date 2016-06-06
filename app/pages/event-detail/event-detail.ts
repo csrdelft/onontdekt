@@ -1,5 +1,6 @@
+import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
-import { NavParams, Page, Toast } from 'ionic-angular';
+import { NavParams, Toast } from 'ionic-angular';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
@@ -8,7 +9,7 @@ import { ApiData } from '../../services/api-data';
 import { Event } from '../../models/event';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/event-detail/event-detail.html'
 })
 export class EventDetailPage {

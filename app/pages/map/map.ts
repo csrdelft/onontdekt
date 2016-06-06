@@ -1,7 +1,7 @@
-import { Page } from 'ionic-angular';
+import { Component } from '@angular/core';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/map/map.html'
 })
 export class MapPage {
@@ -35,7 +35,7 @@ export class MapPage {
 
   constructor() {}
 
-  onPageLoaded() {
+  ionViewLoaded() {
     let mapEle = document.getElementById('map');
 
     let map = new google.maps.Map(mapEle, {

@@ -1,5 +1,5 @@
-import { Renderer } from '@angular/core';
-import { NavController, Page } from 'ionic-angular';
+import { Component, Renderer } from '@angular/core';
+import { NavController } from 'ionic-angular';
 import * as _ from 'lodash';
 
 import { ApiData } from '../../services/api-data';
@@ -20,7 +20,7 @@ interface MemberGroup {
   hide: boolean;
 };
 
-@Page({
+@Component({
   templateUrl: 'build/pages/member-list/member-list.html'
 })
 export class MemberListPage {

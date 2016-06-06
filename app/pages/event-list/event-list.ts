@@ -1,4 +1,5 @@
-import { Alert, Modal, NavController, Page, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { Alert, Modal, NavController, Platform } from 'ionic-angular';
 import { Splashscreen } from 'ionic-native';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -14,7 +15,7 @@ interface EventGroup {
   events: Event[];
 };
 
-@Page({
+@Component({
   templateUrl: 'build/pages/event-list/event-list.html'
 })
 export class EventListPage {

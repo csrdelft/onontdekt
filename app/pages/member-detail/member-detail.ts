@@ -1,5 +1,6 @@
+import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
-import { ActionSheet, NavController, NavParams, Page, Platform } from 'ionic-angular';
+import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
 import { Contacts, Calendar } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
@@ -8,7 +9,7 @@ import { NotificationService } from '../../services/notification';
 import { Member } from '../../models/member';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/member-detail/member-detail.html'
 })
 export class MemberDetailPage {

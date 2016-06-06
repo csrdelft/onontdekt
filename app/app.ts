@@ -1,7 +1,7 @@
-import { enableProdMode, provide, Type, ViewChild } from '@angular/core';
+import { provide, Component, Type, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 import { AuthConfig, AuthHttp } from 'angular2-jwt';
-import { App, Nav, Platform } from 'ionic-angular';
+import { ionicBootstrap, Nav, Platform } from 'ionic-angular';
 import { Keyboard } from 'ionic-native';
 // import { Deploy } from 'ionic-platform-web-client';
 
@@ -13,36 +13,8 @@ import { LoginPage } from './pages/login/login';
 import { TutorialPage } from './pages/tutorial/tutorial';
 
 
-enableProdMode();
-
-@App({
-  templateUrl: 'build/app.html',
-  providers: [
-    ApiData,
-    AuthService,
-    NotificationService,
-    // Deploy,
-    // Push,
-    provide(AuthHttp, {
-      useFactory: (http) => {
-        return new AuthHttp(new AuthConfig({
-          headerName: 'X-Csr-Authorization'
-        }), http);
-      },
-      deps: [Http]
-    })
-  ],
-  config: {
-    tabbarLayout: 'title-hide',
-    scrollAssist: false, // Fixes some beta keyboard issues
-    autoFocusAssist: false, // Fixes some beta keyboard issues
-    platforms: {
-      ios: {
-        backButtonText: '',
-        statusbarPadding: true // Fixes Ionic View https://github.com/driftyco/ionic-view-issues/issues/164
-      }
-    }
-  }
+@Component({
+  templateUrl: 'build/app.html'
 })
 export class LustrumApp {
   @ViewChild(Nav) private nav: Nav;
@@ -83,3 +55,34 @@ export class LustrumApp {
     // });
   }
 }
+
+
+// Pass the main app component as the first argument
+// Pass any providers for your app in the second argument
+// Set any config for your app as the third argument:
+// http://ionicframework.com/docs/v2/api/config/Config/
+
+ionicBootstrap(LustrumApp, [
+  ApiData,
+  AuthService,
+  NotificationService,
+  provide(AuthHttp, {
+    useFactory: (http) => {
+      return new AuthHttp(new AuthConfig({
+        headerName: 'X-Csr-Authorization'
+      }), http);
+    },
+    deps: [Http]
+  })
+], {
+  prodMode: true,
+  tabbarLayout: 'title-hide',
+  scrollAssist: false, // Fixes some beta keyboard issues
+  autoFocusAssist: false, // Fixes some beta keyboard issues
+  platforms: {
+    ios: {
+      backButtonText: '',
+      statusbarPadding: true // Fixes Ionic View https://github.com/driftyco/ionic-view-issues/issues/164
+    }
+  }
+});

@@ -1,10 +1,11 @@
-import { NavController, Page, Platform } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { NavController, Platform } from 'ionic-angular';
 import { Splashscreen, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
 
 
-@Page({
+@Component({
   templateUrl: 'build/pages/tutorial/tutorial.html'
 })
 export class TutorialPage {
@@ -46,13 +47,13 @@ export class TutorialPage {
     this.showSkip = !slider.isEnd;
   }
 
-  onPageDidEnter() {
+  ionViewDidEnter() {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
     });
   }
 
-  onPageWillLeave() {
+  ionViewWillLeave() {
     this.platform.ready().then(() => {
       StatusBar.styleLightContent();
     });
