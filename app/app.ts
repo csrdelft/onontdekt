@@ -1,8 +1,9 @@
 import { provide, Component, Type, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
 import { AuthConfig, AuthHttp } from 'angular2-jwt';
-import { ionicBootstrap, Nav, Platform } from 'ionic-angular';
-import { Keyboard } from 'ionic-native';
+import { ionicBootstrap, Nav, Platform, Loading } from 'ionic-angular';
+import { Keyboard, Splashscreen } from 'ionic-native';
+import { IonicPlatform } from 'ionic-platform-web-client';
 
 import { AuthService } from './services/auth';
 import { NotificationService } from './services/notification';
@@ -46,15 +47,41 @@ export class LustrumApp {
   }
 
   private runDeploy(): void {
-    this.ionicPlatform.deployUpdate().then((result: boolean) => {
-      let message = result ? 'Update geïnstalleerd!' : 'Geen update beschikbaar.';
-      this.notifier.notify(message);
+    this.ionicPlatform.checkUpdate().then((result: boolean) => {
+      if (result === true) {
+        let loading = Loading.create({
+          content: 'Update installeren...'
+        });
+        this.nav.present(loading);
+        Splashscreen.hide();
+        this.ionicPlatform.installUpdate().then((result: boolean) => {
+          loading.dismiss();
+          if (result) {
+            Splashscreen.show();
+          }
+        }, (error: string) => {
+          loading.dismiss();
+          let message = 'Update installeren mislukt: ' + error;
+          this.notifier.notify(message);
+        });
+      } else {
+        Splashscreen.hide();
+      }
     }, (error: string) => {
-      let message = 'Fout bij updaten: ' + error;
+      let message = 'Update mislukt: ' + error;
       this.notifier.notify(message);
+      Splashscreen.hide();
     });
   }
 }
+
+
+IonicPlatform.init({
+  app_id: 'b4141034',
+  gcm_key: '335763697269',
+  api_key: '97027c1764e631ed4daccfd8c909e49dfbd1fbbd3e93d728',
+  dev_push: false
+});
 
 
 // Pass the main app component as the first argument

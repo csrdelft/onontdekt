@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Alert, Modal, NavController, Platform } from 'ionic-angular';
-import { Splashscreen } from 'ionic-native';
+import { Alert, Modal, NavController } from 'ionic-angular';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/nl';
@@ -28,16 +27,9 @@ export class EventListPage {
 
   constructor(
     private apiData: ApiData,
-    private nav: NavController,
-    platform: Platform
+    private nav: NavController
   ) {
     this.updateSchedule(this.fromMoment, this.toMoment);
-
-    platform.ready().then(() => {
-      setTimeout(() => {
-        Splashscreen.hide();
-      }, 500);
-    });
   }
 
   updateSchedule(fromMoment, toMoment) {

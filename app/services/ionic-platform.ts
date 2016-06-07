@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Analytics, Deploy, IonicPlatform, Push } from 'ionic-platform-web-client';
+import { Analytics, Deploy, Push } from 'ionic-platform-web-client';
 
 
 @Injectable()
@@ -9,19 +9,32 @@ export class IonicPlatformService {
   private push: Push;
 
   constructor() {
-    IonicPlatform.init({
-      app_id: 'b4141034',
-      gcm_key: '335763697269',
-      api_key: '97027c1764e631ed4daccfd8c909e49dfbd1fbbd3e93d728',
-      dev_push: false
-    });
+    let pushConfig = {
+      deferInit: true,
+      debug: true,
+      pluginConfig: {
+        android: {
+          'senderID': '335763697269'
+        },
+        ios: {
+          'alert': true,
+          'badge': true,
+          'sound': true,
+          'clearBadge': true
+        }
+      }
+    };
 
     this.analytics = new Analytics();
     this.deploy = new Deploy();
-    this.push = new Push();
+    this.push = new Push(pushConfig);
   }
 
-  public deployUpdate() {
+  public checkUpdate() {
+    return this.deploy.check();
+  }
+
+  public installUpdate() {
     return this.deploy.update(false);
   }
 

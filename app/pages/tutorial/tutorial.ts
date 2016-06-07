@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-import { Splashscreen, StatusBar } from 'ionic-native';
+import { StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
 
@@ -31,13 +31,7 @@ export class TutorialPage {
   constructor(
     private nav: NavController,
     private platform: Platform
-  ) {
-    platform.ready().then(() => {
-      setTimeout(() => {
-        Splashscreen.hide();
-      }, 500);
-    });
-  }
+  ) {}
 
   startApp() {
     this.nav.push(LoginPage);
