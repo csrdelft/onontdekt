@@ -60,9 +60,9 @@ export class MemberDetailPage {
   saveNew() {
     let contact = {
       name: {
-        familyName: this.member.naam.voornaam,
+        familyName: this.member.naam.achternaam,
         middleName: this.member.naam.tussenvoegsel,
-        givenName: this.member.naam.achternaam
+        givenName: this.member.naam.voornaam
       },
       phoneNumbers: [{
         type: 'mobiel',
@@ -85,19 +85,16 @@ export class MemberDetailPage {
     };
 
     let createdContact = Contacts.create(contact);
-    if (typeof createdContact === 'Contact') {
-      createdContact.save(
-        contact => {
-          this.notifier.notify('Succesvol opgeslagen in contacten');
-        },
-        err => {
-          console.log(err);
-          this.notifier.notify('Opslaan in contacten mislukt');
-        }
-      );
-    } else {
-      this.notifier.notify('Opslaan in contacten mislukt');
-    }
+    createdContact.save(
+      contact => {
+        this.notifier.notify('Succesvol opgeslagen in contacten.');
+      },
+      err => {
+        console.log(err);
+        this.notifier.notify('Opslaan in contacten mislukt.');
+      }
+    );
+
   }
 
   openCalendar() {
