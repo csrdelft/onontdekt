@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+
+import { TripDetailPage } from '../trip-detail/trip-detail';
+import { TripDetailTwoPage } from '../trip-detail-two/trip-detail-two';
 
 
 @Component({
@@ -33,7 +37,17 @@ export class MapPage {
     'lng': 14.16475
   }];
 
-  constructor() {}
+  constructor(
+    private nav: NavController
+  ) {}
+
+  goToTripDetail() {
+    this.nav.push(TripDetailPage);
+  }
+
+  goToTripDetail2() {
+    this.nav.push(TripDetailTwoPage);
+  }
 
   ionViewLoaded() {
     let mapEle = document.getElementById('map');
