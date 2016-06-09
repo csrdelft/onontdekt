@@ -1,16 +1,11 @@
-import { provide, Component, Type, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
-import { ionicBootstrap, Nav, Platform, Loading } from 'ionic-angular';
+import { ApplicationRef, Component, Type, ViewChild } from '@angular/core';
+import { Nav, Platform, Loading } from 'ionic-angular';
 import { Keyboard, Splashscreen } from 'ionic-native';
-import { IonicPlatform } from 'ionic-platform-web-client';
+import { Deploy } from '@ionic/platform-client-angular';
 
 import { AuthService } from './services/auth';
 import { NotificationService } from './services/notification';
-import { ApiData } from './services/api-data';
-import { IonicPlatformService } from './services/ionic-platform';
 import { TabsPage } from './pages/tabs/tabs';
-import { LoginPage } from './pages/login/login';
 import { TutorialPage } from './pages/tutorial/tutorial';
 
 
@@ -25,11 +20,16 @@ export class LustrumApp {
   constructor(
     private platform: Platform,
     private authService: AuthService,
-    private ionicPlatform: IonicPlatformService,
-    private notifier: NotificationService
+    private notifier: NotificationService,
+    private deploy: Deploy,
+    appRef: ApplicationRef
   ) {
     this.initializeCordova();
     this.initializeRootPage();
+
+    setInterval(() => {
+      appRef.tick();
+    }, 200);
   }
 
   private initializeCordova(): void {
@@ -47,18 +47,18 @@ export class LustrumApp {
   }
 
   private runDeploy(): void {
-    this.ionicPlatform.checkUpdate().then((result: boolean) => {
+    this.deploy.check().then((result: boolean) => {
       if (result === true) {
         let loading = Loading.create({
           content: 'Update installeren...'
         });
         this.nav.present(loading);
         Splashscreen.hide();
-        this.ionicPlatform.installUpdate().then((result: boolean) => {
-          loading.dismiss();
+        this.deploy.update(false).then((result: boolean) => {
           if (result) {
             Splashscreen.show();
           }
+          loading.dismiss();
         }, (error: string) => {
           loading.dismiss();
           let message = 'Update installeren mislukt: ' + error;
@@ -74,43 +74,3 @@ export class LustrumApp {
     });
   }
 }
-
-
-IonicPlatform.init({
-  app_id: 'b4141034',
-  gcm_key: '335763697269',
-  api_key: '97027c1764e631ed4daccfd8c909e49dfbd1fbbd3e93d728',
-  dev_push: false
-});
-
-
-// Pass the main app component as the first argument
-// Pass any providers for your app in the second argument
-// Set any config for your app as the third argument:
-// http://ionicframework.com/docs/v2/api/config/Config/
-
-ionicBootstrap(LustrumApp, [
-  ApiData,
-  AuthService,
-  NotificationService,
-  IonicPlatformService,
-  provide(AuthHttp, {
-    useFactory: (http) => {
-      return new AuthHttp(new AuthConfig({
-        headerName: 'X-Csr-Authorization'
-      }), http);
-    },
-    deps: [Http]
-  })
-], {
-  prodMode: true,
-  tabbarLayout: 'title-hide',
-  scrollAssist: false, // Fixes some beta keyboard issues
-  autoFocusAssist: false, // Fixes some beta keyboard issues
-  platforms: {
-    ios: {
-      backButtonText: '',
-      statusbarPadding: true // Fixes Ionic View https://github.com/driftyco/ionic-view-issues/issues/164
-    }
-  }
-});

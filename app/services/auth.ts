@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
-import { LocalStorage, SqlStorage, Storage } from 'ionic-angular';
+import { LocalStorage, Platform, SqlStorage, Storage } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
+import { Analytics, Push } from '@ionic/platform-client-angular';
 
 import { AppSettings } from '../constants/app-settings';
-import { IonicPlatformService } from '../services/ionic-platform';
 
 
 @Injectable()
@@ -19,12 +19,26 @@ export class AuthService {
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private ionicPlatform: IonicPlatformService
+    private analytics: Analytics,
+    private platform: Platform,
+    private push: Push
   ) {
-    this.storage.get('userId').then(userId => {
+    this.analytics.setGlobalProperties({
+      platforms: this.platform.versions()
+    });
+
+    this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.ionicPlatform.pushRegister(userId);
+        this.analytics.setGlobalProperties({
+          user: this.userId
+        });
+        this.analytics.track('Login', {
+          using_token: true
+        });
+        this.push.register((token) => {
+          this.push.saveToken(token, {});
+        });
       }
     }).catch(error => {
       console.log(error);
@@ -69,13 +83,21 @@ export class AuthService {
         headers: headers
       }).subscribe(res => {
         let data = res.json();
-        this.storage.set('userId', data.userId);
-        this.userId = data.userId;
+        this.userId = username;
+        this.storage.set('userId', this.userId);
         this.storage.set('id_token', data.token);
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.ionicPlatform.pushRegister(this.userId);
+        this.analytics.setGlobalProperties({
+          user: this.userId
+        });
+        this.analytics.track('Login', {
+          using_token: false
+        });
+        this.push.register((token) => {
+          this.push.saveToken(token, {});
+        });
         resolve();
       }, error => {
         reject(error);
@@ -90,7 +112,11 @@ export class AuthService {
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.ionicPlatform.pushUnregister();
+    this.push.unregister();
+    this.analytics.track('Logout', {
+      forced: reload
+    });
+    this.analytics.unsetGlobalProperty('user');
 
     if (reload) {
       location.reload();
