@@ -37,8 +37,6 @@ let ionicPlatformConfig = {
 let ionicConfig = {
   prodMode: true,
   tabbarLayout: 'title-hide',
-  scrollAssist: false, // Fixes some beta keyboard issues
-  autoFocusAssist: false, // Fixes some beta keyboard issues
   platforms: {
     ios: {
       backButtonText: '',
