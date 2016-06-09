@@ -1,4 +1,4 @@
-import { ApplicationRef, Component, Type, ViewChild } from '@angular/core';
+import { Component, Type, ViewChild } from '@angular/core';
 import { Nav, Platform, Loading } from 'ionic-angular';
 import { Keyboard, Splashscreen } from 'ionic-native';
 import { Deploy } from '@ionic/platform-client-angular';
@@ -21,15 +21,10 @@ export class LustrumApp {
     private platform: Platform,
     private authService: AuthService,
     private notifier: NotificationService,
-    private deploy: Deploy,
-    appRef: ApplicationRef
+    private deploy: Deploy
   ) {
     this.initializeCordova();
     this.initializeRootPage();
-
-    setInterval(() => {
-      appRef.tick();
-    }, 200);
   }
 
   private initializeCordova(): void {
