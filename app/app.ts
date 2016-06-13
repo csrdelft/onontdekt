@@ -30,6 +30,9 @@ export class LustrumApp {
   private initializeCordova(): void {
     this.platform.ready().then(() => {
       Keyboard.disableScroll(true);
+      setTimeout(() => {
+        Splashscreen.hide();
+      }, 800);
       this.runDeploy();
     });
   }
