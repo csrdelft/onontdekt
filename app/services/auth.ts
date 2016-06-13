@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, Platform, SqlStorage, Storage } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
-import { Analytics, Push } from '@ionic/platform-client-angular';
+import { Analytics, Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
 
