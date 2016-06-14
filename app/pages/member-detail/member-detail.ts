@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
-import { Contacts, Calendar } from 'ionic-native';
+import { Contact, Calendar } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
@@ -58,43 +58,36 @@ export class MemberDetailPage {
   }
 
   saveNew() {
-    let contact = {
-      name: {
-        familyName: this.member.naam.achternaam,
-        middleName: this.member.naam.tussenvoegsel,
-        givenName: this.member.naam.voornaam
-      },
-      phoneNumbers: [{
-        type: 'mobiel',
-        value: this.member.mobiel,
-        pref: false
-      }],
-      emails: [{
-        type: 'thuis',
-        value: this.member.email,
-        pref: false
-      }],
-      addresses: [{
-        type: this.member.huis.naam || 'adres',
-        streetAddress: this.member.huis.adres,
-        locality: this.member.huis.woonplaats,
-        postalCode: this.member.huis.postcode,
-        country: this.member.huis.land
-      }],
-      birthday: this.member.geboortedatum
+    let contact = new Contact();
+
+    contact.name = {
+      familyName: this.member.naam.achternaam,
+      middleName: this.member.naam.tussenvoegsel,
+      givenName: this.member.naam.voornaam
     };
+    contact.phoneNumbers = [{
+      type: 'mobiel',
+      value: this.member.mobiel,
+      pref: false
+    }];
+    contact.emails = [{
+      type: 'thuis',
+      value: this.member.email,
+      pref: false
+    }];
+    contact.addresses = [{
+      type: this.member.huis.naam || 'adres',
+      streetAddress: this.member.huis.adres,
+      locality: this.member.huis.woonplaats,
+      postalCode: this.member.huis.postcode,
+      country: this.member.huis.land
+    }];
+    contact.birthday = this.member.geboortedatum;
 
-    let createdContact = Contacts.create(contact);
-    createdContact.save(
-      contact => {
-        this.notifier.notify('Succesvol opgeslagen in contacten.');
-      },
-      err => {
-        console.log(err);
-        this.notifier.notify('Opslaan in contacten mislukt.');
-      }
+    contact.save().then(
+      () => this.notifier.notify('Succesvol opgeslagen in contacten.'),
+      (error: any) => this.notifier.notify('Opslaan in contacten mislukt.')
     );
-
   }
 
   openCalendar() {
