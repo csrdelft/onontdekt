@@ -19,7 +19,7 @@ export class MapPage {
     'lat': 50.09014,
     'lng': 14.43717
   }, {
-    'name': 'Diner U Fleku',
+    'name': 'Restaurent U Fleků',
     'lat': 50.07891,
     'lng': 14.41693,
     'center': true
