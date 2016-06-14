@@ -1,7 +1,7 @@
 import { Component, Type, ViewChild } from '@angular/core';
 import { Nav, Platform, Loading } from 'ionic-angular';
 import { Keyboard, Splashscreen } from 'ionic-native';
-import { Deploy } from '@ionic/platform-client-angular';
+import { Deploy } from '@ionic/cloud-angular';
 
 import { AuthService } from './services/auth';
 import { NotificationService } from './services/notification';
