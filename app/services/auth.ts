@@ -192,6 +192,12 @@ export class AuthService {
           this.storage.set('id_token', data.token);
           this.localStorage.set('id_token', data.token);
           resolve();
+        }, error => {
+          console.log(error);
+          if (error.status === 401) {
+            this.storage.remove('refresh_token');
+          }
+          reject();
         });
       }).catch(error => {
         console.log(error);
