@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, Platform, SqlStorage, Storage } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
-import { Analytics, Push } from '@ionic/cloud-angular';
+import { Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
 
@@ -19,23 +19,13 @@ export class AuthService {
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private analytics: Analytics,
     private platform: Platform,
     private push: Push
   ) {
-    this.analytics.setGlobalProperties({
-      platforms: this.platform.versions()
-    });
 
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.analytics.setGlobalProperties({
-          user: this.userId
-        });
-        this.analytics.track('Login', {
-          using_token: true
-        });
         this.push.register((token) => {
           this.push.saveToken(token, {});
         });
@@ -89,12 +79,6 @@ export class AuthService {
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.analytics.setGlobalProperties({
-          user: this.userId
-        });
-        this.analytics.track('Login', {
-          using_token: false
-        });
         this.push.register((token) => {
           this.push.saveToken(token, {});
         });
@@ -113,10 +97,6 @@ export class AuthService {
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
     this.push.unregister();
-    this.analytics.track('Logout', {
-      forced: reload
-    });
-    this.analytics.unsetGlobalProperty('user');
 
     if (reload) {
       location.reload();
