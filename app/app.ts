@@ -32,7 +32,7 @@ export class LustrumApp {
       Keyboard.disableScroll(true);
       setTimeout(() => {
         Splashscreen.hide();
-      }, 800);
+      }, 1000);
       this.runDeploy();
     });
   }
