@@ -19,7 +19,6 @@ const cloudSettings: CloudSettings = {
   },
   push: {
     debug: true,
-    deferInit: true,
     pluginConfig: {
       android: {
         'iconColor': '#1f5370'
@@ -39,8 +38,7 @@ const ionicConfig = {
   tabbarLayout: 'title-hide',
   platforms: {
     ios: {
-      backButtonText: '',
-      statusbarPadding: true // Fixes Ionic View https://github.com/driftyco/ionic-view-issues/issues/164
+      backButtonText: ''
     }
   }
 };
