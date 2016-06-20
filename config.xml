@@ -34,7 +34,7 @@
     <preference name="xwalkVersion" value="18+"/>
     <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect"/>
     <preference name="xwalkMode" value="embedded"/>
-    <preference name="xwalkMultipleApk" value="false"/>
+    <preference name="xwalkMultipleApk" value="true"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
     <icon src="resources/android/icon/drawable-hdpi-icon.png" density="hdpi"/>
