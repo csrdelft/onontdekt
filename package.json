@@ -22,7 +22,7 @@
     "@angular/platform-browser": "2.0.0-rc.1",
     "@angular/platform-browser-dynamic": "2.0.0-rc.1",
     "@angular/router": "2.0.0-rc.1",
-    "@ionic/cloud-angular": "0.0.11",
+    "@ionic/cloud-angular": "0.0.12",
     "angular2-jwt": "0.1.16",
     "es6-shim": "0.35.1",
     "ionic-angular": "2.0.0-beta.9",
@@ -77,20 +77,20 @@
     "cordova-plugin-statusbar@2.1.3",
     "cordova-plugin-whitelist@1.2.2",
     "ionic-plugin-deploy@0.5.6",
-    "ionic-plugin-keyboard@2.2.0",
+    "ionic-plugin-keyboard@2.2.1",
     {
       "variables": {
         "SENDER_ID": "335763697269"
       },
-      "locator": "phonegap-plugin-push@1.7.0",
+      "locator": "phonegap-plugin-push@1.7.1",
       "id": "phonegap-plugin-push"
     }
   ],
   "cordovaPlatforms": [
     {
       "platform": "ios",
-      "version": "4.1.1",
-      "locator": "ios@4.1.1"
+      "version": "4.2.0",
+      "locator": "ios@4.2.0"
     },
     {
       "platform": "android",
