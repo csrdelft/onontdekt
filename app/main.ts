@@ -38,7 +38,8 @@ const ionicConfig = {
   tabbarLayout: 'title-hide',
   platforms: {
     ios: {
-      backButtonText: ''
+      backButtonText: '',
+      statusbarPadding: true
     }
   }
 };

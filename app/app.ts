@@ -1,6 +1,6 @@
 import { Component, Type, ViewChild } from '@angular/core';
 import { Nav, Platform, Loading } from 'ionic-angular';
-import { Keyboard, Splashscreen } from 'ionic-native';
+import { Keyboard, Splashscreen, StatusBar } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 
 import { AuthService } from './services/auth';
@@ -15,8 +15,6 @@ import { TutorialPage } from './pages/tutorial/tutorial';
 export class LustrumApp {
   @ViewChild(Nav) private nav: Nav;
 
-  rootPage: Type;
-
   constructor(
     private platform: Platform,
     private authService: AuthService,
@@ -30,9 +28,6 @@ export class LustrumApp {
   private initializeCordova(): void {
     this.platform.ready().then(() => {
       Keyboard.disableScroll(true);
-      setTimeout(() => {
-        Splashscreen.hide();
-      }, 1000);
       this.runDeploy();
     });
   }
@@ -41,6 +36,16 @@ export class LustrumApp {
     this.authService.tryAuthentication().then(authenticated => {
       let pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
+      this.platform.ready().then(() => {
+        if (authenticated) {
+          StatusBar.styleLightContent();
+        } else {
+          StatusBar.styleDefault();
+        }
+        setTimeout(() => {
+          Splashscreen.hide();
+        }, 400);
+      });
     });
   }
 
