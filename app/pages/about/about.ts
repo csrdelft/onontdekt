@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { Loading, NavController } from 'ionic-angular';
 
-import { SystemBrowser } from '../../directives/system-browser';
+import { SystemBrowserDirective } from '../../directives/system-browser';
 import { AuthService } from '../../services/auth';
 import { TutorialPage } from '../tutorial/tutorial';
 
 
 @Component({
   templateUrl: 'build/pages/about/about.html',
-  directives: [SystemBrowser]
+  directives: [SystemBrowserDirective]
 })
 export class AboutPage {
   constructor(
@@ -16,7 +16,7 @@ export class AboutPage {
     private nav: NavController
   ) {}
 
-  logout() {
+  public logout() {
     let loading = Loading.create({
       content: 'Uitloggen...'
     });

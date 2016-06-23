@@ -20,6 +20,18 @@ class MockClass {
       resolve();
     });
   }
+
+  public tryAuthentication(): any {
+    return new Promise((resolve: Function) => {
+      resolve();
+    });
+  }
+
+  public check(): any {
+    return new Promise((resolve: Function) => {
+      resolve();
+    });
+  }
 }
 
 describe('LustrumApp', () => {

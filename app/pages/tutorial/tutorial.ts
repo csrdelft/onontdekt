@@ -9,7 +9,7 @@ import { LoginPage } from '../login/login';
   templateUrl: 'build/pages/tutorial/tutorial.html'
 })
 export class TutorialPage {
-  slides = [
+  slides: any = [
     {
       title: 'Onontdekt',
       description: 'Het <b>XI<sup>e</sup> Lustrum</b> der <b>Civitas Studiosorum Reformatorum</b> is begonnen!',
@@ -41,13 +41,13 @@ export class TutorialPage {
     this.showSkip = !slider.isEnd;
   }
 
-  ionViewDidEnter() {
+  private ionViewDidEnter() {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
     });
   }
 
-  ionViewWillLeave() {
+  private ionViewWillLeave() {
     this.platform.ready().then(() => {
       StatusBar.styleLightContent();
     });

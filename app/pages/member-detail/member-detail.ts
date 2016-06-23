@@ -29,13 +29,13 @@ export class MemberDetailPage {
     this.member.geboortedatum = date;
   }
 
-  getLocationUrl(huis) {
+  getLocationUrl(huis): any {
     let q = encodeURIComponent(this.member.huis.adres + ', ' + this.member.huis.woonplaats);
     let url = this.platform.is('ios') ? 'maps://maps.apple.com/?q=' : 'geo:0,0?q=';
     return this.sanitizer.bypassSecurityTrustUrl(url + q);
   }
 
-  getSafeUrl(scheme: string, target: string) {
+  getSafeUrl(scheme: string, target: string): any {
     let url = scheme + ':' + encodeURIComponent(target);
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }

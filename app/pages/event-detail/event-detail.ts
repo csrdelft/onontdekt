@@ -25,12 +25,12 @@ export class EventDetailPage {
     this.event = navParams.data;
   }
 
-  getLocationUrl(location: string) {
+  getLocationUrl(location: string): any {
     let url = 'geo:0,0?q=' + encodeURIComponent(location);
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  getDateTimes(start: any, end: any) {
+  getDateTimes(start: any, end: any): string {
     let line1, line2: string;
     let multipleDays: boolean = !start.isSame(end, 'day');
     let fullDay = start.format('HHmm') === '0000' && end.format('HHmm') === '2359';
@@ -47,7 +47,7 @@ export class EventDetailPage {
     return line1 + '\n' + line2;
   }
 
-  isJoinable() {
+  isJoinable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
@@ -58,7 +58,7 @@ export class EventDetailPage {
     }
   }
 
-  isLeaveable() {
+  isLeaveable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
@@ -68,7 +68,7 @@ export class EventDetailPage {
     }
   }
 
-  join() {
+  public join() {
     let cat = this.event._meta.category + 'en';
     let id = this.event.id || this.event.maaltijd_id;
 
@@ -87,7 +87,7 @@ export class EventDetailPage {
     });
   }
 
-  leave() {
+  public leave() {
     let cat = this.event._meta.category + 'en';
     let id = this.event.id || this.event.maaltijd_id;
 

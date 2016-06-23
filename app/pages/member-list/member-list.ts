@@ -2,29 +2,16 @@ import { Component, Renderer } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import * as _ from 'lodash';
 
+import { IMemberGroup, IMemberShort } from '../../models/member';
 import { ApiData } from '../../services/api-data';
 import { MemberDetailPage } from '../member-detail/member-detail';
 
-
-interface MemberShort {
-  id: number;
-  voornaam: string;
-  tussenvoegsel: string;
-  achternaam: string;
-  hide: boolean;
-};
-
-interface MemberGroup {
-  char: string;
-  members: MemberShort[];
-  hide: boolean;
-};
 
 @Component({
   templateUrl: 'build/pages/member-list/member-list.html'
 })
 export class MemberListPage {
-  groups: MemberGroup[] = [];
+  groups: IMemberGroup[] = [];
   queryText: string = '';
   lastQueryText: string = '';
   searching: boolean = false;
@@ -36,7 +23,7 @@ export class MemberListPage {
     private nav: NavController,
     private renderer: Renderer
   ) {
-    apiData.getMemberList().then(members => {
+    apiData.getMemberList().then((members: IMemberShort[]) => {
       let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
       let mapped = _.map(grouped, (value, key) => {
         return {
@@ -108,7 +95,7 @@ export class MemberListPage {
     }
   }
 
-  goToMemberDetail(member: MemberShort) {
+  goToMemberDetail(member: IMemberShort) {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
       this.nav.push(MemberDetailPage, memberDetail);
     });

@@ -8,25 +8,25 @@ import 'rxjs/add/operator/map';
 import { AppSettings } from '../constants/app-settings';
 import { AuthService } from '../services/auth';
 import { Event } from '../models/event';
-import { Member } from '../models/member';
+import { Member, IMemberShort } from '../models/member';
 
 
 @Injectable()
 export class ApiData {
-  _scheduleList = [];
-  _joinedEvents = {
+  private _scheduleList: any[] = [];
+  private _joinedEvents: any = {
     maaltijden: [],
     activiteiten: []
   };
-  _memberList = [];
-  _memberDetail = [];
+  private _memberList: IMemberShort[] = [];
+  private _memberDetail: Member[] = [];
 
   constructor(
     private authHttp: AuthHttp,
     private authService: AuthService
   ) {}
 
-  getScheduleList(fromMoment: any, toMoment: any) {
+  public getScheduleList(fromMoment: any, toMoment: any): Promise<Event[]> {
     if (this._scheduleList.length > 0) {
       let found = _.find(this._scheduleList, { from: fromMoment, to: toMoment });
       if (found) {
@@ -57,7 +57,7 @@ export class ApiData {
     });
   }
 
-  addEventMeta(event: Event) {
+  public addEventMeta(event: Event): Event {
     let meta: any = {};
 
     meta.start = moment(event.begin_moment || (event.datum + ' ' + event.tijd));
@@ -90,7 +90,7 @@ export class ApiData {
     return event;
   }
 
-  addJoined(cat: string, id: number) {
+  public addJoined(cat: string, id: number) {
     if (cat === 'maaltijden') {
       this._joinedEvents.maaltijden.push(id);
     } else {
@@ -98,7 +98,7 @@ export class ApiData {
     }
   }
 
-  removeJoined(cat: string, id: number) {
+  public removeJoined(cat: string, id: number) {
     if (cat === 'maaltijden') {
       let index = _.indexOf(this._joinedEvents.maaltijden, id);
       this._joinedEvents.maaltijden.splice(index, 1);
@@ -108,23 +108,13 @@ export class ApiData {
     }
   }
 
-  postAction(cat, id, action) {
-    return new Promise((resolve, reject) => {
-      this.getFromApi('/' + cat + '/' + id + '/' + action, 'post').then(res => {
-        resolve(res);
-      }, error => {
-        reject(error);
-      });
-    });
-  }
-
-  getMemberList() {
+  public getMemberList(): Promise<IMemberShort[]> {
     if (this._memberList.length > 0) {
       return Promise.resolve(this._memberList);
     }
 
     return new Promise((resolve, reject) => {
-      this.getFromApi('/leden', 'get').then((res: Member[]) => {
+      this.getFromApi('/leden', 'get').then((res: IMemberShort[]) => {
         this._memberList = res;
         resolve(this._memberList);
       }, error => {
@@ -133,7 +123,7 @@ export class ApiData {
     });
   }
 
-  getMemberDetail(id: number) {
+  public getMemberDetail(id: number): Promise<Member> {
     return new Promise(resolve => {
       let member = this._memberDetail.filter((member: Member) => member.id === id);
 
@@ -148,7 +138,17 @@ export class ApiData {
     });
   }
 
-  getFromApi(url, method) {
+  public postAction(cat: string, id: number, action: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.getFromApi('/' + cat + '/' + id + '/' + action, 'post').then(res => {
+        resolve(res);
+      }, error => {
+        reject(error);
+      });
+    });
+  }
+
+  private getFromApi(url: string, method: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.authHttp.request(AppSettings.API_ENDPOINT + url, {
         method: method,

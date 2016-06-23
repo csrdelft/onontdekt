@@ -25,15 +25,15 @@ export class LustrumApp {
     this.initializeRootPage();
   }
 
-  private initializeCordova(): void {
+  private initializeCordova() {
     this.platform.ready().then(() => {
       Keyboard.disableScroll(true);
       this.runDeploy();
     });
   }
 
-  private initializeRootPage(): void {
-    this.authService.tryAuthentication().then(authenticated => {
+  private initializeRootPage() {
+    this.authService.tryAuthentication().then((authenticated: boolean) => {
       let pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
       this.platform.ready().then(() => {
@@ -49,7 +49,7 @@ export class LustrumApp {
     });
   }
 
-  private runDeploy(): void {
+  private runDeploy() {
     this.deploy.check().then((result: boolean) => {
       if (result === true) {
         let loading = Loading.create({

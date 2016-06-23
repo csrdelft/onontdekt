@@ -32,7 +32,7 @@ export class EventListPage {
     this.updateSchedule(this.fromMoment, this.toMoment);
   }
 
-  updateSchedule(fromMoment, toMoment) {
+  updateSchedule(fromMoment: any, toMoment: any): Promise<boolean> {
     return this.apiData.getScheduleList(fromMoment, toMoment)
       .then((events: Event[]) => {
 

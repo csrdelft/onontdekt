@@ -12,16 +12,16 @@ import { AboutPage } from '../about/about';
   templateUrl: 'build/pages/tabs/tabs.html'
 })
 export class TabsPage {
-  tab1Root = EventListPage;
-  tab2Root = MemberListPage;
-  tab3Root = MapPage;
-  tab4Root = AboutPage;
+  tab1Root: any = EventListPage;
+  tab2Root: any = MemberListPage;
+  tab3Root: any = MapPage;
+  tab4Root: any = AboutPage;
 
   constructor(
     private platform: Platform
   ) {}
 
-  ionViewDidEnter() {
+  private ionViewDidEnter() {
     this.platform.ready().then(() => {
       StatusBar.styleLightContent();
     });
