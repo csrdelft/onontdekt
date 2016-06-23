@@ -14,7 +14,6 @@ const cloudSettings: CloudSettings = {
   core: {
     app_id: 'b4141034',
     gcm_key: '335763697269',
-    api_key: '97027c1764e631ed4daccfd8c909e49dfbd1fbbd3e93d728',
     dev_push: false
   },
   push: {
