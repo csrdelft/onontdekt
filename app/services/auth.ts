@@ -47,8 +47,13 @@ export class AuthService {
           this.getNewJwt().then(() => {
             this.scheduleRefresh();
             resolve(true);
-          }, () => {
-            resolve(false);
+          }, (unauthorized: boolean) => {
+            if (unauthorized) {
+              resolve(false);
+            } else {
+              // No connection?
+              resolve(true);
+            }
           });
         } else {
           resolve(false);
