@@ -181,8 +181,10 @@ export class AuthService {
           console.log(error);
           if (error.status === 401) {
             this.storage.remove('refresh_token');
+            reject(true);
+          } else {
+            reject(false);
           }
-          reject();
         });
       }).catch(error => {
         console.log(error);
