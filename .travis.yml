@@ -50,7 +50,7 @@ after_failure:
 
 after_success:
   # Send coverage info off to cloud ppl
-  - cat coverage/lcov.info | ./node_modules/.bin/codecov
+  - cat coverage/lcov.info | ./node_modules/.bin/codecov > /dev/null
 
 before_deploy:
   # start install android
@@ -69,3 +69,7 @@ deploy:
   provider: script
   script: .travis/deploy.sh
   skip_cleanup: true
+  on:
+    repo: Manduro/onontdekt
+    branch: master
+    tags: true
