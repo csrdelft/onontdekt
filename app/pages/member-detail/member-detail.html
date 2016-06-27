@@ -1,12 +1,14 @@
 
-<ion-navbar *navbar primary>
-  <ion-title>{{ member.naam.voornaam }} {{ member.naam.tussenvoegsel }} {{ member.naam.achternaam }}</ion-title>
-  <ion-buttons end hideWhen="android">
-    <button (click)="save()">
-      <ion-icon name="person-add"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+<ion-header>
+  <ion-navbar primary>
+    <ion-title>{{ member.naam.voornaam }} {{ member.naam.tussenvoegsel }} {{ member.naam.achternaam }}</ion-title>
+    <ion-buttons end hideWhen="android">
+      <button (click)="save()">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content class="member-detail">
 

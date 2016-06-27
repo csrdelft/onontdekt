@@ -1,5 +1,5 @@
-import { Component, Renderer } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { Content, NavController, Platform } from 'ionic-angular';
 import * as _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
@@ -11,6 +11,8 @@ import { MemberDetailPage } from '../member-detail/member-detail';
   templateUrl: 'build/pages/member-list/member-list.html'
 })
 export class MemberListPage {
+  @ViewChild(Content) content: Content;
+
   groups: IMemberGroup[] = [];
   queryText: string = '';
   lastQueryText: string = '';
@@ -21,7 +23,7 @@ export class MemberListPage {
   constructor(
     private apiData: ApiData,
     private nav: NavController,
-    private renderer: Renderer
+    private platform: Platform
   ) {
     apiData.getMemberList().then((members: IMemberShort[]) => {
       let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
@@ -33,6 +35,11 @@ export class MemberListPage {
         };
       });
       this.groups = mapped;
+
+      // Hide searchbar by default on iOS
+      if (this.platform.is('ios')) {
+        this.content.setScrollTop(44);
+      }
     }, () => {
       this.failedToLoad = true;
     });
@@ -71,13 +78,9 @@ export class MemberListPage {
     this.lastQueryText = queryText;
   }
 
-  startSearch(searchInput) {
+  startSearch() {
     setTimeout(() => {
       this.searching = true;
-      setTimeout(() => {
-        let inputElement = searchInput.inputElement;
-        this.renderer.invokeElementMethod(inputElement, 'focus', []);
-      }, 0);
     }, 200);
   }
 
