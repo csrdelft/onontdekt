@@ -18,7 +18,7 @@ git config --global user.email "contact@travis-ci.com"
 git config --global user.name "Travis CI"
 git clone --quiet --branch=master git@github.com:csrdelft/lustrum.git release > /dev/null
 cd release
-cp -Rf ~/build/Manduro/onontdekt/www/ .
+cp -Rf /home/travis/build/Manduro/onontdekt/www/ .
 git add .
 git commit -m "Travis deploy $TRAVIS_BUILD_NUMBER"
 git push --force --quiet git@github.com:csrdelft/lustrum.git master > /dev/null
