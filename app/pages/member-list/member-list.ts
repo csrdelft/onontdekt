@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Renderer, ViewChild } from '@angular/core';
 import { Content, NavController, Platform } from 'ionic-angular';
 import * as _ from 'lodash';
 
@@ -23,7 +23,8 @@ export class MemberListPage {
   constructor(
     private apiData: ApiData,
     private nav: NavController,
-    private platform: Platform
+    private platform: Platform,
+    private renderer: Renderer
   ) {
     apiData.getMemberList().then((members: IMemberShort[]) => {
       let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
@@ -78,9 +79,13 @@ export class MemberListPage {
     this.lastQueryText = queryText;
   }
 
-  startSearch() {
+  startSearch(searchBar) {
     setTimeout(() => {
       this.searching = true;
+      setTimeout(() => {
+        let el = searchBar._searchbarInput.nativeElement;
+        this.renderer.invokeElementMethod(el, 'focus', []);
+      }, 0);
     }, 200);
   }
 
