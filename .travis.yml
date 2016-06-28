@@ -53,16 +53,13 @@ after_failure:
 
 after_success:
   # Send coverage info off to cloud ppl
-  - cat coverage/lcov.info | ./node_modules/.bin/codecov > /dev/null
+  # - cat coverage/lcov.info | ./node_modules/.bin/codecov > /dev/null
 
 before_deploy:
-  # start install android
   - wget http://dl.google.com/android/android-sdk_r24.2-linux.tgz
   - tar -xzvf android-sdk_r24.2-linux.tgz
-  - echo "y" | ./android-sdk-linux/tools/android update sdk --no-ui --filter android-23,build-tools-23.0.1
+  - echo "y" | ./android-sdk-linux/tools/android update sdk --no-ui --filter android-23,build-tools-23.0.3,extra-android-support,extra-google-google_play_services
   - export ANDROID_HOME=${PWD}/android-sdk-linux
-  # end install android
-  - ionic state reset
   - ionic build android
   # `ionic build android` wraps `cordova build android`, which gives a legit exit code if it fails. Ionic does not; test apk exists.
   - ls ./platforms/android/build/outputs/apk/android*.apk
