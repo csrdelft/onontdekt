@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, Platform, SqlStorage, Storage } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import { Observable } from 'rxjs/Rx';
 import { Push } from '@ionic/cloud-angular';
 
@@ -26,9 +27,7 @@ export class AuthService {
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        this.registerLogin('Automatic');
       }
     }).catch(error => {
       console.log(error);
@@ -80,9 +79,7 @@ export class AuthService {
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        this.registerLogin('Manual');
         resolve();
       }, error => {
         reject(error);
@@ -97,10 +94,30 @@ export class AuthService {
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.push.unregister();
+    this.registerLogout(reload ? 'Automatic' : 'Manual');
 
     if (reload) {
       location.reload();
+    }
+  }
+
+  private registerLogin(type: string) {
+    if (this.platform.is('cordova')) {
+      this.push.register((token) => {
+        this.push.saveToken(token, {});
+      });
+      this.platform.ready().then(() => {
+        GoogleAnalytics.trackEvent('Authorization', 'Login', type);
+      });
+    }
+  }
+
+  private registerLogout(type: string) {
+    if (this.platform.is('cordova')) {
+      this.push.unregister();
+      this.platform.ready().then(() => {
+        GoogleAnalytics.trackEvent('Authorization', 'Logout', type);
+      });
     }
   }
 

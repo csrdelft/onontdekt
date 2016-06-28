@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 
 import { TripDetailPage } from '../trip-detail/trip-detail';
 import { TripDetailTwoPage } from '../trip-detail-two/trip-detail-two';
@@ -78,5 +79,9 @@ export class MapPage {
     google.maps.event.addListenerOnce(map, 'idle', () => {
       mapEle.classList.add('show-map');
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Map');
   }
 }

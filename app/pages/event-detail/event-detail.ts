@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { NavParams, Toast } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
+import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
 import { ApiData } from '../../services/api-data';
 import { Event } from '../../models/event';
 
 
 @Component({
-  templateUrl: 'build/pages/event-detail/event-detail.html'
+  templateUrl: 'build/pages/event-detail/event-detail.html',
+  directives: [MapsHrefDirective]
 })
 export class EventDetailPage {
   event: Event;
@@ -23,11 +26,6 @@ export class EventDetailPage {
     navParams: NavParams
   ) {
     this.event = navParams.data;
-  }
-
-  getLocationUrl(location: string): any {
-    let url = 'geo:0,0?q=' + encodeURIComponent(location);
-    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   getDateTimes(start: any, end: any): string {
@@ -77,6 +75,7 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'aanmelden').then((event: Event) => {
       this.apiData.addJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
+      GoogleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
       return 'Aanmelden gelukt!';
     }, error => {
       console.log(error);
@@ -96,6 +95,7 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'afmelden').then((event: Event) => {
       this.apiData.removeJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
+      GoogleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
       return 'Afmelden gelukt!';
     }, error => {
       console.log(error);
@@ -104,5 +104,9 @@ export class EventDetailPage {
       this.notifier.notify(message);
       this.processingAction = false;
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Event Detail');
   }
 }

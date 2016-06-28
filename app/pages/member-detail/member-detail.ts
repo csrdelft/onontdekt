@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
-import { Contacts, Calendar } from 'ionic-native';
+import { Contacts, Calendar, GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
+import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
 import { Member } from '../../models/member';
 
 
 @Component({
-  templateUrl: 'build/pages/member-detail/member-detail.html'
+  templateUrl: 'build/pages/member-detail/member-detail.html',
+  directives: [MapsHrefDirective]
 })
 export class MemberDetailPage {
   member: Member;
@@ -27,12 +29,6 @@ export class MemberDetailPage {
     let date = new Date(this.member.geboortedatum);
     this.member.geboortedatumText = moment(date).format('LL');
     this.member.geboortedatum = date;
-  }
-
-  getLocationUrl(huis): any {
-    let q = encodeURIComponent(this.member.huis.adres + ', ' + this.member.huis.woonplaats);
-    let url = this.platform.is('ios') ? 'maps://maps.apple.com/?q=' : 'geo:0,0?q=';
-    return this.sanitizer.bypassSecurityTrustUrl(url + q);
   }
 
   getSafeUrl(scheme: string, target: string): any {
@@ -87,6 +83,7 @@ export class MemberDetailPage {
     let createdContact = Contacts.create(contact);
     createdContact.save(
       contact => {
+        GoogleAnalytics.trackEvent('Members', 'Save', 'New');
         this.notifier.notify('Succesvol opgeslagen in contacten.');
       },
       err => {
@@ -105,5 +102,9 @@ export class MemberDetailPage {
     }
 
     Calendar.openCalendar(date.toDate());
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Member Detail');
   }
 }

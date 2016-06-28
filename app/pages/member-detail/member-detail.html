@@ -2,7 +2,7 @@
 <ion-header>
   <ion-navbar primary>
     <ion-title>{{ member.naam.voornaam }} {{ member.naam.tussenvoegsel }} {{ member.naam.achternaam }}</ion-title>
-    <ion-buttons end hideWhen="android">
+    <ion-buttons end showWhen="cordova" hideWhen="android">
       <button (click)="save()">
         <ion-icon name="person-add"></ion-icon>
       </button>
@@ -29,7 +29,7 @@
     </a>
 
     <a ion-item detail-none [href]="'tel:' + member.mobiel">
-      <a button item-right clear [href]="getSafeUrl('sms', member.mobiel)">
+      <a button item-right clear [href]="getSafeUrl('sms', member.mobiel)" hideWhen="core">
         <ion-icon primary name="text" isActive="false"></ion-icon>
       </a>
       <a button item-right clear [href]="getSafeUrl('tel', member.mobiel)">
@@ -39,7 +39,7 @@
       <h3>{{ member.mobiel }}</h3>
     </a>
 
-    <a ion-item detail-none [href]="getLocationUrl(member.huis)">
+    <a ion-item detail-none [csrMapsHref]="member.huis.adres + ', ' + member.huis.woonplaats">
       <ion-icon name="map" isActive="false" primary item-right></ion-icon>
       <p primary>{{ member.huis.naam || 'adres' }}</p>
       <h3>
@@ -71,7 +71,7 @@
 
   </ion-list>
 
-  <button fab fab-right fab-bottom fab-fixed lustrumgreen showWhen="android" (click)="save()">
+  <button fab fab-right fab-bottom fab-fixed lustrumgreen showWhen="cordova" hideWhen="ios" (click)="save()">
     <ion-icon name="person-add"></ion-icon>
   </button>
 

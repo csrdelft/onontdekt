@@ -3,18 +3,18 @@
   <ion-navbar primary>
     <ion-title>Ledenlijst</ion-title>
     <ion-buttons end>
-      <button showWhen="android" (click)="startSearch()">
+      <button hideWhen="ios" (click)="startSearch(searchFocus)">
         <ion-icon name="search"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-searchbar showWhen="android" class="search-overlay" placeholder="Zoek op naam of lidnummer" [(ngModel)]="queryText" (ionInput)="queryMembers()" (ionBlur)="stopSearchSoft()" (ionCancel)="stopSearch()" [hidden]="!searching" debounce="50">
+    <ion-searchbar hideWhen="ios" class="search-overlay" placeholder="Zoek op naam of lidnummer" [(ngModel)]="queryText" #searchFocus (ionInput)="queryMembers()" (ionBlur)="stopSearchSoft()" (ionCancel)="stopSearch()" [hidden]="!searching" debounce="50">
     </ion-searchbar>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-searchbar hideWhen="android" placeholder="Zoek op naam of lidnummer" [(ngModel)]="queryText" (ionInput)="queryMembers()" cancelButtonText="Annuleer" showCancelButton="true" debounce="50" *ngIf="groups.length > 0 && failedToLoad === false">
+  <ion-searchbar showWhen="ios" placeholder="Zoek op naam of lidnummer" [(ngModel)]="queryText" (ionInput)="queryMembers()" cancelButtonText="Annuleer" showCancelButton="true" debounce="50" [hidden]="groups.length === 0 || failedToLoad !== false">
   </ion-searchbar>
 
   <div *ngIf="groups.length === 0 && failedToLoad === false" padding text-center>

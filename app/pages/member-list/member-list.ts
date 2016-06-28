@@ -1,5 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Renderer, ViewChild } from '@angular/core';
 import { Content, NavController, Platform } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
@@ -23,7 +24,8 @@ export class MemberListPage {
   constructor(
     private apiData: ApiData,
     private nav: NavController,
-    private platform: Platform
+    private platform: Platform,
+    private renderer: Renderer
   ) {
     apiData.getMemberList().then((members: IMemberShort[]) => {
       let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
@@ -38,7 +40,8 @@ export class MemberListPage {
 
       // Hide searchbar by default on iOS
       if (this.platform.is('ios')) {
-        this.content.setScrollTop(44);
+        // Disable as it seems buggy
+        // this.content.setScrollTop(44);
       }
     }, () => {
       this.failedToLoad = true;
@@ -78,9 +81,13 @@ export class MemberListPage {
     this.lastQueryText = queryText;
   }
 
-  startSearch() {
+  startSearch(searchBar) {
     setTimeout(() => {
       this.searching = true;
+      setTimeout(() => {
+        let el = searchBar._searchbarInput.nativeElement;
+        this.renderer.invokeElementMethod(el, 'focus', []);
+      }, 0);
     }, 200);
   }
 
@@ -102,6 +109,10 @@ export class MemberListPage {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
       this.nav.push(MemberDetailPage, memberDetail);
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Member List');
   }
 
 }

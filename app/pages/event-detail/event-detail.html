@@ -9,7 +9,7 @@
 
   <div padding>
     <h4>{{ event.naam || event.titel }}</h4>
-    <p><a *ngIf="event.locatie" [href]="getLocationUrl(event.locatie)">
+    <p><a *ngIf="event.locatie" [csrMapsHref]="event.locatie">
       {{ event.locatie }}
     </a></p>
     <p subdued class="preserve-whitespace">{{ getDateTimes(event._meta.start, event._meta.end) }}</p>
