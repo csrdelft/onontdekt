@@ -1,6 +1,6 @@
 import { Component, Type, ViewChild } from '@angular/core';
 import { Nav, Platform, Loading } from 'ionic-angular';
-import { Keyboard, Splashscreen, StatusBar } from 'ionic-native';
+import { GoogleAnalytics, Keyboard, Splashscreen, StatusBar } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 
 import { AuthService } from './services/auth';
@@ -30,6 +30,8 @@ export class LustrumApp {
   private initializeCordova() {
     this.platform.ready().then(() => {
       Keyboard.disableScroll(true);
+      GoogleAnalytics.startTrackerWithId('UA-79997582-1');
+      GoogleAnalytics.enableUncaughtExceptionReporting(true);
       this.runDeploy();
     });
   }

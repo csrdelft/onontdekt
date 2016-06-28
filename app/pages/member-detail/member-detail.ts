@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
-import { Contacts, Calendar } from 'ionic-native';
+import { Contacts, Calendar, GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
@@ -83,6 +83,7 @@ export class MemberDetailPage {
     let createdContact = Contacts.create(contact);
     createdContact.save(
       contact => {
+        GoogleAnalytics.trackEvent('Members', 'Save', 'New');
         this.notifier.notify('Succesvol opgeslagen in contacten.');
       },
       err => {
@@ -101,5 +102,9 @@ export class MemberDetailPage {
     }
 
     Calendar.openCalendar(date.toDate());
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Member Detail');
   }
 }

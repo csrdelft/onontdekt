@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Loading, NavController } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 
 import { SystemBrowserDirective } from '../../directives/system-browser';
 import { AuthService } from '../../services/auth';
@@ -28,6 +29,10 @@ export class AboutPage {
         loading.dismiss();
       });
     }, 1000);
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('About');
   }
 
 }

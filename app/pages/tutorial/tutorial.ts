@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
+import { GoogleAnalytics, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
 
@@ -44,6 +44,7 @@ export class TutorialPage {
   private ionViewDidEnter() {
     this.platform.ready().then(() => {
       StatusBar.styleDefault();
+      GoogleAnalytics.trackView('Tutorial');
     });
   }
 

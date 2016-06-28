@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Alert, Modal, NavController } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment/locale/nl';
@@ -78,6 +79,10 @@ export class EventListPage {
 
   goToEventDetail(event: Event) {
     this.nav.push(EventDetailPage, event);
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Event List');
   }
 
 }

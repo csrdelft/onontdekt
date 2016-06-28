@@ -1,5 +1,6 @@
 import { Component, Renderer, ViewChild } from '@angular/core';
 import { Content, NavController, Platform } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
@@ -108,6 +109,10 @@ export class MemberListPage {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
       this.nav.push(MemberDetailPage, memberDetail);
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Member List');
   }
 
 }
