@@ -11,6 +11,8 @@ notifications:
 cache:
   directories:
     - node_modules
+    - $(npm config get prefix)/bin/cordova
+    - $(npm config get prefix)/bin/ionic
 
 addons:
   apt:
@@ -60,6 +62,7 @@ before_deploy:
   - tar -xzvf android-sdk_r24.2-linux.tgz
   - echo "y" | ./android-sdk-linux/tools/android update sdk --no-ui --filter android-23,build-tools-23.0.3,extra-android-support,extra-google-google_play_services
   - export ANDROID_HOME=${PWD}/android-sdk-linux
+  - export PATH="${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:$PATH"
   - ionic build android
   # `ionic build android` wraps `cordova build android`, which gives a legit exit code if it fails. Ionic does not; test apk exists.
   - ls ./platforms/android/build/outputs/apk/android*.apk
