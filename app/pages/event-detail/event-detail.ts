@@ -4,13 +4,15 @@ import { NavParams, Toast } from 'ionic-angular';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
+import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
 import { ApiData } from '../../services/api-data';
 import { Event } from '../../models/event';
 
 
 @Component({
-  templateUrl: 'build/pages/event-detail/event-detail.html'
+  templateUrl: 'build/pages/event-detail/event-detail.html',
+  directives: [MapsHrefDirective]
 })
 export class EventDetailPage {
   event: Event;
@@ -23,11 +25,6 @@ export class EventDetailPage {
     navParams: NavParams
   ) {
     this.event = navParams.data;
-  }
-
-  getLocationUrl(location: string): any {
-    let url = 'geo:0,0?q=' + encodeURIComponent(location);
-    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   getDateTimes(start: any, end: any): string {
