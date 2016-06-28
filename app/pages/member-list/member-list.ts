@@ -39,7 +39,8 @@ export class MemberListPage {
 
       // Hide searchbar by default on iOS
       if (this.platform.is('ios')) {
-        this.content.setScrollTop(44);
+        // Disable as it seems buggy
+        // this.content.setScrollTop(44);
       }
     }, () => {
       this.failedToLoad = true;
