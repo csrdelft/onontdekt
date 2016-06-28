@@ -21,8 +21,10 @@ export class LustrumApp {
     private notifier: NotificationService,
     private deploy: Deploy
   ) {
-    this.initializeCordova();
     this.initializeRootPage();
+    if (this.platform.is('cordova')) {
+      this.initializeCordova();
+    }
   }
 
   private initializeCordova() {

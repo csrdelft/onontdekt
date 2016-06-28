@@ -26,9 +26,11 @@ export class AuthService {
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        if (this.platform.is('cordova')) {
+          this.push.register((token) => {
+            this.push.saveToken(token, {});
+          });
+        }
       }
     }).catch(error => {
       console.log(error);
@@ -80,9 +82,11 @@ export class AuthService {
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        if (this.platform.is('cordova')) {
+          this.push.register((token) => {
+            this.push.saveToken(token, {});
+          });
+        }
         resolve();
       }, error => {
         reject(error);
@@ -97,7 +101,9 @@ export class AuthService {
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.push.unregister();
+    if (this.platform.is('cordova')) {
+      this.push.unregister();
+    }
 
     if (reload) {
       location.reload();
