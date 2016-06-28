@@ -11,8 +11,6 @@ notifications:
 cache:
   directories:
     - node_modules
-    - $(npm config get prefix)/bin/cordova
-    - $(npm config get prefix)/bin/ionic
 
 addons:
   apt:
