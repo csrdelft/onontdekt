@@ -69,7 +69,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: .travis/deploy.sh
+  script: ./.travis/deploy.sh
   skip_cleanup: true
   on:
     repo: Manduro/onontdekt
