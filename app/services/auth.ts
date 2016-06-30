@@ -12,7 +12,7 @@ import { AppSettings } from '../constants/app-settings';
 @Injectable()
 export class AuthService {
   private jwtHelper: JwtHelper = new JwtHelper();
-  private storage: Storage = new Storage(SqlStorage);
+  private storage: Storage;
   private localStorage: Storage = new Storage(LocalStorage);
   private refreshSubscription: any;
   private userId: string;
@@ -23,6 +23,8 @@ export class AuthService {
     private platform: Platform,
     private push: Push
   ) {
+    let isWeb = platform.is('mobileweb') || platform.is('core');
+    this.storage = new Storage(isWeb ? LocalStorage : SqlStorage);
 
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
