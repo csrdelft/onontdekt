@@ -1,7 +1,7 @@
 import { provide } from '@angular/core';
 import { Http } from '@angular/http';
 import { ionicBootstrap } from 'ionic-angular';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { CloudSettings, provideCloud } from '@ionic/cloud-angular';
 
 import { LustrumApp } from './app';
@@ -43,20 +43,11 @@ const ionicConfig = {
   }
 };
 
-const jwtProvider = provide(AuthHttp, {
-  useFactory: (http) => {
-    return new AuthHttp(new AuthConfig({
-      headerName: 'X-Csr-Authorization'
-    }), http);
-  },
-  deps: [Http]
-});
-
 const providers = [
   ApiData,
   AuthService,
   NotificationService,
-  jwtProvider,
+  AUTH_PROVIDERS,
   provideCloud(cloudSettings)
 ];
 
