@@ -15,25 +15,34 @@ interface EventGroup {
   events: Event[];
 };
 
+const DAYS_TO_LOAD: number = 42;
+
 @Component({
   templateUrl: 'build/pages/event-list/event-list.html'
 })
 export class EventListPage {
   groups: EventGroup[] = [];
 
-  fromMoment: any = moment().startOf('day');
-  toMoment: any = moment(this.fromMoment).add(27, 'days').endOf('day');
   moreAvailable: boolean = true;
   failedToLoad: boolean = false;
+
+  fromMoment: any;
+  toMoment: any;
 
   constructor(
     private apiData: ApiData,
     private nav: NavController
   ) {
+    this.initializeMoments();
     this.updateSchedule(this.fromMoment, this.toMoment);
   }
 
-  updateSchedule(fromMoment: any, toMoment: any): Promise<boolean> {
+  initializeMoments() {
+    this.fromMoment = moment().startOf('day');
+    this.toMoment = moment(this.fromMoment).add(DAYS_TO_LOAD - 1, 'days').endOf('day');
+  }
+
+  updateSchedule(fromMoment: any, toMoment: any, reset: boolean = false): Promise<boolean> {
     return this.apiData.getScheduleList(fromMoment, toMoment)
       .then((events: Event[]) => {
 
@@ -56,7 +65,12 @@ export class EventListPage {
           };
         });
 
-        this.groups.push(...mapped);
+        if (reset) {
+          this.groups = mapped;
+        } else {
+          this.groups.push(...mapped);
+        }
+
         return true;
       }, () => {
         this.failedToLoad = true;
@@ -64,8 +78,8 @@ export class EventListPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.fromMoment.add(28, 'days');
-    this.toMoment.add(28, 'days');
+    this.fromMoment.add(DAYS_TO_LOAD, 'days');
+    this.toMoment.add(DAYS_TO_LOAD, 'days');
 
     this.updateSchedule(this.fromMoment, this.toMoment).then(hasEvents => {
       if (hasEvents === true) {
@@ -75,6 +89,18 @@ export class EventListPage {
         this.moreAvailable = false;
       }
     });
+  }
+
+  doRefresh(refresher) {
+    this.initializeMoments();
+    this.updateSchedule(this.fromMoment, this.toMoment, true).then((hasEvents) => {
+      refresher.complete();
+    });
+  }
+
+  doRetryLoad() {
+    this.failedToLoad = false;
+    this.updateSchedule(this.fromMoment, this.toMoment);
   }
 
   goToEventDetail(event: Event) {

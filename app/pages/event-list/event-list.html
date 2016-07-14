@@ -7,6 +7,11 @@
 
 <ion-content>
 
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div *ngIf="groups.length === 0 && failedToLoad === false" padding text-center>
     <ion-spinner></ion-spinner>
   </div>
@@ -30,12 +35,15 @@
 
   </ion-list>
 
-  <div padding *ngIf="failedToLoad">
-    <p text-center>Het laden van de activiteiten is mislukt.</p>
+  <div padding text-center *ngIf="failedToLoad">
+    <p>Het laden van de activiteiten is mislukt.</p>
+    <button (click)="doRetryLoad()">
+      Opnieuw proberen
+    </button>
   </div>
 
-  <div padding *ngIf="!moreAvailable">
-    <p text-center>Geen activiteiten meer.</p>
+  <div padding text-center *ngIf="!moreAvailable">
+    <p>Geen activiteiten meer.</p>
   </div>
 
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
