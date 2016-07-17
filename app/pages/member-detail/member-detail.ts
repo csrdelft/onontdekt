@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
-import { Contacts, Calendar, GoogleAnalytics } from 'ionic-native';
+import { Contact, ContactName, ContactField, ContactAddress, Calendar, GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
@@ -54,44 +54,26 @@ export class MemberDetailPage {
   }
 
   saveNew() {
-    let contact = {
-      name: {
-        familyName: this.member.naam.achternaam,
-        middleName: this.member.naam.tussenvoegsel,
-        givenName: this.member.naam.voornaam
-      },
-      phoneNumbers: [{
-        type: 'mobiel',
-        value: this.member.mobiel,
-        pref: false
-      }],
-      emails: [{
-        type: 'thuis',
-        value: this.member.email,
-        pref: false
-      }],
-      addresses: [{
-        type: this.member.huis.naam || 'adres',
-        streetAddress: this.member.huis.adres,
-        locality: this.member.huis.woonplaats,
-        postalCode: this.member.huis.postcode,
-        country: this.member.huis.land
-      }],
-      birthday: this.member.geboortedatum
-    };
+    let contact = new Contact();
 
-    let createdContact = Contacts.create(contact);
-    createdContact.save(
-      contact => {
-        GoogleAnalytics.trackEvent('Members', 'Save', 'New');
+    let name = new ContactName(null, this.member.naam.achternaam, this.member.naam.voornaam, this.member.naam.tussenvoegsel);
+    let phone = new ContactField('mobiel', this.member.mobiel, false);
+    let email = new ContactField('thuis', this.member.email, false);
+    let address = new ContactAddress(false, this.member.huis.naam || 'adres', null, this.member.huis.adres, this.member.huis.woonplaats, null, this.member.huis.postcode, this.member.huis.land);
+
+    contact.name = name;
+    contact.phoneNumbers = [phone];
+    contact.emails = [email];
+    contact.addresses = [address];
+    contact.birthday = this.member.geboortedatum;
+
+    contact.save().then(
+      () => {
         this.notifier.notify('Succesvol opgeslagen in contacten.');
+        GoogleAnalytics.trackEvent('Members', 'Save', 'New');
       },
-      err => {
-        console.log(err);
-        this.notifier.notify('Opslaan in contacten mislukt.');
-      }
+      (error: any) => this.notifier.notify('Opslaan in contacten mislukt.')
     );
-
   }
 
   openCalendar() {
