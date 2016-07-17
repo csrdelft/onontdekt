@@ -22,7 +22,7 @@
     "@angular/platform-browser": "2.0.0-rc.3",
     "@angular/platform-browser-dynamic": "2.0.0-rc.3",
     "@angular/router": "2.0.0-rc.2",
-    "@ionic/cloud-angular": "0.0.12",
+    "@ionic/cloud-angular": "0.0.15",
     "angular2-jwt": "0.1.16",
     "es6-shim": "0.35.1",
     "ionic-angular": "2.0.0-beta.10",

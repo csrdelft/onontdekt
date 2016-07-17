@@ -105,7 +105,7 @@ export class AuthService {
 
   private registerLogin(type: string) {
     if (this.platform.is('cordova')) {
-      this.push.register((token) => {
+      this.push.register().then((token) => {
         this.push.saveToken(token, {});
       });
       this.platform.ready().then(() => {
