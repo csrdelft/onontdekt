@@ -1,12 +1,8 @@
-.ios {
-  .member-list {
-    ion-item-divider {
-      font-size: 1.6rem;
-      padding-top: 6px;
-      padding-bottom: 6px;
-    }
-  }
-}
+
+// Disable as it seems buggy
+// .ios .member-list {
+//   min-height: 100%;
+// }
 
 .member-list {
   margin-bottom: 0;

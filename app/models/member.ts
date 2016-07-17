@@ -17,3 +17,17 @@ export class Member {
   email: string;
   mobiel: string;
 }
+
+export interface IMemberShort {
+  id: number;
+  voornaam: string;
+  tussenvoegsel: string;
+  achternaam: string;
+  hide: boolean;
+};
+
+export interface IMemberGroup {
+  char: string;
+  members: IMemberShort[];
+  hide: boolean;
+};

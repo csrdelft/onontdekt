@@ -1,6 +1,6 @@
 import { Component, Type, ViewChild } from '@angular/core';
 import { Nav, Platform, Loading } from 'ionic-angular';
-import { Keyboard, Splashscreen } from 'ionic-native';
+import { GoogleAnalytics, Keyboard, Splashscreen, StatusBar } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 
 import { AuthService } from './services/auth';
@@ -15,36 +15,45 @@ import { TutorialPage } from './pages/tutorial/tutorial';
 export class LustrumApp {
   @ViewChild(Nav) private nav: Nav;
 
-  rootPage: Type;
-
   constructor(
     private platform: Platform,
     private authService: AuthService,
     private notifier: NotificationService,
     private deploy: Deploy
   ) {
-    this.initializeCordova();
     this.initializeRootPage();
+    if (this.platform.is('cordova')) {
+      this.initializeCordova();
+    }
   }
 
-  private initializeCordova(): void {
+  private initializeCordova() {
     this.platform.ready().then(() => {
       Keyboard.disableScroll(true);
-      setTimeout(() => {
-        Splashscreen.hide();
-      }, 800);
+      GoogleAnalytics.startTrackerWithId('UA-79997582-1');
+      GoogleAnalytics.enableUncaughtExceptionReporting(true);
       this.runDeploy();
     });
   }
 
-  private initializeRootPage(): void {
-    this.authService.tryAuthentication().then(authenticated => {
+  private initializeRootPage() {
+    this.authService.tryAuthentication().then((authenticated: boolean) => {
       let pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
+      this.platform.ready().then(() => {
+        if (authenticated) {
+          StatusBar.styleLightContent();
+        } else {
+          StatusBar.styleDefault();
+        }
+        setTimeout(() => {
+          Splashscreen.hide();
+        }, 400);
+      });
     });
   }
 
-  private runDeploy(): void {
+  private runDeploy() {
     this.deploy.check().then((result: boolean) => {
       if (result === true) {
         let loading = Loading.create({

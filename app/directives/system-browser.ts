@@ -1,21 +1,18 @@
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, HostListener } from '@angular/core';
 import { InAppBrowser } from 'ionic-native';
 
 
 @Directive({
-  selector: '[systemBrowser]',
-  host: {
-    '(click)': 'onClick($event)'
-  }
+  selector: '[csrSystemBrowser]'
 })
-export class SystemBrowser {
+export class SystemBrowserDirective {
   private el: HTMLElement;
 
   constructor(el: ElementRef) {
     this.el = el.nativeElement;
   }
 
-  onClick($event) {
+  @HostListener('click') onClick($event) {
     $event.preventDefault();
     let url = this.el.getAttribute('href');
     InAppBrowser.open(url, '_system');

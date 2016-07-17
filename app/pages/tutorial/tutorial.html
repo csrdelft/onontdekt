@@ -1,8 +1,11 @@
-<ion-navbar *navbar>
-  <ion-buttons end *ngIf="showSkip">
-    <button (click)="startApp()" primary>Overslaan</button>
-  </ion-buttons>
-</ion-navbar>
+
+<ion-header>
+  <ion-navbar>
+    <ion-buttons end *ngIf="showSkip">
+      <button (click)="startApp()" primary>Overslaan</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
 <ion-content>
   <ion-slides [options]="{pager: true}" (ionWillChange)="onSlideChangeStart($event)">

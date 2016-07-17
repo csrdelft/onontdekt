@@ -1,30 +1,20 @@
-import { Component, Renderer } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, Renderer, ViewChild } from '@angular/core';
+import { Content, NavController, Platform } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as _ from 'lodash';
 
+import { IMemberGroup, IMemberShort } from '../../models/member';
 import { ApiData } from '../../services/api-data';
 import { MemberDetailPage } from '../member-detail/member-detail';
 
-
-interface MemberShort {
-  id: number;
-  voornaam: string;
-  tussenvoegsel: string;
-  achternaam: string;
-  hide: boolean;
-};
-
-interface MemberGroup {
-  char: string;
-  members: MemberShort[];
-  hide: boolean;
-};
 
 @Component({
   templateUrl: 'build/pages/member-list/member-list.html'
 })
 export class MemberListPage {
-  groups: MemberGroup[] = [];
+  @ViewChild(Content) content: Content;
+
+  groups: IMemberGroup[] = [];
   queryText: string = '';
   lastQueryText: string = '';
   searching: boolean = false;
@@ -34,9 +24,10 @@ export class MemberListPage {
   constructor(
     private apiData: ApiData,
     private nav: NavController,
+    private platform: Platform,
     private renderer: Renderer
   ) {
-    apiData.getMemberList().then(members => {
+    apiData.getMemberList().then((members: IMemberShort[]) => {
       let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
       let mapped = _.map(grouped, (value, key) => {
         return {
@@ -46,6 +37,12 @@ export class MemberListPage {
         };
       });
       this.groups = mapped;
+
+      // Hide searchbar by default on iOS
+      if (this.platform.is('ios')) {
+        // Disable as it seems buggy
+        // this.content.setScrollTop(44);
+      }
     }, () => {
       this.failedToLoad = true;
     });
@@ -84,12 +81,12 @@ export class MemberListPage {
     this.lastQueryText = queryText;
   }
 
-  startSearch(searchInput) {
+  startSearch(searchBar) {
     setTimeout(() => {
       this.searching = true;
       setTimeout(() => {
-        let inputElement = searchInput.inputElement;
-        this.renderer.invokeElementMethod(inputElement, 'focus', []);
+        let el = searchBar._searchbarInput.nativeElement;
+        this.renderer.invokeElementMethod(el, 'focus', []);
       }, 0);
     }, 200);
   }
@@ -108,10 +105,14 @@ export class MemberListPage {
     }
   }
 
-  goToMemberDetail(member: MemberShort) {
+  goToMemberDetail(member: IMemberShort) {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
       this.nav.push(MemberDetailPage, memberDetail);
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Member List');
   }
 
 }

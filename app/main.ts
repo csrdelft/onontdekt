@@ -1,7 +1,7 @@
 import { provide } from '@angular/core';
 import { Http } from '@angular/http';
 import { ionicBootstrap } from 'ionic-angular';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
+import { AUTH_PROVIDERS } from 'angular2-jwt';
 import { CloudSettings, provideCloud } from '@ionic/cloud-angular';
 
 import { LustrumApp } from './app';
@@ -14,12 +14,10 @@ const cloudSettings: CloudSettings = {
   core: {
     app_id: 'b4141034',
     gcm_key: '335763697269',
-    api_key: '97027c1764e631ed4daccfd8c909e49dfbd1fbbd3e93d728',
     dev_push: false
   },
   push: {
     debug: true,
-    deferInit: true,
     pluginConfig: {
       android: {
         'iconColor': '#1f5370'
@@ -40,25 +38,16 @@ const ionicConfig = {
   platforms: {
     ios: {
       backButtonText: '',
-      statusbarPadding: true // Fixes Ionic View https://github.com/driftyco/ionic-view-issues/issues/164
+      statusbarPadding: true
     }
   }
 };
-
-const jwtProvider = provide(AuthHttp, {
-  useFactory: (http) => {
-    return new AuthHttp(new AuthConfig({
-      headerName: 'X-Csr-Authorization'
-    }), http);
-  },
-  deps: [Http]
-});
 
 const providers = [
   ApiData,
   AuthService,
   NotificationService,
-  jwtProvider,
+  AUTH_PROVIDERS,
   provideCloud(cloudSettings)
 ];
 

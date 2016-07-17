@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 import { NavParams, Toast } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
 
+import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
 import { ApiData } from '../../services/api-data';
 import { Event } from '../../models/event';
 
 
 @Component({
-  templateUrl: 'build/pages/event-detail/event-detail.html'
+  templateUrl: 'build/pages/event-detail/event-detail.html',
+  directives: [MapsHrefDirective]
 })
 export class EventDetailPage {
   event: Event;
@@ -25,12 +28,7 @@ export class EventDetailPage {
     this.event = navParams.data;
   }
 
-  getLocationUrl(location: string) {
-    let url = 'geo:0,0?q=' + encodeURIComponent(location);
-    return this.sanitizer.bypassSecurityTrustUrl(url);
-  }
-
-  getDateTimes(start: any, end: any) {
+  getDateTimes(start: any, end: any): string {
     let line1, line2: string;
     let multipleDays: boolean = !start.isSame(end, 'day');
     let fullDay = start.format('HHmm') === '0000' && end.format('HHmm') === '2359';
@@ -47,7 +45,7 @@ export class EventDetailPage {
     return line1 + '\n' + line2;
   }
 
-  isJoinable() {
+  isJoinable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
@@ -58,7 +56,7 @@ export class EventDetailPage {
     }
   }
 
-  isLeaveable() {
+  isLeaveable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
@@ -68,7 +66,7 @@ export class EventDetailPage {
     }
   }
 
-  join() {
+  public join() {
     let cat = this.event._meta.category + 'en';
     let id = this.event.id || this.event.maaltijd_id;
 
@@ -77,6 +75,7 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'aanmelden').then((event: Event) => {
       this.apiData.addJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
+      GoogleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
       return 'Aanmelden gelukt!';
     }, error => {
       console.log(error);
@@ -87,7 +86,7 @@ export class EventDetailPage {
     });
   }
 
-  leave() {
+  public leave() {
     let cat = this.event._meta.category + 'en';
     let id = this.event.id || this.event.maaltijd_id;
 
@@ -96,6 +95,7 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'afmelden').then((event: Event) => {
       this.apiData.removeJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
+      GoogleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
       return 'Afmelden gelukt!';
     }, error => {
       console.log(error);
@@ -104,5 +104,9 @@ export class EventDetailPage {
       this.notifier.notify(message);
       this.processingAction = false;
     });
+  }
+
+  ionViewDidEnter() {
+    GoogleAnalytics.trackView('Event Detail');
   }
 }

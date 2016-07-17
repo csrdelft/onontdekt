@@ -2,50 +2,41 @@ import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { LocalStorage, Platform, SqlStorage, Storage } from 'ionic-angular';
+import { GoogleAnalytics } from 'ionic-native';
 import { Observable } from 'rxjs/Rx';
-import { Analytics, Push } from '@ionic/cloud-angular';
+import { Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
 
 
 @Injectable()
 export class AuthService {
-  jwtHelper: JwtHelper = new JwtHelper();
-  storage: Storage = new Storage(SqlStorage);
-  localStorage: Storage = new Storage(LocalStorage);
-  refreshSubscription: any;
-  userId: string;
+  private jwtHelper: JwtHelper = new JwtHelper();
+  private storage: Storage;
+  private localStorage: Storage = new Storage(LocalStorage);
+  private refreshSubscription: any;
+  private userId: string;
 
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private analytics: Analytics,
     private platform: Platform,
     private push: Push
   ) {
-    this.analytics.setGlobalProperties({
-      platforms: this.platform.versions()
-    });
+    let isWeb = platform.is('mobileweb') || platform.is('core');
+    this.storage = new Storage(isWeb ? LocalStorage : SqlStorage);
 
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.analytics.setGlobalProperties({
-          user: this.userId
-        });
-        this.analytics.track('Login', {
-          using_token: true
-        });
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        this.registerLogin('Automatic');
       }
     }).catch(error => {
       console.log(error);
     });
   }
 
-  tryAuthentication() {
+  public tryAuthentication(): Promise<boolean> {
     if (this.authenticated()) {
       this.startupTokenRefresh();
       return Promise.resolve(true);
@@ -57,8 +48,13 @@ export class AuthService {
           this.getNewJwt().then(() => {
             this.scheduleRefresh();
             resolve(true);
-          }, () => {
-            resolve(false);
+          }, (unauthorized: boolean) => {
+            if (unauthorized) {
+              resolve(false);
+            } else {
+              // No connection?
+              resolve(true);
+            }
           });
         } else {
           resolve(false);
@@ -67,11 +63,7 @@ export class AuthService {
     });
   }
 
-  authenticated() {
-    return tokenNotExpired();
-  }
-
-  login(username: string, password: string) {
+  public login(username: string, password: string): Promise<any> {
     let url = AppSettings.API_ENDPOINT + '/auth/authorize';
     let params = 'user=' + username + '&pass=' + password;
 
@@ -89,15 +81,7 @@ export class AuthService {
         this.localStorage.set('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.analytics.setGlobalProperties({
-          user: this.userId
-        });
-        this.analytics.track('Login', {
-          using_token: false
-        });
-        this.push.register((token) => {
-          this.push.saveToken(token, {});
-        });
+        this.registerLogin('Manual');
         resolve();
       }, error => {
         reject(error);
@@ -105,48 +89,66 @@ export class AuthService {
     });
   }
 
-  logout(reload: boolean = false) {
+  public logout(reload: boolean = false) {
     this.storage.remove('userId');
     this.userId = null;
     this.storage.remove('id_token');
     this.localStorage.remove('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.push.unregister();
-    this.analytics.track('Logout', {
-      forced: reload
-    });
-    this.analytics.unsetGlobalProperty('user');
+    this.registerLogout(reload ? 'Automatic' : 'Manual');
 
     if (reload) {
       location.reload();
     }
   }
 
-  private hasRefreshToken() {
-    return this.storage.get('refresh_token').then(value => {
+  private registerLogin(type: string) {
+    if (this.platform.is('cordova')) {
+      this.push.register((token) => {
+        this.push.saveToken(token, {});
+      });
+      this.platform.ready().then(() => {
+        GoogleAnalytics.trackEvent('Authorization', 'Login', type);
+      });
+    }
+  }
+
+  private registerLogout(type: string) {
+    if (this.platform.is('cordova')) {
+      this.push.unregister();
+      this.platform.ready().then(() => {
+        GoogleAnalytics.trackEvent('Authorization', 'Logout', type);
+      });
+    }
+  }
+
+  private authenticated(): boolean {
+    return tokenNotExpired();
+  }
+
+  private hasRefreshToken(): Promise<boolean> {
+    return this.storage.get('refresh_token').then((value: string) => {
       return typeof value !== 'undefined';
     });
   }
 
-  private getToken() {
-    return this.localStorage.get('id_token').then(value => {
+  private getToken(): Promise<string> {
+    return this.localStorage.get('id_token').then((value: string) => {
       return value;
     });
   }
 
   private scheduleRefresh() {
-    let source = this.authHttp.tokenStream.flatMap(
-      token => {
-        let jwtIat = this.jwtHelper.decodeToken(token).iat;
-        let jwtExp = this.jwtHelper.decodeToken(token).exp;
-        let iat = new Date(0);
-        let exp = new Date(0);
+    let source = this.authHttp.tokenStream.flatMap((token: string) => {
+      let jwtIat: number = this.jwtHelper.decodeToken(token).iat;
+      let jwtExp: number = this.jwtHelper.decodeToken(token).exp;
+      let iat: Date = new Date(0);
+      let exp: Date = new Date(0);
+      let delay: number = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
 
-        let delay = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
-
-        return Observable.interval(delay - 15);
-      });
+      return Observable.interval(delay - 15);
+    });
 
     this.refreshSubscription = source.subscribe(() => {
       this.getNewJwt();
@@ -160,7 +162,7 @@ export class AuthService {
   }
 
   private startupTokenRefresh() {
-    let source = this.authHttp.tokenStream.flatMap(token => {
+    let source = this.authHttp.tokenStream.flatMap((token: string) => {
       let now: number = new Date().valueOf();
       let jwtExp: number = this.jwtHelper.decodeToken(token).exp;
       let exp: Date = new Date(0);
@@ -176,7 +178,7 @@ export class AuthService {
     });
   }
 
-  private getNewJwt() {
+  private getNewJwt(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.storage.get('refresh_token').then(refreshToken => {
         let url = AppSettings.API_ENDPOINT + '/auth/token';
@@ -192,6 +194,14 @@ export class AuthService {
           this.storage.set('id_token', data.token);
           this.localStorage.set('id_token', data.token);
           resolve();
+        }, error => {
+          console.log(error);
+          if (error.status === 401) {
+            this.storage.remove('refresh_token');
+            reject(true);
+          } else {
+            reject(false);
+          }
         });
       }).catch(error => {
         console.log(error);
