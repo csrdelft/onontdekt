@@ -39,7 +39,7 @@
     "browserify-istanbul": "2.0.0",
     "codecov.io": "0.1.6",
     "codelyzer": "0.0.23",
-    "cordova-config-utils": "2.2.1",
+    "cordova-config-utils": "2.3.0",
     "del": "2.2.1",
     "elementtree": "0.1.6",
     "gulp": "3.9.1",
