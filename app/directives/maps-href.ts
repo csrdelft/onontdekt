@@ -6,7 +6,7 @@ import { Platform } from 'ionic-angular';
   selector: '[csrMapsHref]'
 })
 export class MapsHrefDirective implements OnInit {
-  @Input('csrMapsHref') mapsQuery: string;
+  @Input('csrMapsHref') csrMapsHref: string;
 
   private el: HTMLElement;
 
@@ -18,7 +18,7 @@ export class MapsHrefDirective implements OnInit {
   }
 
   ngOnInit() {
-    let query = encodeURIComponent(this.mapsQuery);
+    let query = encodeURIComponent(this.csrMapsHref);
     let url = this.getPlatformMapsUrl();
     this.el.setAttribute('href', url + query);
   }
