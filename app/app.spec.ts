@@ -1,16 +1,8 @@
-import { TEST_BROWSER_APPLICATION_PROVIDERS, TEST_BROWSER_PLATFORM_PROVIDERS } from '@angular/platform-browser/testing/browser';
-import { BROWSER_APP_COMPILER_PROVIDERS } from '@angular/platform-browser-dynamic';
-import { resetBaseTestProviders, setBaseTestProviders } from '@angular/core/testing';
+import { TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS, TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic/testing';
+import { setBaseTestProviders } from '@angular/core/testing';
 import { LustrumApp } from './app';
 
-resetBaseTestProviders();
-setBaseTestProviders(
-  TEST_BROWSER_PLATFORM_PROVIDERS,
-  [
-    BROWSER_APP_COMPILER_PROVIDERS,
-    TEST_BROWSER_APPLICATION_PROVIDERS,
-  ]
-);
+setBaseTestProviders(TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS, TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS);
 
 let lustrumApp: LustrumApp = null;
 
@@ -19,6 +11,10 @@ class MockClass {
     return new Promise((resolve: Function) => {
       resolve();
     });
+  }
+
+  public is(platform: string): boolean {
+    return true;
   }
 
   public tryAuthentication(): any {
