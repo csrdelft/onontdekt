@@ -31,7 +31,7 @@ export class EventListPage {
 
   constructor(
     private apiData: ApiData,
-    private nav: NavController
+    private navCtrl: NavController
   ) {
     this.initializeMoments();
     this.updateSchedule(this.fromMoment, this.toMoment);
@@ -104,7 +104,7 @@ export class EventListPage {
   }
 
   goToEventDetail(event: Event) {
-    this.nav.push(EventDetailPage, event);
+    this.navCtrl.push(EventDetailPage, event);
   }
 
   ionViewDidEnter() {

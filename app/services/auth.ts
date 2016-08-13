@@ -25,6 +25,8 @@ export class AuthService {
   ) {
     let isWeb = platform.is('mobileweb') || platform.is('core');
     this.storage = new Storage(isWeb ? LocalStorage : SqlStorage);
+    console.log('isWeb', isWeb);
+    console.log('using storage:', this.storage);
 
     this.storage.get('userId').then((userId: string) => {
       if (userId) {

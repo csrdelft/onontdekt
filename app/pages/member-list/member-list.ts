@@ -23,7 +23,7 @@ export class MemberListPage {
 
   constructor(
     private apiData: ApiData,
-    private nav: NavController,
+    private navCtrl: NavController,
     private platform: Platform,
     private renderer: Renderer
   ) {
@@ -107,7 +107,7 @@ export class MemberListPage {
 
   goToMemberDetail(member: IMemberShort) {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
-      this.nav.push(MemberDetailPage, memberDetail);
+      this.navCtrl.push(MemberDetailPage, memberDetail);
     });
   }
 

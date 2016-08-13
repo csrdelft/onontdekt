@@ -12,15 +12,15 @@ import { NotificationService } from './services/notification';
 
 const cloudSettings: CloudSettings = {
   core: {
-    app_id: 'b4141034',
-    gcm_key: '335763697269',
-    dev_push: false
+    app_id: 'b4141034'
   },
   push: {
     debug: true,
+    sender_id: '335763697269',
     pluginConfig: {
       android: {
-        'iconColor': '#1f5370'
+        'iconColor': '#1f5370',
+        'clearBadge': true
       },
       ios: {
         'alert': true,
@@ -36,9 +36,13 @@ const ionicConfig = {
   prodMode: true,
   tabbarLayout: 'title-hide',
   platforms: {
+    android: {
+      tabsPlacement: 'top',
+      tabsHideOnSubPages: true,
+      tabsHighlight: true
+    },
     ios: {
-      backButtonText: '',
-      statusbarPadding: true
+      backButtonText: ''
     }
   }
 };

@@ -39,15 +39,15 @@ export class MapPage {
   }];
 
   constructor(
-    private nav: NavController
+    private navCtrl: NavController
   ) {}
 
   goToTripDetail() {
-    this.nav.push(TripDetailPage);
+    this.navCtrl.push(TripDetailPage);
   }
 
   goToTripDetail2() {
-    this.nav.push(TripDetailTwoPage);
+    this.navCtrl.push(TripDetailTwoPage);
   }
 
   ionViewLoaded() {

@@ -1,5 +1,5 @@
 import { Component, Type, ViewChild } from '@angular/core';
-import { Nav, Platform, Loading } from 'ionic-angular';
+import { Nav, Platform, LoadingController } from 'ionic-angular';
 import { GoogleAnalytics, Keyboard, Splashscreen, StatusBar } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 
@@ -19,7 +19,8 @@ export class LustrumApp {
     private platform: Platform,
     private authService: AuthService,
     private notifier: NotificationService,
-    private deploy: Deploy
+    private deploy: Deploy,
+    private loadingCtrl: LoadingController
   ) {
     this.initializeRootPage();
     if (this.platform.is('cordova')) {
@@ -29,10 +30,10 @@ export class LustrumApp {
 
   private initializeCordova() {
     this.platform.ready().then(() => {
+      this.runDeploy();
       Keyboard.disableScroll(true);
       GoogleAnalytics.startTrackerWithId('UA-79997582-1');
       GoogleAnalytics.enableUncaughtExceptionReporting(true);
-      this.runDeploy();
     });
   }
 
@@ -41,11 +42,6 @@ export class LustrumApp {
       let pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
       this.platform.ready().then(() => {
-        if (authenticated) {
-          StatusBar.styleLightContent();
-        } else {
-          StatusBar.styleDefault();
-        }
         setTimeout(() => {
           Splashscreen.hide();
         }, 400);
@@ -56,12 +52,12 @@ export class LustrumApp {
   private runDeploy() {
     this.deploy.check().then((result: boolean) => {
       if (result === true) {
-        let loading = Loading.create({
+        let loading = this.loadingCtrl.create({
           content: 'Update installeren...'
         });
-        this.nav.present(loading);
+        loading.present();
         Splashscreen.hide();
-        this.deploy.update(false).then((result: boolean) => {
+        this.deploy.update().then((result: boolean) => {
           if (result) {
             Splashscreen.show();
           }

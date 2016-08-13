@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { App, Toast } from 'ionic-angular';
+import { App, ToastController } from 'ionic-angular';
 
 
 @Injectable()
 export class NotificationService {
   constructor(
-    private app: App
+    private app: App,
+    private toastCtrl: ToastController
   ) {}
 
   public notify(message: string) {
-    let toast = Toast.create({
+    let toast = this.toastCtrl.create({
       message: message,
       duration: 3000
     });
-    this.app.getActiveNav().present(toast);
+    toast.present();
   }
 
 }

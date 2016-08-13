@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
-import { ActionSheet, NavController, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Contact, ContactName, ContactField, ContactAddress, Calendar, GoogleAnalytics } from 'ionic-native';
 import * as moment from 'moment';
 import 'moment/locale/nl';
@@ -21,7 +21,7 @@ export class MemberDetailPage {
     private sanitizer: DomSanitizationService,
     private notifier: NotificationService,
     private platform: Platform,
-    private nav: NavController,
+    private actionSheetCtrl: ActionSheetController,
     navParams: NavParams
   ) {
     this.member = navParams.data;
@@ -37,7 +37,7 @@ export class MemberDetailPage {
   }
 
   save() {
-    let actionSheet = ActionSheet.create({
+    let actionSheet = this.actionSheetCtrl.create({
       buttons: [
         {
           text: 'Maak nieuw contact',
@@ -50,7 +50,7 @@ export class MemberDetailPage {
         }
       ]
     });
-    this.nav.present(actionSheet);
+    actionSheet.present();
   }
 
   saveNew() {

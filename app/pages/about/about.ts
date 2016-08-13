@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Loading, NavController } from 'ionic-angular';
+import { LoadingController, NavController } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 import { SystemBrowserDirective } from '../../directives/system-browser';
@@ -14,18 +14,19 @@ import { TutorialPage } from '../tutorial/tutorial';
 export class AboutPage {
   constructor(
     private authService: AuthService,
-    private nav: NavController
+    private navCtrl: NavController,
+    private loadingCtrl: LoadingController
   ) {}
 
   public logout() {
-    let loading = Loading.create({
+    let loading = this.loadingCtrl.create({
       content: 'Uitloggen...'
     });
-    this.nav.present(loading);
+    loading.present();
 
     setTimeout(() => {
       this.authService.logout();
-      this.nav.rootNav.setRoot(TutorialPage).then(() => {
+      this.navCtrl.parent.setRoot(TutorialPage).then(() => {
         loading.dismiss();
       });
     }, 1000);

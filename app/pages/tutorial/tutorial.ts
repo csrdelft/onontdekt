@@ -29,12 +29,12 @@ export class TutorialPage {
   showSkip: boolean = true;
 
   constructor(
-    private nav: NavController,
+    private navCtrl: NavController,
     private platform: Platform
   ) {}
 
   startApp() {
-    this.nav.push(LoginPage);
+    this.navCtrl.push(LoginPage);
   }
 
   onSlideChangeStart(slider) {
