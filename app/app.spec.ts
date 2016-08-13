@@ -28,13 +28,27 @@ class MockClass {
       resolve();
     });
   }
+
+  public create(options: any): any {
+    return new OverlayClass();
+  }
+}
+
+class OverlayClass {
+  public present(): any {
+    return;
+  }
+
+  public dismiss(): any {
+    return;
+  }
 }
 
 describe('LustrumApp', () => {
 
   beforeEach(() => {
     let mockClass: any = (<any>new MockClass());
-    lustrumApp = new LustrumApp(mockClass, mockClass, mockClass, mockClass);
+    lustrumApp = new LustrumApp(mockClass, mockClass, mockClass, mockClass, mockClass);
   });
 
   it('initialises with an app', () => {

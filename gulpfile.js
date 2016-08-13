@@ -41,10 +41,7 @@ gulp.task('watch', ['clean'], function(done){
     function(){
       gulpWatch('app/**/*.scss', function(){ gulp.start('sass'); });
       gulpWatch('app/**/*.html', function(){ gulp.start('html'); });
-      buildBrowserify({
-        watch: true,
-        src: ['./app/main.ts', './typings/index.d.ts']
-      }).on('end', done);
+      buildBrowserify({ watch: true }).on('end', done);
     }
   );
 });
@@ -54,7 +51,6 @@ gulp.task('build', ['clean'], function(done){
     ['sass', 'html', 'fonts', 'scripts'],
     function(){
       buildBrowserify({
-        src: ['./app/main.ts', './typings/index.d.ts'],
         minify: isRelease,
         browserifyOptions: {
           debug: !isRelease
@@ -74,4 +70,4 @@ gulp.task('scripts', copyScripts);
 gulp.task('clean', function(){
   return del('www/build');
 });
-gulp.task('tslint', tslint);
+gulp.task('lint', tslint);
