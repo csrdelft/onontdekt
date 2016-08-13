@@ -41,7 +41,10 @@ gulp.task('watch', ['clean'], function(done){
     function(){
       gulpWatch('app/**/*.scss', function(){ gulp.start('sass'); });
       gulpWatch('app/**/*.html', function(){ gulp.start('html'); });
-      buildBrowserify({ watch: true }).on('end', done);
+      buildBrowserify({
+        src: ['./app/main.ts', './typings/index.d.ts'],
+        watch: true
+      }).on('end', done);
     }
   );
 });
@@ -51,6 +54,7 @@ gulp.task('build', ['clean'], function(done){
     ['sass', 'html', 'fonts', 'scripts'],
     function(){
       buildBrowserify({
+        src: ['./app/main.ts', './typings/index.d.ts'],
         minify: isRelease,
         browserifyOptions: {
           debug: !isRelease
