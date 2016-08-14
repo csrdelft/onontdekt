@@ -32,6 +32,10 @@ class MockClass {
   public create(options: any): any {
     return new OverlayClass();
   }
+
+  public subscribe() {
+    return;
+  }
 }
 
 class OverlayClass {
@@ -48,7 +52,7 @@ describe('LustrumApp', () => {
 
   beforeEach(() => {
     let mockClass: any = (<any>new MockClass());
-    lustrumApp = new LustrumApp(mockClass, mockClass, mockClass, mockClass, mockClass);
+    lustrumApp = new LustrumApp(mockClass, mockClass, mockClass, mockClass, mockClass, mockClass);
   });
 
   it('initialises with an app', () => {

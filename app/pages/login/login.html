@@ -15,7 +15,7 @@
 
       <label ion-item>
         <ion-label fixed>Lidnummer</ion-label>
-        <ion-input [(ngModel)]="login.username" ngControl="username" type="text" #username="ngForm" required autofocus></ion-input>
+        <ion-input [(ngModel)]="login.username" ngModel name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
       </label>
       <p [hidden]="username.valid || submitted == false" danger padding-left>
         Vul hier je lidnummer in.
@@ -23,7 +23,7 @@
 
       <label ion-item>
         <ion-label fixed>Wachtwoord</ion-label>
-        <ion-input [(ngModel)]="login.password" ngControl="password" type="password" #password="ngForm" required></ion-input>
+        <ion-input [(ngModel)]="login.password" ngModel name="password" type="password" #password="ngModel" required></ion-input>
       </label>
       <p [hidden]="password.valid || submitted == false" danger padding-left>
         Vul hier je wachtwoord in.

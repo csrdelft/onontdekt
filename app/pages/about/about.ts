@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, NavController } from 'ionic-angular';
+import { Events, LoadingController, NavController } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 import { SystemBrowserDirective } from '../../directives/system-browser';
@@ -13,6 +13,7 @@ import { TutorialPage } from '../tutorial/tutorial';
 })
 export class AboutPage {
   constructor(
+    private events: Events,
     private authService: AuthService,
     private navCtrl: NavController,
     private loadingCtrl: LoadingController
@@ -26,9 +27,10 @@ export class AboutPage {
 
     setTimeout(() => {
       this.authService.logout();
-      this.navCtrl.parent.setRoot(TutorialPage).then(() => {
+      this.events.publish('user:logout');
+      setTimeout(() => {
         loading.dismiss();
-      });
+      }, 1000);
     }, 1000);
   }
 

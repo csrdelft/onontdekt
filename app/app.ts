@@ -1,5 +1,5 @@
 import { Component, Type, ViewChild } from '@angular/core';
-import { Nav, Platform, LoadingController } from 'ionic-angular';
+import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
 import { GoogleAnalytics, Keyboard, Splashscreen, StatusBar } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 
@@ -16,6 +16,7 @@ export class LustrumApp {
   @ViewChild(Nav) private nav: Nav;
 
   constructor(
+    private events: Events,
     private platform: Platform,
     private authService: AuthService,
     private notifier: NotificationService,
@@ -23,6 +24,7 @@ export class LustrumApp {
     private loadingCtrl: LoadingController
   ) {
     this.initializeRootPage();
+    this.listenToLogoutEvent();
     if (this.platform.is('cordova')) {
       this.initializeCordova();
     }
@@ -74,6 +76,12 @@ export class LustrumApp {
       let message = 'Update mislukt: ' + error;
       this.notifier.notify(message);
       Splashscreen.hide();
+    });
+  }
+
+  private listenToLogoutEvent() {
+    this.events.subscribe('user:logout', () => {
+      this.nav.setRoot(TutorialPage);
     });
   }
 }
