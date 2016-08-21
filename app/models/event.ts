@@ -1,6 +1,8 @@
 export class Event {
   id: number;
   maaltijd_id: number;
+  titel: string;
+  naam: string;
   soort: string;
   datum: string;
   tijd: string;

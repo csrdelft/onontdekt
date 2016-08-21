@@ -59,14 +59,26 @@ export class LustrumApp {
         });
         loading.present();
         Splashscreen.hide();
-        this.deploy.update().then((result: boolean) => {
+        this.deploy.download().then((result: boolean) => {
           if (result) {
-            Splashscreen.show();
+            this.deploy.extract().then((result: boolean) => {
+              if (result) {
+                Splashscreen.show();
+                this.deploy.load();
+              } else {
+                loading.dismiss();
+              }
+            }, (error: string) => {
+              loading.dismiss();
+              let message = 'Update installeren mislukt: ' + error;
+              this.notifier.notify(message);
+            });
+          } else {
+            loading.dismiss();
           }
-          loading.dismiss();
         }, (error: string) => {
           loading.dismiss();
-          let message = 'Update installeren mislukt: ' + error;
+          let message = 'Update downloaden mislukt: ' + error;
           this.notifier.notify(message);
         });
       } else {

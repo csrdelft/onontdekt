@@ -86,6 +86,14 @@ export class ApiData {
       meta.category = 'agenda';
     }
 
+    if (event.titel) {
+      event.titel = event.titel.replace(/&amp;/g, '&');
+    }
+
+    if (event.naam) {
+      event.naam = event.naam.replace(/&amp;/g, '&');
+    }
+
     event._meta = meta;
     return event;
   }
