@@ -1,0 +1,25 @@
+
+<ion-header>
+  <ion-navbar primary>
+    <ion-title>Verticalestrijd</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="ranking-page" padding>
+  <ion-card>
+    <ion-card-header>
+      Huidige tussenstand
+    </ion-card-header>
+    <ion-list>
+      <ion-item *ngFor="let item of ranking; let i = index">
+        <div item-left>
+          {{ i + 1 }}.
+        </div>
+        {{ item.name }}
+        <ion-badge light item-right>
+          {{ item.score }}
+        </ion-badge>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>

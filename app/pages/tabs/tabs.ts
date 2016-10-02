@@ -4,7 +4,7 @@ import { StatusBar } from 'ionic-native';
 
 import { EventListPage } from '../event-list/event-list';
 import { MemberListPage } from '../member-list/member-list';
-import { MapPage } from '../map/map';
+import { RankingPage } from '../ranking/ranking';
 import { AboutPage } from '../about/about';
 
 
@@ -14,7 +14,7 @@ import { AboutPage } from '../about/about';
 export class TabsPage {
   tab1Root: any = EventListPage;
   tab2Root: any = MemberListPage;
-  tab3Root: any = MapPage;
+  tab3Root: any = RankingPage;
   tab4Root: any = AboutPage;
 
   constructor(
