@@ -10,23 +10,27 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 .vscode/
+npm-debug.log*
+
 .idea/
 .sass-cache/
+.tmp/
 .versions/
 coverage/
+dist/
 node_modules/
 tmp/
 temp/
-www/build/
-typings/
+hooks/
+platforms/
+plugins/
+plugins/android.json
+plugins/ios.json
+www/
 $RECYCLE.BIN/
-.io-config.json
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
-
-platforms
-plugins
 
 .travis/travis_rsa.pem
