@@ -15,7 +15,7 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
   templateUrl: 'app.component.html'
 })
 export class LustrumApp {
-  @ViewChild(Nav) private nav: Nav;
+  @ViewChild(Nav) nav: Nav;
 
   constructor(
     private events: Events,

@@ -4,6 +4,7 @@ export class Member {
     voornaam: string;
     tussenvoegsel: string;
     achternaam: string;
+    formeel: string;
   };
   geboortedatum: any;
   geboortedatumText: string;
@@ -16,6 +17,13 @@ export class Member {
   };
   email: string;
   mobiel: string;
+  pasfoto: string;
+  lichting: string;
+  verticale: string;
+  studie: {
+    naam: string;
+    sinds: string;
+  };
 }
 
 export interface IMemberShort {

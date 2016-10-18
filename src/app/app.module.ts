@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { Http } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { provideAuth } from 'angular2-jwt';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { Storage } from '@ionic/storage';
 
 import { LustrumApp } from './app.component';
@@ -59,6 +60,12 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+export function getAuthHttp(http) {
+  return new AuthHttp(new AuthConfig({
+      headerName: 'X-Csr-Authorization'
+  }), http);
+}
+
 @NgModule({
   declarations: [
     LustrumApp,
@@ -95,9 +102,11 @@ const cloudSettings: CloudSettings = {
     ApiData,
     AuthService,
     NotificationService,
-    provideAuth({
-      headerName: 'X-Csr-Authorization'
-    }),
+    {
+      provide: AuthHttp,
+      useFactory: getAuthHttp,
+      deps: [Http]
+    },
     Storage
   ]
 })

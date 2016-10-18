@@ -6,6 +6,10 @@ export class Event {
   soort: string;
   datum: string;
   tijd: string;
+  locatie: string;
+  samenvatting: string;
+  omschrijving: string;
+  beschrijving: string;
   gesloten: string;
   prijs: string;
   begin_moment: string;

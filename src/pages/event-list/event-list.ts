@@ -10,7 +10,7 @@ import { Event } from '../../models/event';
 import { EventDetailPage } from '../event-detail/event-detail';
 
 
-interface EventGroup {
+export interface EventGroup {
   date: string;
   events: Event[];
 };
