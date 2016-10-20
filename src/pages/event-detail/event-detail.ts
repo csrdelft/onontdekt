@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavParams, Toast } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 import moment from 'moment';
-import 'moment/src/locale/nl';
 
 import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';

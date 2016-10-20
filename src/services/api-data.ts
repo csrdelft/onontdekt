@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AuthHttp } from 'angular2-jwt';
 import _ from 'lodash';
 import moment from 'moment';
-import 'moment/src/locale/nl';
 import 'rxjs/add/operator/map';
 
 import { AppSettings } from '../constants/app-settings';

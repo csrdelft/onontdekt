@@ -3,7 +3,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Calendar, GoogleAnalytics } from 'ionic-native';
 import moment from 'moment';
-import 'moment/src/locale/nl';
 
 import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
