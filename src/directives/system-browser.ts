@@ -15,6 +15,6 @@ export class SystemBrowserDirective {
   @HostListener('click', ['$event']) onClick(event: MouseEvent) {
     event.preventDefault();
     let url = this.el.getAttribute('href');
-    InAppBrowser.open(url, '_system');
+    new InAppBrowser(url, '_system');
   }
 }
