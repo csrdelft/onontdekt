@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, Slides } from 'ionic-angular';
 import { GoogleAnalytics, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
@@ -38,8 +38,8 @@ export class TutorialPage {
     this.navCtrl.push(LoginPage);
   }
 
-  onSlideChangeStart(slider) {
-    this.showSkip = !slider.isEnd;
+  onSlideChangeStart(slider: Slides) {
+    this.showSkip = !slider.isEnd();
   }
 
   private ionViewDidEnter() {

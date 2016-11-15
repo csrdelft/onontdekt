@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Alert, Modal, NavController } from 'ionic-angular';
+import { Alert, Modal, NavController, InfiniteScroll, Refresher } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 import _ from 'lodash';
 import moment from 'moment';
@@ -26,8 +26,8 @@ export class EventListPage {
   moreAvailable: boolean = true;
   failedToLoad: boolean = false;
 
-  fromMoment: any;
-  toMoment: any;
+  fromMoment: moment.Moment;
+  toMoment: moment.Moment;
 
   constructor(
     private apiData: ApiData,
@@ -42,7 +42,7 @@ export class EventListPage {
     this.toMoment = moment(this.fromMoment).add(DAYS_TO_LOAD - 1, 'days').endOf('day');
   }
 
-  updateSchedule(fromMoment: any, toMoment: any, reset: boolean = false): Promise<boolean> {
+  updateSchedule(fromMoment: moment.Moment, toMoment: moment.Moment, reset: boolean = false): Promise<boolean> {
     return this.apiData.getScheduleList(fromMoment, toMoment)
       .then((events: Event[]) => {
 
@@ -77,7 +77,7 @@ export class EventListPage {
       });
   }
 
-  doInfinite(infiniteScroll) {
+  doInfinite(infiniteScroll: InfiniteScroll) {
     this.fromMoment.add(DAYS_TO_LOAD, 'days');
     this.toMoment.add(DAYS_TO_LOAD, 'days');
 
@@ -91,7 +91,7 @@ export class EventListPage {
     });
   }
 
-  doRefresh(refresher) {
+  doRefresh(refresher: Refresher) {
     this.initializeMoments();
     this.updateSchedule(this.fromMoment, this.toMoment, true).then((hasEvents) => {
       refresher.complete();

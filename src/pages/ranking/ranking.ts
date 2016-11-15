@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
+export interface Ranked {
+  name: string;
+  score: number;
+}
 
 @Component({
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
 
-  public ranking: { name: string, score: number }[] = [{
+  public ranking: Ranked[] = [{
     name: 'Archibald',
     score: 83
   }, {
@@ -49,7 +53,7 @@ export class RankingPage implements OnInit {
     GoogleAnalytics.trackView('Ranking');
   }
 
-  private sort(a, b) {
+  private sort(a: Ranked, b: Ranked) {
     if (a.score < b.score)
       return 1;
     if (a.score > b.score)

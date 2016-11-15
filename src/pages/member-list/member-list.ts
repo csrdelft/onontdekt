@@ -1,5 +1,5 @@
 import { Component, Renderer, ViewChild } from '@angular/core';
-import { Content, NavController, Platform } from 'ionic-angular';
+import { Content, NavController, Platform, Searchbar } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 import _ from 'lodash';
 
@@ -81,7 +81,7 @@ export class MemberListPage {
     this.lastQueryText = queryText;
   }
 
-  startSearch(searchBar) {
+  startSearch(searchBar: Searchbar) {
     setTimeout(() => {
       this.searching = true;
       setTimeout(() => {

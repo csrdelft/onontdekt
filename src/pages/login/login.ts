@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { AlertController, LoadingController, NavController } from 'ionic-angular';
 
 import { AuthService } from '../../services/auth';
@@ -22,7 +23,7 @@ export class LoginPage {
     private loadingCtrl: LoadingController
   ) {}
 
-  onLogin(form) {
+  onLogin(form: FormGroup) {
     this.submitted = true;
 
     if (form.valid) {

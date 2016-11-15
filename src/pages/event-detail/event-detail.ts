@@ -24,8 +24,9 @@ export class EventDetailPage {
     this.event = navParams.data;
   }
 
-  getDateTimes(start: any, end: any): string {
-    let line1, line2: string;
+  getDateTimes(start: moment.Moment, end: moment.Moment): string {
+    let line1: string;
+    let line2: string;
     let multipleDays: boolean = !start.isSame(end, 'day');
     let fullDay = start.format('HHmm') === '0000' && end.format('HHmm') === '2359';
 
