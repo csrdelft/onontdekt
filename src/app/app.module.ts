@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -60,11 +60,17 @@ const cloudSettings: CloudSettings = {
   }
 };
 
-export function getAuthHttp(http) {
+export function authFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
-      headerName: 'X-Csr-Authorization'
-  }), http);
+    headerName: 'X-Csr-Authorization'
+  }), http, options);
 }
+
+export const authProvider = {
+  provide: AuthHttp,
+  deps: [Http, RequestOptions],
+  useFactory: authFactory
+};
 
 @NgModule({
   declarations: [
@@ -102,11 +108,7 @@ export function getAuthHttp(http) {
     ApiData,
     AuthService,
     NotificationService,
-    {
-      provide: AuthHttp,
-      useFactory: getAuthHttp,
-      deps: [Http]
-    },
+    authProvider,
     Storage
   ]
 })
