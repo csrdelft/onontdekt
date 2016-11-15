@@ -1,0 +1,90 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/v2/theming/
+@import "ionic.globals";
+
+
+// Named Color Variables
+// --------------------------------------------------
+// Named colors makes it easy to reuse colors on various components.
+// It's highly recommended to change the default colors
+// to match your app's branding. Ionic uses a Sass map of
+// colors so you can add, rename and remove colors as needed.
+// The "primary" color is the only required color in the map.
+
+$colors: (
+  primary:         #1f5370,//#387ef5
+  secondary:       #32db64,
+  danger:          #f53d3d,
+  light:           #f4f4f4,
+  subdued:         #666,
+  dark:            #000,
+  lustrumgreen:    #98cd96,
+  lustrumblue:     #1f5370, //#1d4d69
+  lustrumdarkblue: #161a28,
+  lustrumred:      #c32f2f,
+  lustrumyellow:   #ffe9a3
+);
+
+
+// Shared Variables
+// --------------------------------------------------
+// To customize the look and feel of this app, you can override
+// the Sass variables found in Ionic's source scss files.
+// To view all the possible Ionic variables, see:
+// http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
+
+$text-color:                 #000;
+$paragraph-color:            $text-color;
+$link-color:                 color($colors, primary);
+$background-color:           #fff;
+$subdued-text-color:         #666;
+
+$ripple-background-color:    #777; //color($colors, lustrumgreen);
+
+
+// App iOS Variables
+// --------------------------------------------------
+// iOS only Sass variables can go here
+
+$tabs-ios-background: #fff;
+$toolbar-ios-inactive-color: #a9a9a9;
+$toolbar-ios-border-color: #c9c9c9;
+
+
+
+// App Material Design Variables
+// --------------------------------------------------
+// Material Design only Sass variables can go here
+
+$toolbar-md-background:                   color($colors, primary);
+$toolbar-md-text-color:                   #fff;
+$toolbar-md-active-color:                 #fff;
+$toolbar-md-inactive-color:               #fff;
+$toolbar-md-button-color:                 #fff;
+
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
+
+@import "ionic.theme.default";
+
+
+// Ionicons
+// --------------------------------------------------
+// The premium icon font for Ionic. For more info, please see:
+// http://ionicframework.com/docs/v2/ionicons/
+
+$ionicons-font-path: "../assets/fonts";
+@import "ionicons";

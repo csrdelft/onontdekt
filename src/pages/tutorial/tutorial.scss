@@ -1,0 +1,57 @@
+
+csr-tutorial-page {
+  .toolbar-background {
+    background: #fff;
+    border-color: transparent;
+  }
+
+  .swiper-pagination {
+    bottom: 15px;
+  }
+
+  .slide-zoom {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 11px 20px;
+  }
+
+  .slide-title {
+    font-family: "BrandonShadow";
+    line-height: 36px;
+    font-size: 36px;
+    color: color($colors, lustrumred);
+    text-transform: lowercase;
+    padding: 0 10px;
+    margin-bottom: 0;
+  }
+
+  .slide-image {
+    width: 100%;
+    max-width: 334px;
+    max-height: 286.5px;
+    margin: 0;
+  }
+
+  b {
+    font-weight: 500;
+  }
+
+  p {
+    padding: 0 20px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #60646B;
+
+    b {
+      color: #000000;
+    }
+  }
+
+  .button {
+    margin-top: 0;
+  }
+
+}

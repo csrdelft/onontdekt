@@ -5,8 +5,8 @@ set -e
 
 # Deploy for hybrid app
 cd /home/travis/build/Manduro/onontdekt
-rm -rf ./www/build/test/*
-rm -f ./www/python_serve.log
+rm -f ./.gitkeep
+rm -f ./www/build/main.js.map
 ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD --note "Travis deploy $TRAVIS_BUILD_NUMBER" --deploy=staging
 
 # Get the deploy key
