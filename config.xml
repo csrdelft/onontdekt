@@ -162,6 +162,7 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <plugin name="cordova-custom-config" spec="~3.0.14" />
     <plugin name="cordova-plugin-calendar" spec="~4.5.4" />
     <plugin name="cordova-plugin-console" spec="~1.0.4" />
     <plugin name="cordova-plugin-contacts" spec="~2.2.0" />

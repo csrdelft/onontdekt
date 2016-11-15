@@ -41,7 +41,6 @@
     "@types/cordova-plugin-contacts": "0.0.3",
     "@types/lodash": "4.14.37",
     "codelyzer": "0.0.25",
-    "cordova-config-utils": "2.3.0",
     "typescript": "2.0.3"
   }
 }
