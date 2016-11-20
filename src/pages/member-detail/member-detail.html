@@ -24,7 +24,7 @@
 
     <a ion-item detail-none [href]="getSafeUrl('mailto', member.email)">
       <ion-icon name="mail" isActive="false" color="primary" item-right></ion-icon>
-      <p color="primary">e-mail</p>
+      <p ion-text color="primary">e-mail</p>
       <h3>{{ member.email }}</h3>
     </a>
 
@@ -35,13 +35,13 @@
       <a button item-right clear [href]="getSafeUrl('tel', member.mobiel)">
         <ion-icon color="primary" name="call" isActive="false"></ion-icon>
       </a>
-      <p color="primary">mobiel</p>
+      <p ion-text color="primary">mobiel</p>
       <h3>{{ member.mobiel }}</h3>
     </a>
 
     <a ion-item detail-none [csrMapsHref]="member.huis.adres + ', ' + member.huis.woonplaats">
       <ion-icon name="map" isActive="false" color="primary" item-right></ion-icon>
-      <p color="primary">{{ member.huis.naam || 'adres' }}</p>
+      <p ion-text color="primary">{{ member.huis.naam || 'adres' }}</p>
       <h3>
         {{ member.huis.adres }}<br>
         {{ member.huis.postcode }} {{ member.huis.woonplaats }}<br>
@@ -50,22 +50,22 @@
     </a>
 
     <a ion-item detail-none (click)="openCalendar()">
-      <p color="primary">verjaardag</p>
+      <p ion-text color="primary">verjaardag</p>
       <h3>{{ member.geboortedatumText }}</h3>
     </a>
 
     <ion-item>
-      <p color="primary">lichting</p>
+      <p ion-text color="primary">lichting</p>
       <h3>{{ member.lichting }}</h3>
     </ion-item>
 
     <ion-item>
-      <p color="primary">verticale</p>
+      <p ion-text color="primary">verticale</p>
       <h3>{{ member.verticale }}</h3>
     </ion-item>
 
     <ion-item>
-      <p color="primary">studie</p>
+      <p ion-text color="primary">studie</p>
       <h3>{{ member.studie.naam }} ({{ member.studie.sinds }})</h3>
     </ion-item>
 

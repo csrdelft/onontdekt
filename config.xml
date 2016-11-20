@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="7" id="nl.csrdelft.lustrum" ios-CFBundleVersion="12" version="0.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="8" id="nl.csrdelft.lustrum" ios-CFBundleVersion="12" version="0.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Onontdekt</name>
     <description>Het XIe Lustrum der Civitas Studiosorum Reformatorum.</description>
     <author email="lustrumcie@csrdelft.nl" href="https://csrdelft.nl/">LustrumCie Post</author>
@@ -166,7 +166,7 @@
     <plugin name="cordova-plugin-calendar" spec="~4.5.4" />
     <plugin name="cordova-plugin-console" spec="~1.0.4" />
     <plugin name="cordova-plugin-contacts" spec="~2.2.0" />
-    <plugin name="cordova-plugin-crosswalk-webview" spec="~2.1.0">
+    <plugin name="cordova-plugin-crosswalk-webview" spec="https://github.com/crosswalk-project/cordova-plugin-crosswalk-webview.git">
         <variable name="XWALK_VERSION" value="21+" />
         <variable name="XWALK_LITEVERSION" value="xwalk_core_library_canary:17+" />
         <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect" />
