@@ -6,7 +6,17 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="!ranking" padding margin text-center>
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-card *ngIf="ranking">
     <ion-card-header>
       Huidige tussenstand
     </ion-card-header>
@@ -16,10 +26,16 @@
           {{ i + 1 }}.
         </div>
         {{ item.name }}
-        <ion-badge color="light" item-right>
-          {{ item.score }}
-        </ion-badge>
+        <div item-right>
+          <ion-badge *ngIf="item.latest" [color]="item.latest > 0 ? 'lustrumgreen' : 'lustrumred'">
+            {{ item.latest > 0 ? '+' : '' }}{{ item.latest }}
+          </ion-badge>
+          <ion-badge color="lustrumblue">
+            {{ item.score }}
+          </ion-badge>
+        </div>
       </ion-item>
     </ion-list>
   </ion-card>
+
 </ion-content>

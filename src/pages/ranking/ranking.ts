@@ -1,56 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Http } from '@angular/http';
+import { NavController, Refresher } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 export interface Ranked {
   name: string;
   score: number;
+  latest: number;
 }
 
 @Component({
+  selector: 'ranking-page',
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
+  public ranking: Ranked[];
 
-  public ranking: Ranked[] = [{
-    name: 'Archibald',
-    score: 83
-  }, {
-    name: 'Faculteit',
-    score: 97
-  }, {
-    name: 'Billy',
-    score: 77
-  }, {
-    name: 'Diagonaal',
-    score: 78
-  }, {
-    name: 'Vrøgd',
-    score: 0
-  }, {
-    name: 'Lekker',
-    score: 74
-  }, {
-    name: 'Securis',
-    score: 74
-  }, {
-    name: 'Primitus',
-    score: 101
-  }, {
-    name: 'X',
-    score: 91
-  }];
+  private refresher: Refresher;
 
   constructor(
+    private http: Http,
     private navCtrl: NavController
   ) {}
 
   ngOnInit() {
-    this.ranking.sort(this.sort);
+    this.load();
   }
 
   ionViewDidEnter() {
     GoogleAnalytics.trackView('Ranking');
+  }
+
+  doRefresh(refresher: Refresher) {
+    this.load();
+    this.refresher = refresher;
+  }
+
+  private load() {
+    this.http.get('https://dl.dropboxusercontent.com/s/lm4fvoih6m8tpx1/ranking.json')
+      .map(res => res.json())
+      .subscribe((data: Ranked[]) => {
+        this.ranking = data.sort(this.sort);
+        if (this.refresher) {
+          this.refresher.complete();
+        }
+      });
   }
 
   private sort(a: Ranked, b: Ranked) {
@@ -60,5 +54,4 @@ export class RankingPage implements OnInit {
       return -1;
     return 0;
   }
-
 }
