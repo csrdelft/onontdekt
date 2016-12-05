@@ -39,7 +39,7 @@ export class TutorialPage {
   }
 
   onSlideChangeStart(slider: Slides) {
-    this.showSkip = !slider.isEnd();
+    this.showSkip = !slider.isEnd;
   }
 
   private ionViewDidEnter() {
