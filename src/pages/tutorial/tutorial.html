@@ -1,14 +1,14 @@
 
-<ion-header no-shadow>
+<ion-header no-border>
   <ion-navbar>
-    <ion-buttons end *ngIf="showSkip">
+    <ion-buttons end *ngIf="!slider.isEnd()">
       <button ion-button (click)="startApp()" color="primary">Overslaan</button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content no-bounce>
-  <ion-slides [options]="{pager: true}" (ionWillChange)="onSlideChangeStart($event)">
+  <ion-slides pager="true" #slider>
     <ion-slide *ngFor="let slide of slides">
       <img [src]="slide.image" class="slide-image">
       <h2 class="slide-title" [innerHTML]="slide.title"></h2>
@@ -17,7 +17,7 @@
     <ion-slide>
       <img src="assets/images/tutorial-4.jpg" class="slide-image">
       <h2 class="slide-title">Bent u er klaar voor?</h2>
-      <button ion-button large clear (click)="startApp()">
+      <button ion-button large icon-right clear (click)="startApp()">
         Inloggen
         <ion-icon name="arrow-forward"></ion-icon>
       </button>

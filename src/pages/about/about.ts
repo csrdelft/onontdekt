@@ -34,7 +34,9 @@ export class AboutPage {
   }
 
   ionViewDidEnter() {
-    GoogleAnalytics.trackView('About');
+    if (GoogleAnalytics['installed']()) {
+      GoogleAnalytics.trackView('About');
+    }
   }
 
 }

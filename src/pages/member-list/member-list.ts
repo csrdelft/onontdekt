@@ -112,7 +112,9 @@ export class MemberListPage {
   }
 
   ionViewDidEnter() {
-    GoogleAnalytics.trackView('Member List');
+    if (GoogleAnalytics['installed']()) {
+      GoogleAnalytics.trackView('Member List');
+    }
   }
 
 }

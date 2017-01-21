@@ -108,7 +108,9 @@ export class EventListPage {
   }
 
   ionViewDidEnter() {
-    GoogleAnalytics.trackView('Event List');
+    if (GoogleAnalytics['installed']()) {
+      GoogleAnalytics.trackView('Event List');
+    }
   }
 
 }

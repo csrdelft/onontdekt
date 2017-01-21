@@ -126,7 +126,7 @@ export class AuthService {
 
   private hasRefreshToken(): Promise<boolean> {
     return this.storage.get('refresh_token').then((value: string) => {
-      return typeof value !== 'undefined';
+      return !!value;
     });
   }
 

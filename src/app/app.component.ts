@@ -1,6 +1,6 @@
 import { Component, Type, ViewChild } from '@angular/core';
 import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
-import { GoogleAnalytics, Keyboard, Splashscreen, StatusBar } from 'ionic-native';
+import { GoogleAnalytics, Keyboard, Splashscreen } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 import moment from 'moment';
 import 'moment/src/locale/nl';
@@ -46,11 +46,11 @@ export class LustrumApp {
     this.authService.tryAuthentication().then((authenticated: boolean) => {
       let pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
-      this.platform.ready().then(() => {
-        setTimeout(() => {
-          Splashscreen.hide();
-        }, 400);
-      });
+      if (this.platform.is('cordova')) {
+        this.platform.ready().then(() => {
+          setTimeout(() => Splashscreen.hide(), 400);
+        });
+      }
     });
   }
 

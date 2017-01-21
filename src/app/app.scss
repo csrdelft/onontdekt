@@ -42,6 +42,10 @@
 .brandon-icon {
   font-family: 'BrandonExtras';
 
+  &:before {
+    font-family: 'BrandonExtras';
+  }
+
   &.key:before {
     content: '\004b';
   }
@@ -57,6 +61,7 @@ ion-icon.ion-md-arrow-forward {
   font-size: 3.4rem;
   margin-top: -10px;
   &:before {
+    font-family: 'BrandonExtras';
     content: '\003e';
   }
 }

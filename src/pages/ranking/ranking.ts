@@ -28,7 +28,9 @@ export class RankingPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    GoogleAnalytics.trackView('Ranking');
+    if (GoogleAnalytics['installed']()) {
+      GoogleAnalytics.trackView('Ranking');
+    }
   }
 
   doRefresh(refresher: Refresher) {

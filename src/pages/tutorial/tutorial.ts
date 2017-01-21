@@ -27,7 +27,6 @@ export class TutorialPage {
       image: 'assets/images/tutorial-3.jpg'
     }
   ];
-  showSkip: boolean = true;
 
   constructor(
     private navCtrl: NavController,
@@ -38,21 +37,21 @@ export class TutorialPage {
     this.navCtrl.push(LoginPage);
   }
 
-  onSlideChangeStart(slider: Slides) {
-    this.showSkip = !slider.isEnd;
-  }
-
   private ionViewDidEnter() {
-    this.platform.ready().then(() => {
-      StatusBar.styleDefault();
-      GoogleAnalytics.trackView('Tutorial');
-    });
+    if (this.platform.is('cordova')) {
+      this.platform.ready().then(() => {
+        StatusBar.styleDefault();
+        GoogleAnalytics.trackView('Tutorial');
+      });
+    }
   }
 
   private ionViewWillLeave() {
-    this.platform.ready().then(() => {
-      StatusBar.styleLightContent();
-    });
+    if (this.platform.is('cordova')) {
+      this.platform.ready().then(() => {
+        StatusBar.styleLightContent();
+      });
+    }
   }
 
 }

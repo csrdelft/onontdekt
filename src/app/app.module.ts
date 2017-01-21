@@ -13,7 +13,6 @@ import { SystemBrowserDirective } from '../directives/system-browser';
 import { AboutPage } from '../pages/about/about';
 import { EventDetailPage } from '../pages/event-detail/event-detail';
 import { EventListPage } from '../pages/event-list/event-list';
-import { GotchaPage } from '../pages/gotcha/gotcha';
 import { LoginPage } from '../pages/login/login';
 import { MemberDetailPage } from '../pages/member-detail/member-detail';
 import { MemberListPage } from '../pages/member-list/member-list';
@@ -79,7 +78,6 @@ export const authProvider = {
     AboutPage,
     EventDetailPage,
     EventListPage,
-    GotchaPage,
     LoginPage,
     MemberDetailPage,
     MemberListPage,
@@ -99,7 +97,6 @@ export const authProvider = {
     AboutPage,
     EventDetailPage,
     EventListPage,
-    GotchaPage,
     LoginPage,
     MemberDetailPage,
     MemberListPage,

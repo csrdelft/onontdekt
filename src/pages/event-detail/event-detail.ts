@@ -72,7 +72,9 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'aanmelden').then((event: Event) => {
       this.apiData.addJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
-      GoogleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
+      if (GoogleAnalytics['installed']()) {
+        GoogleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
+      }
       return 'Aanmelden gelukt!';
     }, error => {
       console.log(error);
@@ -92,7 +94,9 @@ export class EventDetailPage {
     this.apiData.postAction(cat, id, 'afmelden').then((event: Event) => {
       this.apiData.removeJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
-      GoogleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
+      if (GoogleAnalytics['installed']()) {
+        GoogleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
+      }
       return 'Afmelden gelukt!';
     }, error => {
       console.log(error);
@@ -104,6 +108,8 @@ export class EventDetailPage {
   }
 
   ionViewDidEnter() {
-    GoogleAnalytics.trackView('Event Detail');
+    if (GoogleAnalytics['installed']()) {
+      GoogleAnalytics.trackView('Event Detail');
+    }
   }
 }

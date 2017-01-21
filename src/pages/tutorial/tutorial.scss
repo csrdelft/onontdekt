@@ -9,6 +9,10 @@ csr-tutorial-page {
     bottom: 15px;
   }
 
+  .swiper-pagination-bullet-active {
+    background-color: color($colors, primary);
+  }
+
   .slide-zoom {
     height: 100%;
     display: flex;

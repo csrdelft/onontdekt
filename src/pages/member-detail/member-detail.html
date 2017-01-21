@@ -29,10 +29,10 @@
     </a>
 
     <a ion-item detail-none [href]="'tel:' + member.mobiel">
-      <a button item-right clear [href]="getSafeUrl('sms', member.mobiel)" hideWhen="core">
+      <a ion-button icon-only item-right clear [href]="getSafeUrl('sms', member.mobiel)" hideWhen="core">
         <ion-icon color="primary" name="text" isActive="false"></ion-icon>
       </a>
-      <a button item-right clear [href]="getSafeUrl('tel', member.mobiel)">
+      <a ion-button icon-only item-right clear [href]="getSafeUrl('tel', member.mobiel)">
         <ion-icon color="primary" name="call" isActive="false"></ion-icon>
       </a>
       <p ion-text color="primary">mobiel</p>
