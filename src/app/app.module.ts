@@ -4,6 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CloudModule } from '@ionic/cloud-angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { IonicApp, IonicModule } from 'ionic-angular';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/map';
 
 import { LustrumApp } from './app.component';
 import { cloudSettings, ionicConfig } from './app.config';
