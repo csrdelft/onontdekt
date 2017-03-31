@@ -4,7 +4,6 @@ import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Calendar, GoogleAnalytics } from 'ionic-native';
 import moment from 'moment';
 
-import { MapsHrefDirective } from '../../directives/maps-href';
 import { NotificationService } from '../../services/notification';
 import { Member } from '../../models/member';
 

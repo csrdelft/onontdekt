@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { Events, LoadingController, NavController } from 'ionic-angular';
+import { Events, LoadingController } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
-import { SystemBrowserDirective } from '../../directives/system-browser';
 import { AuthService } from '../../services/auth';
-import { TutorialPage } from '../tutorial/tutorial';
 
 
 @Component({
@@ -14,7 +12,6 @@ export class AboutPage {
   constructor(
     private events: Events,
     private authService: AuthService,
-    private navCtrl: NavController,
     private loadingCtrl: LoadingController
   ) {}
 

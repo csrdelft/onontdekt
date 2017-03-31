@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { NavController, Refresher } from 'ionic-angular';
+import { Refresher } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 export interface Ranked {
@@ -19,8 +19,7 @@ export class RankingPage implements OnInit {
   private refresher: Refresher;
 
   constructor(
-    private http: Http,
-    private navCtrl: NavController
+    private http: Http
   ) {}
 
   ngOnInit() {

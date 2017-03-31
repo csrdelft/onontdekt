@@ -1,5 +1,5 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
-import { Alert, Content, InfiniteScroll, Item, Modal, NavController, NavParams, Refresher } from 'ionic-angular';
+import { Content, InfiniteScroll, Item, NavParams } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 import { ApiData } from '../../services/api-data';
@@ -27,7 +27,7 @@ export class ForumTopicPage {
     private apiData: ApiData,
     private navParams: NavParams
   ) {
-    this.topic = navParams.get('topic');
+    this.topic = this.navParams.get('topic');
     this.topic.laatste_post.uid_naam = this.topic.laatste_wijziging_naam;
 
     this.posts = [this.topic.laatste_post];

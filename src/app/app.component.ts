@@ -1,4 +1,4 @@
-import { Component, Type, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
 import { GoogleAnalytics, Keyboard, Splashscreen } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';

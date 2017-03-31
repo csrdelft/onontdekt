@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { App, ToastController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 
 @Injectable()
 export class NotificationService {
   constructor(
-    private app: App,
     private toastCtrl: ToastController
   ) {}
 

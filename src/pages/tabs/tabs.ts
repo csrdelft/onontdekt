@@ -29,7 +29,7 @@ export class TabsPage {
     }
   }
 
-  private ionViewDidEnter() {
+  public ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         StatusBar.styleLightContent();

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Alert, Modal, NavController, InfiniteScroll, Refresher } from 'ionic-angular';
+import { NavController, InfiniteScroll, Refresher } from 'ionic-angular';
 import { GoogleAnalytics } from 'ionic-native';
 
 import { ForumTopicPage } from '../forum-topic/forum-topic';

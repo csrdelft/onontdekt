@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform, Slides } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
 import { GoogleAnalytics, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
@@ -37,7 +37,7 @@ export class TutorialPage {
     this.navCtrl.push(LoginPage);
   }
 
-  private ionViewDidEnter() {
+  public ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         StatusBar.styleDefault();
@@ -46,7 +46,7 @@ export class TutorialPage {
     }
   }
 
-  private ionViewWillLeave() {
+  public ionViewWillLeave() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         StatusBar.styleLightContent();

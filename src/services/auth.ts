@@ -128,10 +128,6 @@ export class AuthService {
     });
   }
 
-  private getToken(): Promise<string> {
-    return this.storage.get('id_token');
-  }
-
   private scheduleRefresh() {
     let source = this.authHttp.tokenStream.flatMap((token: string) => {
       let jwtIat: number = this.jwtHelper.decodeToken(token).iat;
