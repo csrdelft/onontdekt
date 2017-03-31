@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { Refresher } from 'ionic-angular';
+import { IonicPage, Refresher } from 'ionic-angular';
 
 export interface Ranked {
   name: string;
@@ -9,6 +9,7 @@ export interface Ranked {
   latest: number;
 }
 
+@IonicPage()
 @Component({
   selector: 'ranking-page',
   templateUrl: 'ranking.html'

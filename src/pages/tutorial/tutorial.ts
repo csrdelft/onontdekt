@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { StatusBar } from '@ionic-native/status-bar';
-import { NavController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, Platform } from 'ionic-angular';
 
-import { LoginPage } from '../login/login';
-
-
+@IonicPage()
 @Component({
   selector: 'csr-tutorial-page',
   templateUrl: 'tutorial.html'
@@ -37,7 +35,7 @@ export class TutorialPage {
   ) {}
 
   startApp() {
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push('LoginPage');
   }
 
   public ionViewDidEnter() {

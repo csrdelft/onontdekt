@@ -1,13 +1,12 @@
 import { Component, Renderer, ViewChild } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { Content, NavController, Platform, Searchbar } from 'ionic-angular';
+import { Content, IonicPage, NavController, Platform, Searchbar } from 'ionic-angular';
 import _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
-import { ApiData } from '../../services/api-data';
-import { MemberDetailPage } from '../member-detail/member-detail';
+import { ApiData } from '../../providers/api-data';
 
-
+@IonicPage()
 @Component({
   templateUrl: 'member-list.html'
 })
@@ -108,7 +107,7 @@ export class MemberListPage {
 
   goToMemberDetail(member: IMemberShort) {
     this.apiData.getMemberDetail(member.id).then(memberDetail => {
-      this.navCtrl.push(MemberDetailPage, memberDetail);
+      this.navCtrl.push('MemberDetailPage', memberDetail);
     });
   }
 

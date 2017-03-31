@@ -9,7 +9,6 @@ import { Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
 
-
 @Injectable()
 export class AuthService {
   private jwtHelper: JwtHelper = new JwtHelper();

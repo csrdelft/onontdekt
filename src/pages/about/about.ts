@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { Events, LoadingController } from 'ionic-angular';
+import { Events, IonicPage, LoadingController } from 'ionic-angular';
 
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../providers/auth';
 
-
+@IonicPage()
 @Component({
   templateUrl: 'about.html'
 })

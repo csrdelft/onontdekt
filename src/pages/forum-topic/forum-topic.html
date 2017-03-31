@@ -25,7 +25,7 @@
       <p class="post-date">
         {{ post.datum_tijd | amCalendar: { sameDay: 'LT', lastDay: '[Gisteren om] LT', lastWeek: 'dddd [om] LT', sameElse: 'LLL' } }}
       </p>
-      <p class="post-text" [innerHtml]="post.tekst | csrBBCode"></p>
+      <p class="post-text" [innerHtml]="post.tekst | csrBBParse"></p>
     </ion-item>
 
   </ion-list>

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { NavController, InfiniteScroll, Refresher } from 'ionic-angular';
+import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
 
-import { ForumTopicPage } from '../forum-topic/forum-topic';
-import { ApiData } from '../../services/api-data';
+import { ApiData } from '../../providers/api-data';
 import { IForumTopic } from '../../models/forum';
 
+@IonicPage()
 @Component({
   templateUrl: 'forum-recent.html'
 })
@@ -81,7 +81,7 @@ export class ForumRecentPage {
   }
 
   goToTopicDetail(topic: IForumTopic) {
-    this.navCtrl.push(ForumTopicPage, { topic });
+    this.navCtrl.push('ForumTopicPage', { topic });
   }
 
   ionViewDidEnter() {

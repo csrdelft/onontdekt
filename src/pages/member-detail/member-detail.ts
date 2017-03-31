@@ -4,13 +4,13 @@ import { Calendar } from '@ionic-native/calendar';
 import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import moment from 'moment';
 
-import { NotificationService } from '../../services/notification';
+import { NotificationService } from '../../providers/notification';
 import { Member } from '../../models/member';
 
-
+@IonicPage()
 @Component({
   templateUrl: 'member-detail.html'
 })

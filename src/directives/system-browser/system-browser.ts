@@ -2,7 +2,6 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Platform } from 'ionic-angular';
 
-
 @Directive({
   selector: '[csrSystemBrowser]'
 })

@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { NavParams } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 import moment from 'moment';
 
-import { NotificationService } from '../../services/notification';
-import { ApiData } from '../../services/api-data';
+import { NotificationService } from '../../providers/notification';
+import { ApiData } from '../../providers/api-data';
 import { Event } from '../../models/event';
 
-
+@IonicPage()
 @Component({
   templateUrl: 'event-detail.html'
 })

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'csrStripBB'
+  name: 'csrBBStrip'
 })
-export class StripBBPipe implements PipeTransform {
+export class BBStripPipe implements PipeTransform {
   transform(value: string, args: any[]): string {
     value = value.replace(/\[img\](.*)\[\/(img)?\]/g, '📷');
     value = value.replace(/\[foto\](.*)\[\/(foto)?\]/g, '📷');

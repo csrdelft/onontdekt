@@ -6,11 +6,10 @@ import moment from 'moment';
 import 'rxjs/add/operator/map';
 
 import { AppSettings } from '../constants/app-settings';
-import { AuthService } from '../services/auth';
+import { AuthService } from '../providers/auth';
 import { Event } from '../models/event';
 import { Member, IMemberShort } from '../models/member';
 import { IForumTopic, IForumPost } from '../models/forum';
-
 
 @Injectable()
 export class ApiData {

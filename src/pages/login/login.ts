@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AlertController, LoadingController, NavController } from 'ionic-angular';
+import { AlertController, IonicPage, LoadingController, NavController } from 'ionic-angular';
 
-import { AuthService } from '../../services/auth';
+import { AuthService } from '../../providers/auth';
 import { TabsPage } from '../tabs/tabs';
 
-
+@IonicPage()
 @Component({
   templateUrl: 'login.html'
 })

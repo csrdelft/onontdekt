@@ -5,13 +5,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
 import { Deploy } from '@ionic/cloud-angular';
 import moment from 'moment';
-import 'moment/locale/nl';
+// import 'moment/src/locale/nl';
 
-import { AuthService } from '../services/auth';
-import { NotificationService } from '../services/notification';
+import { AuthService } from '../providers/auth';
+import { NotificationService } from '../providers/notification';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
-
 
 @Component({
   templateUrl: 'app.component.html'

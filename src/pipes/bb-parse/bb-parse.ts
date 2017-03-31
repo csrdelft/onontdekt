@@ -1,11 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { BBParseService } from '../services/bb-parse';
+import { BBParseService } from '../../providers/bb-parse';
 
 @Pipe({
-  name: 'csrBBCode'
+  name: 'csrBBParse'
 })
-export class BBCodePipe implements PipeTransform {
+export class BBParsePipe implements PipeTransform {
   constructor(private bbParse: BBParseService) {}
 
   transform(value: string, args: any[]): string {

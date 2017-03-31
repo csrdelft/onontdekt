@@ -1,7 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
-
 @Directive({
   selector: '[csrMapsHref]'
 })

@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { NavController, InfiniteScroll, Refresher } from 'ionic-angular';
+import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
 import _ from 'lodash';
 import moment from 'moment';
-import 'moment/src/locale/nl';
+// import 'moment/src/locale/nl';
 
-import { ApiData } from '../../services/api-data';
+import { ApiData } from '../../providers/api-data';
 import { Event } from '../../models/event';
-import { EventDetailPage } from '../event-detail/event-detail';
-
 
 export interface EventGroup {
   date: string;
@@ -17,6 +15,7 @@ export interface EventGroup {
 
 const DAYS_TO_LOAD: number = 42;
 
+@IonicPage()
 @Component({
   templateUrl: 'event-list.html'
 })
@@ -105,7 +104,7 @@ export class EventListPage {
   }
 
   goToEventDetail(event: Event) {
-    this.navCtrl.push(EventDetailPage, event);
+    this.navCtrl.push('EventDetailPage', event);
   }
 
   ionViewDidEnter() {

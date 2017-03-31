@@ -1,10 +1,11 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { Content, InfiniteScroll, Item, NavParams } from 'ionic-angular';
+import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angular';
 
-import { ApiData } from '../../services/api-data';
+import { ApiData } from '../../providers/api-data';
 import { IForumPost, IForumTopic } from '../../models/forum';
 
+@IonicPage()
 @Component({
   templateUrl: 'forum-topic.html'
 })
