@@ -68,23 +68,26 @@ const ionicConfig = {
 };
 
 const cloudSettings: CloudSettings = {
-  'core': {
-    'app_id': 'b4141034'
+  core: {
+    app_id: 'b4141034'
   },
-  'push': {
-    'sender_id': '335763697269',
-    'pluginConfig': {
-      'android': {
-        'iconColor': '#1f5370',
-        'clearBadge': true
+  push: {
+    sender_id: '335763697269',
+    pluginConfig: {
+      android: {
+        iconColor: '#1f5370',
+        clearBadge: true
       },
-      'ios': {
-        'alert': true,
-        'badge': true,
-        'sound': true,
-        'clearBadge': true
+      ios: {
+        alert: true,
+        badge: true,
+        sound: true,
+        clearBadge: true
       }
     }
+  },
+  insights: {
+    enabled: false
   }
 };
 
