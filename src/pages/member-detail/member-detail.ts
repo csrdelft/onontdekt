@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
 import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import moment from 'moment';
 
@@ -24,6 +25,7 @@ export class MemberDetailPage {
     private calendar: Calendar,
     private contacts: Contacts,
     private googleAnalytics: GoogleAnalytics,
+    private photoViewer: PhotoViewer,
     navParams: NavParams
   ) {
     this.member = navParams.data;
@@ -82,6 +84,16 @@ export class MemberDetailPage {
     }
 
     this.calendar.openCalendar(date.toDate());
+  }
+
+  openImage() {
+    const url = 'https://csrdelft.nl/plaetjes/' + this.member.pasfoto.replace('.vierkant.png', '.jpg');
+
+    if (this.platform.is('cordova')) {
+      this.photoViewer.show(url, this.member.naam.formeel, { share: false });
+    } else {
+      window.open(url, '_blank');
+    }
   }
 
   ionViewDidEnter() {

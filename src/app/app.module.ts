@@ -7,6 +7,7 @@ import { Contacts } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
+import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
@@ -130,6 +131,7 @@ export const authProvider = {
     GoogleAnalytics,
     InAppBrowser,
     Keyboard,
+    PhotoViewer,
     SplashScreen,
     StatusBar
   ]

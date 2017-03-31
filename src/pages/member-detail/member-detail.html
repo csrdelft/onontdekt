@@ -15,7 +15,7 @@
   <ion-list>
 
     <ion-item>
-      <ion-avatar item-left>
+      <ion-avatar item-left tappable (click)="openImage()">
         <img [src]="'https://csrdelft.nl/plaetjes/' + member.pasfoto">
       </ion-avatar>
       <h3><strong>{{ member.naam.formeel }}</strong></h3>
