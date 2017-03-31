@@ -158,7 +158,7 @@ export class BBParseService {
       },
       'email': {
         openTag: (params, content) => {
-          var myEmail;
+          let myEmail: string;
 
           if (!params) {
             myEmail = content.replace(/<.*?>/g, '');
@@ -342,7 +342,7 @@ export class BBParseService {
   }
 
   public process(config: IParseConfig): IParseResult {
-    var ret = {
+    var ret: IParseResult = {
       html: '',
       error: false,
       errorQueue: null
@@ -429,11 +429,7 @@ export class BBParseService {
   private initTags() {
     this.tagList = [];
 
-    var prop,
-      ii,
-      len;
-
-    for (prop in this.tags) {
+    for (let prop in this.tags) {
       if (this.tags.hasOwnProperty(prop)) {
         if (prop === '*') {
           this.tagList.push('\\' + prop);
@@ -449,12 +445,12 @@ export class BBParseService {
         this.tags[prop].restrictParentsTo = this.tags[prop].restrictParentsTo || [];
         this.tags[prop].restrictChildrenTo = this.tags[prop].restrictChildrenTo || [];
 
-        len = this.tags[prop].restrictChildrenTo.length;
-        for (ii = 0; ii < len; ii++) {
+        const len = this.tags[prop].restrictChildrenTo.length;
+        for (let ii = 0; ii < len; ii++) {
           this.tags[prop].validChildLookup[this.tags[prop].restrictChildrenTo[ii]] = true;
         }
-        len = this.tags[prop].restrictParentsTo.length;
-        for (ii = 0; ii < len; ii++) {
+        const len2 = this.tags[prop].restrictParentsTo.length;
+        for (let ii = 0; ii < len2; ii++) {
           this.tags[prop].validParentLookup[this.tags[prop].restrictParentsTo[ii]] = true;
         }
       }
@@ -467,7 +463,7 @@ export class BBParseService {
     this.pbbRegExp2 = new RegExp('\\[(' + this.tagsNoParseList.join('|') + ')([ =][^\\]]*?)?\\]([\\s\\S]*?)\\[/\\1\\]', 'gi');
 
     // create the regex for escaping ['s that aren't apart of tags
-    var closeTagList = [];
+    var closeTagList: string[] = [];
     for (var j = 0; j < this.tagList.length; j++) {
       if (this.tagList[j] !== '\\*') { // the * tag doesn't have an offical closing tag
         closeTagList.push('/' + this.tagList[j]);
@@ -478,7 +474,7 @@ export class BBParseService {
     this.closeTags = new RegExp('(\\[)(' + closeTagList.join('|') + ')(\\])', 'gi');
   }
 
-  private checkParentChildRestrictions(parentTag: string, bbcode: string, bbcodeLevel: number, tagName: string, tagParams, tagContents: string, errQueue: string[]): string[] {
+  private checkParentChildRestrictions(parentTag: string, bbcode: string, bbcodeLevel: number, tagName: string, tagParams: string, tagContents: string, errQueue: string[]): string[] {
     errQueue = errQueue || [];
     bbcodeLevel++;
 
@@ -486,10 +482,7 @@ export class BBParseService {
     var reTagNames = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'gi'),
       reTagNamesParts = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'i'),
       matchingTags = tagContents.match(reTagNames) || [],
-      cInfo,
-      errStr,
-      ii,
-      childTag,
+      errStr: string,
       pInfo = this.tags[parentTag];
 
     reTagNames.lastIndex = 0;
@@ -498,9 +491,9 @@ export class BBParseService {
       tagContents = '';
     }
 
-    for (ii = 0; ii < matchingTags.length; ii++) {
+    for (let ii = 0; ii < matchingTags.length; ii++) {
       reTagNamesParts.lastIndex = 0;
-      childTag = (matchingTags[ii].match(reTagNamesParts))[2].toLowerCase();
+      let childTag = (matchingTags[ii].match(reTagNamesParts))[2].toLowerCase();
 
       if (pInfo && pInfo.restrictChildrenTo && pInfo.restrictChildrenTo.length > 0) {
         if (!pInfo.validChildLookup[childTag]) {
@@ -508,7 +501,7 @@ export class BBParseService {
           errQueue.push(errStr);
         }
       }
-      cInfo = this.tags[childTag] || {};
+      let cInfo = this.tags[childTag];
       if (cInfo.restrictParentsTo.length > 0) {
         if (!cInfo.validParentLookup[parentTag]) {
           errStr = 'The tag "' + parentTag + '" is not allowed as a parent of the tag "' + childTag + '"';
@@ -536,7 +529,7 @@ export class BBParseService {
       if (bbCodeLevel === null) {
         return '<bbcl=0 ' + subMatchStr + '>';
       } else {
-        return '<' + subMatchStr.replace(/^(bbcl=)([0-9]+)/, (matchStr, m1, m2) => {
+        return '<' + subMatchStr.replace(/^(bbcl=)([0-9]+)/, (matchStr: string, m1: string, m2: string) => {
           return m1 + (parseInt(m2, 10) + 1);
         }) + '>';
       }
@@ -552,10 +545,10 @@ export class BBParseService {
   }
 
   private parse(config: IParseConfig): string {
-    const replaceFunct = (matchStr, bbcodeLevel, tagName: string, tagParams, tagContents) => {
+    const replaceFunct = (matchStr: string, bbcodeLevel: string, tagName: string, tagParams: string, tagContents: string) => {
       tagName = tagName.toLowerCase();
 
-      var processedContent = this.tags[tagName].noParse ? this.unprocess(tagContents) : tagContents.replace(this.bbRegExp, replaceFunct),
+      var processedContent: string = this.tags[tagName].noParse ? this.unprocess(tagContents) : tagContents.replace(this.bbRegExp, replaceFunct),
         openTag = this.tags[tagName].openTag(tagParams, processedContent),
         closeTag = this.tags[tagName].closeTag(tagParams, processedContent);
 

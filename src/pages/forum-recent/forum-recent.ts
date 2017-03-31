@@ -84,7 +84,7 @@ export class ForumRecentPage {
   }
 
   ionViewDidEnter() {
-    if (GoogleAnalytics['installed']()) {
+    if ((GoogleAnalytics as any)['installed']()) {
       GoogleAnalytics.trackView('Forum Recent');
     }
   }

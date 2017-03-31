@@ -68,7 +68,7 @@ export class MemberDetailPage {
     contact.save(
       () => {
         this.notifier.notify('Succesvol opgeslagen in contacten.');
-        if (GoogleAnalytics['installed']()) {
+        if ((GoogleAnalytics as any)['installed']()) {
           GoogleAnalytics.trackEvent('Members', 'Save', 'New');
         }
       },
@@ -94,7 +94,7 @@ export class MemberDetailPage {
   }
 
   ionViewDidEnter() {
-    if (GoogleAnalytics['installed']()) {
+    if ((GoogleAnalytics as any)['installed']()) {
       GoogleAnalytics.trackView('Member Detail');
     }
   }

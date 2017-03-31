@@ -87,7 +87,7 @@ export class ForumTopicPage {
   }
 
   ionViewDidEnter() {
-    if (GoogleAnalytics['installed']()) {
+    if ((GoogleAnalytics as any)['installed']()) {
       GoogleAnalytics.trackView('Forum Topic');
     }
   }
