@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { AuthModule, AuthConfig } from 'angular2-jwt';
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { MomentModule } from 'angular2-moment';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -79,6 +80,18 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+export function authFactory(http: Http, options: RequestOptions) {
+  return new AuthHttp(new AuthConfig({
+    headerName: 'X-Csr-Authorization'
+  }), http, options);
+}
+
+export const authProvider = {
+  provide: AuthHttp,
+  deps: [Http, RequestOptions],
+  useFactory: authFactory
+};
+
 @NgModule({
   declarations: [
     LustrumApp,
@@ -89,9 +102,6 @@ const cloudSettings: CloudSettings = {
     StripBBPipe
   ],
   imports: [
-    AuthModule.forRoot(new AuthConfig({
-      headerName: 'X-Csr-Authorization'
-    })),
     CloudModule.forRoot(cloudSettings),
     IonicModule.forRoot(LustrumApp, ionicConfig),
     IonicStorageModule.forRoot(),
@@ -106,7 +116,8 @@ const cloudSettings: CloudSettings = {
     ApiData,
     AuthService,
     BBParseService,
-    NotificationService
+    NotificationService,
+    authProvider
   ]
 })
 export class AppModule {}
