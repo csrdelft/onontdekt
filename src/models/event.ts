@@ -12,11 +12,11 @@ export class Event {
   beschrijving: string;
   gesloten: string;
   prijs: string;
-  begin_moment: string;
-  eind_moment: string;
-  aanmelden_vanaf: string;
-  aanmelden_tot: string;
-  afmelden_tot: string;
+  begin_moment: Date;
+  eind_moment: Date;
+  aanmelden_vanaf: Date;
+  aanmelden_tot: Date;
+  afmelden_tot: Date;
   _meta: {
     start: any;
     end: any;

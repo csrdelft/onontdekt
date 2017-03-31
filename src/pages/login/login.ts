@@ -41,7 +41,6 @@ export class LoginPage {
           });
         })
         .catch(error => {
-          console.log(error);
           loading.dismiss();
           let alert = this.alertCtrl.create({
             title: 'Inloggen mislukt',

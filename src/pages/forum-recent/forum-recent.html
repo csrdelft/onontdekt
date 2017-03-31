@@ -1,0 +1,52 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Forum recent</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="topics.length === 0 && failedToLoad === false" padding text-center>
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list class="topic-list">
+
+    <button ion-item *ngFor="let topic of topics" (click)="goToTopicDetail(topic)">
+      <h2>
+        <ion-icon name="star" *ngIf="topic.belangrijk"></ion-icon>
+        <ion-icon name="lock" *ngIf="topic.gesloten"></ion-icon>
+        {{ topic.titel }}
+      </h2>
+      <h3>{{ topic.laatste_wijziging_naam }}:</h3>
+      <p>{{ topic.laatste_post.tekst | csrStripBB }}</p>
+      <div item-right>
+        <p>{{ topic.laatst_gewijzigd | amCalendar: { sameDay: 'LT', lastDay: '[Gisteren]', lastWeek: 'dddd', sameElse: 'DD-MM-YY' } }}</p>
+        <ion-badge *ngIf="topic.ongelezen > 0">{{ topic.ongelezen }}</ion-badge>
+      </div>
+    </button>
+
+  </ion-list>
+
+  <div padding text-center *ngIf="failedToLoad">
+    <p>Het laden van de recente berichten is mislukt.</p>
+    <button ion-button (click)="doRetryLoad()">
+      Opnieuw proberen
+    </button>
+  </div>
+
+  <div padding text-center *ngIf="!moreAvailable">
+    <p>Geen berichten meer.</p>
+  </div>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>

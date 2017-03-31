@@ -77,7 +77,6 @@ export class EventDetailPage {
       }
       return 'Aanmelden gelukt!';
     }, error => {
-      console.log(error);
       return 'Aanmelden mislukt: ' + error;
     }).then(message => {
       this.notifier.notify(message);
@@ -99,7 +98,6 @@ export class EventDetailPage {
       }
       return 'Afmelden gelukt!';
     }, error => {
-      console.log(error);
       return 'Afmelden mislukt: ' + error;
     }).then(message => {
       this.notifier.notify(message);

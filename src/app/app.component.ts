@@ -3,7 +3,7 @@ import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
 import { GoogleAnalytics, Keyboard, Splashscreen } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 import moment from 'moment';
-import 'moment/src/locale/nl';
+import 'moment/locale/nl';
 
 import { AuthService } from '../services/auth';
 import { NotificationService } from '../services/notification';

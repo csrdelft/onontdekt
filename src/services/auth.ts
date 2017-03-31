@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { GoogleAnalytics } from 'ionic-native';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
@@ -28,8 +28,6 @@ export class AuthService {
         this.userId = userId;
         this.registerLogin('Automatic');
       }
-    }).catch(error => {
-      console.log(error);
     });
   }
 
@@ -189,8 +187,7 @@ export class AuthService {
           this.storage.set('id_token', data.token);
           localStorage.setItem('id_token', data.token);
           resolve();
-        }, error => {
-          console.log(error);
+        }, (error: Response) => {
           if (error.status === 401) {
             this.storage.remove('refresh_token');
             reject(true);
@@ -199,7 +196,6 @@ export class AuthService {
           }
         });
       }).catch(error => {
-        console.log(error);
         reject();
       });
     });

@@ -1,0 +1,40 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>{{ topic.titel }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content scrollDownOnLoad="true">
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="moreAvailable" position="top">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <div *ngIf="posts.length < 2 && failedToLoad === false && moreAvailable" padding text-center style="padding-top: 200vh;">
+    <ion-spinner></ion-spinner>
+  </div>
+
+  <ion-list class="post-list">
+
+    <ion-item *ngFor="let post of posts" text-wrap>
+      <div item-left>
+        <img style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;" [attr.src]="'https://csrdelft.nl/plaetjes/pasfoto/' + post.uid + '.vierkant.png'">
+      </div>
+      <h3 class="post-author">{{ post.uid_naam }}</h3>
+      <p class="post-date">
+        {{ post.datum_tijd | amCalendar: { sameDay: 'LT', lastDay: '[Gisteren om] LT', lastWeek: 'dddd [om] LT', sameElse: 'LLL' } }}
+      </p>
+      <p class="post-text" [innerHtml]="post.tekst | csrBBCode"></p>
+    </ion-item>
+
+  </ion-list>
+
+  <div padding text-center *ngIf="failedToLoad">
+    <p>Het laden van het draadje is mislukt.</p>
+    <button ion-button (click)="doRetryLoad()">
+      Opnieuw proberen
+    </button>
+  </div>
+
+</ion-content>

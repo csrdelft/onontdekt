@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 
 import { EventListPage } from '../event-list/event-list';
+import { ForumRecentPage } from '../forum-recent/forum-recent';
 import { MemberListPage } from '../member-list/member-list';
 import { RankingPage } from '../ranking/ranking';
 import { AboutPage } from '../about/about';
@@ -12,10 +13,11 @@ import { AboutPage } from '../about/about';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  tab1Root: any = EventListPage;
-  tab2Root: any = MemberListPage;
-  tab3Root: any = RankingPage;
-  tab4Root: any = AboutPage;
+  eventListTab: any = EventListPage;
+  forumTab: any = ForumRecentPage;
+  memberListTab: any = MemberListPage;
+  rankingTab: any = RankingPage;
+  aboutTab: any = AboutPage;
 
   color: string;
 

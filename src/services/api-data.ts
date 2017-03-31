@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import _ from 'lodash';
 import moment from 'moment';
@@ -8,6 +9,7 @@ import { AppSettings } from '../constants/app-settings';
 import { AuthService } from '../services/auth';
 import { Event } from '../models/event';
 import { Member, IMemberShort } from '../models/member';
+import { IForumTopic, IForumPost } from '../models/forum';
 
 
 @Injectable()
@@ -115,6 +117,14 @@ export class ApiData {
     }
   }
 
+  public getForumRecent(offset: number, limit: number): Promise<IForumTopic[]> {
+    return this.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
+  }
+
+  public getForumTopic(id: number, offset: number, limit: number): Promise<IForumPost[]> {
+    return this.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
+  }
+
   public getMemberList(): Promise<IMemberShort[]> {
     if (this._memberList.length > 0) {
       return Promise.resolve(this._memberList);
@@ -160,19 +170,38 @@ export class ApiData {
       this.authHttp.request(AppSettings.API_ENDPOINT + url, {
         method: method,
       })
-      .map(res => res.json())
+      .map(res => this.deserialize(res.text()))
       .subscribe(
         data => resolve(data.data),
-        error => {
+        (error: Response) => {
           if (error.status === 401) {
             this.authService.logout(true);
           } else {
-            console.log(error);
-            reject();
+            try {
+              const data = error.json();
+              reject(data && data.error && data.error.message);
+            } catch (e) {
+              reject();
+            }
           }
         }
       );
     });
   }
 
+  private deserialize(data: string): any {
+    try {
+      return JSON.parse(data, this.reviveDateTime);
+    } catch (error) {
+      return {};
+    }
+  }
+
+  private reviveDateTime(key: any, value: any): any {
+    if (typeof value === 'string' && /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)) {
+      return new Date(value);
+    }
+
+    return value;
+  }
 }
