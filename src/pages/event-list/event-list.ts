@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
-import _ from 'lodash';
 import moment from 'moment';
 // import 'moment/src/locale/nl';
 
@@ -54,14 +53,18 @@ export class EventListPage {
           event = this.apiData.addEventMeta(event);
         });
 
-        let grouped = _.groupBy(events, event => {
-          return event._meta.start.format('dddd D MMMM');
-        });
+        let grouped: { [key: string]: Event[] } = events.reduce(
+          (result: { [key: string]: Event[] }, event) => {
+            const key = event._meta.start.format('dddd D MMMM');
+            (result[key] = result[key] || []).push(event);
+            return result;
+          },
+        {});
 
-        let mapped = _.map(grouped, (value, key) => {
+        let mapped = Object.keys(grouped).map(key => {
           return {
-            'date': key,
-            'events': value
+            date: key,
+            events: grouped[key]
           };
         });
 

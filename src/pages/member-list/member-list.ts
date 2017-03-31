@@ -1,7 +1,6 @@
 import { Component, Renderer, ViewChild } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Content, IonicPage, NavController, Platform, Searchbar } from 'ionic-angular';
-import _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
 import { ApiData } from '../../providers/api-data';
@@ -28,14 +27,23 @@ export class MemberListPage {
     private renderer: Renderer
   ) {
     apiData.getMemberList().then((members: IMemberShort[]) => {
-      let grouped = _.groupBy(members, c => c.achternaam.replace(/[a-z ']/g, '')[0]);
-      let mapped = _.map(grouped, (value, key) => {
+
+      let grouped: { [key: string]: IMemberShort[] } = members.reduce(
+        (result: { [key: string]: IMemberShort[] }, member) => {
+          const key = member.achternaam.replace(/[a-z ']/g, '')[0];
+          (result[key] = result[key] || []).push(member);
+          return result;
+        },
+      {});
+
+      let mapped = Object.keys(grouped).map(key => {
         return {
-          'char': key,
-          'members': value,
-          'hide': false
+          char: key,
+          members: grouped[key],
+          hide: false
         };
       });
+
       this.groups = mapped;
 
       // Hide searchbar by default on iOS

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import _ from 'lodash';
 import moment from 'moment';
 
 import { AppSettings } from '../constants/app-settings';
@@ -26,13 +25,6 @@ export class ApiData {
   ) {}
 
   public getScheduleList(fromMoment: any, toMoment: any): Promise<Event[]> {
-    if (this._scheduleList.length > 0) {
-      let found = _.find(this._scheduleList, { from: fromMoment, to: toMoment });
-      if (found) {
-        return Promise.resolve(found.events);
-      }
-    }
-
     return new Promise((resolve, reject) => {
       let fromISO = fromMoment.toISOString();
       let toISO = toMoment.toISOString();
@@ -77,10 +69,10 @@ export class ApiData {
     if (event.maaltijd_id) {
       meta.category = 'maaltijd';
       event.prijs = event.prijs.slice(0, -2) + ',' + event.prijs.substr(-2);
-      meta.present = _.indexOf(this._joinedEvents.maaltijden, Number(event.maaltijd_id)) !== -1;
+      meta.present = this._joinedEvents.maaltijden.indexOf(Number(event.maaltijd_id)) !== -1;
     } else if (event.id) {
       meta.category = 'activiteit';
-      meta.present = _.indexOf(this._joinedEvents.activiteiten, Number(event.id)) !== -1;
+      meta.present = this._joinedEvents.activiteiten.indexOf(Number(event.id)) !== -1;
     } else {
       meta.category = 'agenda';
     }
@@ -107,10 +99,10 @@ export class ApiData {
 
   public removeJoined(cat: string, id: number) {
     if (cat === 'maaltijden') {
-      let index = _.indexOf(this._joinedEvents.maaltijden, id);
+      let index = this._joinedEvents.maaltijden.indexOf(id);
       this._joinedEvents.maaltijden.splice(index, 1);
     } else {
-      let index = _.indexOf(this._joinedEvents.activiteiten, id);
+      let index = this._joinedEvents.activiteiten.indexOf(id);
       this._joinedEvents.activiteiten.splice(index, 1);
     }
   }
