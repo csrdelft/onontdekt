@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { GoogleAnalytics } from 'ionic-native';
 import { Observable } from 'rxjs/Observable';
 import { Push } from '@ionic/cloud-angular';
 
@@ -19,6 +19,7 @@ export class AuthService {
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
+    private googleAnalytics: GoogleAnalytics,
     private platform: Platform,
     private push: Push,
     private storage: Storage
@@ -104,7 +105,7 @@ export class AuthService {
         this.push.saveToken(token);
       });
       this.platform.ready().then(() => {
-        GoogleAnalytics.trackEvent('Authorization', 'Login', type);
+        this.googleAnalytics.trackEvent('Authorization', 'Login', type);
       });
     }
   }
@@ -113,7 +114,7 @@ export class AuthService {
     if (this.platform.is('cordova')) {
       this.push.unregister();
       this.platform.ready().then(() => {
-        GoogleAnalytics.trackEvent('Authorization', 'Logout', type);
+        this.googleAnalytics.trackEvent('Authorization', 'Logout', type);
       });
     }
   }

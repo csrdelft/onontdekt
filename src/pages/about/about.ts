@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Events, LoadingController } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 
 import { AuthService } from '../../services/auth';
 
@@ -12,7 +12,8 @@ export class AboutPage {
   constructor(
     private events: Events,
     private authService: AuthService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private googleAnalytics: GoogleAnalytics
   ) {}
 
   public logout() {
@@ -32,7 +33,7 @@ export class AboutPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('About');
+      this.googleAnalytics.trackView('About');
     }
   }
 

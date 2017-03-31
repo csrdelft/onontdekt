@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavParams } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 import moment from 'moment';
 
 import { NotificationService } from '../../services/notification';
@@ -18,6 +18,7 @@ export class EventDetailPage {
   constructor(
     private apiData: ApiData,
     private notifier: NotificationService,
+    private googleAnalytics: GoogleAnalytics,
     navParams: NavParams
   ) {
     this.event = navParams.data;
@@ -72,7 +73,7 @@ export class EventDetailPage {
       this.apiData.addJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
       if ((GoogleAnalytics as any)['installed']()) {
-        GoogleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
+        this.googleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
       }
       return 'Aanmelden gelukt!';
     }, error => {
@@ -93,7 +94,7 @@ export class EventDetailPage {
       this.apiData.removeJoined(cat, Number(id));
       this.event = this.apiData.addEventMeta(event);
       if ((GoogleAnalytics as any)['installed']()) {
-        GoogleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
+        this.googleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
       }
       return 'Afmelden gelukt!';
     }, error => {
@@ -106,7 +107,7 @@ export class EventDetailPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Event Detail');
+      this.googleAnalytics.trackView('Event Detail');
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Renderer, ViewChild } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Content, NavController, Platform, Searchbar } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 import _ from 'lodash';
 
 import { IMemberGroup, IMemberShort } from '../../models/member';
@@ -23,6 +23,7 @@ export class MemberListPage {
 
   constructor(
     private apiData: ApiData,
+    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
     private platform: Platform,
     private renderer: Renderer
@@ -113,7 +114,7 @@ export class MemberListPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Member List');
+      this.googleAnalytics.trackView('Member List');
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { StatusBar } from '@ionic-native/status-bar';
 import { NavController, Platform } from 'ionic-angular';
-import { GoogleAnalytics, StatusBar } from 'ionic-native';
 
 import { LoginPage } from '../login/login';
 
@@ -29,8 +30,10 @@ export class TutorialPage {
   ];
 
   constructor(
+    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
-    private platform: Platform
+    private platform: Platform,
+    private statusBar: StatusBar
   ) {}
 
   startApp() {
@@ -40,8 +43,8 @@ export class TutorialPage {
   public ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
-        StatusBar.styleDefault();
-        GoogleAnalytics.trackView('Tutorial');
+        this.statusBar.styleDefault();
+        this.googleAnalytics.trackView('Tutorial');
       });
     }
   }
@@ -49,7 +52,7 @@ export class TutorialPage {
   public ionViewWillLeave() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
-        StatusBar.styleLightContent();
+        this.statusBar.styleLightContent();
       });
     }
   }

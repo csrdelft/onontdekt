@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { StatusBar } from '@ionic-native/status-bar';
 import { Platform } from 'ionic-angular';
-import { StatusBar } from 'ionic-native';
 
 import { EventListPage } from '../event-list/event-list';
 import { ForumRecentPage } from '../forum-recent/forum-recent';
@@ -22,7 +22,8 @@ export class TabsPage {
   color: string;
 
   constructor(
-    private platform: Platform
+    private platform: Platform,
+    private statusBar: StatusBar
   ) {
     if (!this.platform.is('ios')) {
       this.color = 'primary';
@@ -32,7 +33,7 @@ export class TabsPage {
   public ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
-        StatusBar.styleLightContent();
+        this.statusBar.styleLightContent();
       });
     }
   }

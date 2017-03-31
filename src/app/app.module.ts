@@ -2,6 +2,13 @@ import { NgModule } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+import { Calendar } from '@ionic-native/calendar';
+import { Contacts } from '@ionic-native/contacts';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Keyboard } from '@ionic-native/keyboard';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { MomentModule } from 'angular2-moment';
 import { IonicStorageModule } from '@ionic/storage';
@@ -117,7 +124,14 @@ export const authProvider = {
     AuthService,
     BBParseService,
     NotificationService,
-    authProvider
+    authProvider,
+    Calendar,
+    Contacts,
+    GoogleAnalytics,
+    InAppBrowser,
+    Keyboard,
+    SplashScreen,
+    StatusBar
   ]
 })
 export class AppModule {}

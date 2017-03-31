@@ -1,6 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Platform } from 'ionic-angular';
-import { InAppBrowser } from 'ionic-native';
 
 
 @Directive({
@@ -10,6 +10,7 @@ export class SystemBrowserDirective {
 
   constructor(
     private el: ElementRef,
+    private inAppBrowser: InAppBrowser,
     private platform: Platform
   ) {}
 
@@ -17,7 +18,7 @@ export class SystemBrowserDirective {
     if (this.platform.is('cordova')) {
       event.preventDefault();
       let url = this.el.nativeElement.getAttribute('href');
-      new InAppBrowser(url, '_system');
+      this.inAppBrowser.create(url, '_system');
     }
   }
 }

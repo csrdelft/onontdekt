@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { Keyboard } from '@ionic-native/keyboard';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
-import { GoogleAnalytics, Keyboard, Splashscreen } from 'ionic-native';
 import { Deploy } from '@ionic/cloud-angular';
 import moment from 'moment';
 import 'moment/locale/nl';
@@ -23,7 +25,10 @@ export class LustrumApp {
     private authService: AuthService,
     private notifier: NotificationService,
     private deploy: Deploy,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private googleAnalytics: GoogleAnalytics,
+    private keyboard: Keyboard,
+    private splashScreen: SplashScreen
   ) {
     this.initializeRootPage();
     this.listenToLogoutEvent();
@@ -36,9 +41,9 @@ export class LustrumApp {
   private initializeCordova() {
     this.platform.ready().then(() => {
       this.runDeploy();
-      Keyboard.disableScroll(true);
-      GoogleAnalytics.startTrackerWithId('UA-79997582-1');
-      GoogleAnalytics.enableUncaughtExceptionReporting(true);
+      this.keyboard.disableScroll(true);
+      this.googleAnalytics.startTrackerWithId('UA-79997582-1');
+      this.googleAnalytics.enableUncaughtExceptionReporting(true);
     });
   }
 
@@ -48,7 +53,7 @@ export class LustrumApp {
       this.nav.setRoot(pageToLoad);
       if (this.platform.is('cordova')) {
         this.platform.ready().then(() => {
-          setTimeout(() => Splashscreen.hide(), 400);
+          setTimeout(() => this.splashScreen.hide(), 400);
         });
       }
     });
@@ -61,10 +66,10 @@ export class LustrumApp {
           content: 'Update installeren...'
         });
         loading.present();
-        Splashscreen.hide();
+        this.splashScreen.hide();
         this.deploy.download().then(() => {
           this.deploy.extract().then(() => {
-            Splashscreen.show();
+            this.splashScreen.show();
             this.deploy.load();
           }, (error: string) => {
             loading.dismiss();
@@ -77,12 +82,12 @@ export class LustrumApp {
           this.notifier.notify(message);
         });
       } else {
-        Splashscreen.hide();
+        this.splashScreen.hide();
       }
     }, (error: string) => {
       let message = 'Update mislukt: ' + error;
       this.notifier.notify(message);
-      Splashscreen.hide();
+      this.splashScreen.hide();
     });
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, Refresher } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 import _ from 'lodash';
 import moment from 'moment';
 import 'moment/src/locale/nl';
@@ -31,6 +31,7 @@ export class EventListPage {
 
   constructor(
     private apiData: ApiData,
+    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController
   ) {
     this.initializeMoments();
@@ -109,7 +110,7 @@ export class EventListPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Event List');
+      this.googleAnalytics.trackView('Event List');
     }
   }
 

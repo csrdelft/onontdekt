@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Calendar } from '@ionic-native/calendar';
+import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-native/contacts';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
-import { Calendar, GoogleAnalytics } from 'ionic-native';
 import moment from 'moment';
 
 import { NotificationService } from '../../services/notification';
@@ -19,6 +21,9 @@ export class MemberDetailPage {
     private notifier: NotificationService,
     private platform: Platform,
     private actionSheetCtrl: ActionSheetController,
+    private calendar: Calendar,
+    private contacts: Contacts,
+    private googleAnalytics: GoogleAnalytics,
     navParams: NavParams
   ) {
     this.member = navParams.data;
@@ -51,36 +56,22 @@ export class MemberDetailPage {
   }
 
   saveNew() {
-    let contact = navigator.contacts.create();
-    // let contact = new Contact();
-
-    let name = new ContactName(null, this.member.naam.achternaam, this.member.naam.voornaam, this.member.naam.tussenvoegsel);
-    let phone = new ContactField('mobiel', this.member.mobiel, false);
-    let email = new ContactField('thuis', this.member.email, false);
-    let address = new ContactAddress(false, this.member.huis.naam || 'adres', null, this.member.huis.adres, this.member.huis.woonplaats, null, this.member.huis.postcode, this.member.huis.land);
-
-    contact.name = name;
-    contact.phoneNumbers = [phone];
-    contact.emails = [email];
-    contact.addresses = [address];
+    let contact = this.contacts.create();
+    contact.name = new ContactName(null, this.member.naam.achternaam, this.member.naam.voornaam, this.member.naam.tussenvoegsel);
+    contact.phoneNumbers = [new ContactField('mobiel', this.member.mobiel, false)];
+    contact.emails = [new ContactField('thuis', this.member.email, false)];
+    contact.addresses = [new ContactAddress(false, this.member.huis.naam || 'adres', null, this.member.huis.adres, this.member.huis.woonplaats, null, this.member.huis.postcode, this.member.huis.land)];
     contact.birthday = this.member.geboortedatum;
 
-    contact.save(
-      () => {
+    contact.save()
+      .then(() => {
         this.notifier.notify('Succesvol opgeslagen in contacten.');
         if ((GoogleAnalytics as any)['installed']()) {
-          GoogleAnalytics.trackEvent('Members', 'Save', 'New');
+          this.googleAnalytics.trackEvent('Members', 'Save', 'New');
         }
-      },
-      (error: any) => this.notifier.notify('Opslaan in contacten mislukt.')
-    );
-    // contact.save().then(
-    //   () => {
-    //     this.notifier.notify('Succesvol opgeslagen in contacten.');
-    //     GoogleAnalytics.trackEvent('Members', 'Save', 'New');
-    //   },
-    //   (error: any) => this.notifier.notify('Opslaan in contacten mislukt.')
-    // );
+      }, () => {
+        this.notifier.notify('Opslaan in contacten mislukt.');
+      });
   }
 
   openCalendar() {
@@ -90,12 +81,12 @@ export class MemberDetailPage {
       date.year(currentYear + 1);
     }
 
-    Calendar.openCalendar(date.toDate());
+    this.calendar.openCalendar(date.toDate());
   }
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Member Detail');
+      this.googleAnalytics.trackView('Member Detail');
     }
   }
 }

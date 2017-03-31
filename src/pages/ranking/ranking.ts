@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Refresher } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 
 export interface Ranked {
   name: string;
@@ -19,6 +19,7 @@ export class RankingPage implements OnInit {
   private refresher: Refresher;
 
   constructor(
+    private googleAnalytics: GoogleAnalytics,
     private http: Http
   ) {}
 
@@ -28,7 +29,7 @@ export class RankingPage implements OnInit {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Ranking');
+      this.googleAnalytics.trackView('Ranking');
     }
   }
 

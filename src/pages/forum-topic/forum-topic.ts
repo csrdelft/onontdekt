@@ -1,6 +1,6 @@
 import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Content, InfiniteScroll, Item, NavParams } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 
 import { ApiData } from '../../services/api-data';
 import { IForumPost, IForumTopic } from '../../models/forum';
@@ -25,6 +25,7 @@ export class ForumTopicPage {
 
   constructor(
     private apiData: ApiData,
+    private googleAnalytics: GoogleAnalytics,
     private navParams: NavParams
   ) {
     this.topic = this.navParams.get('topic');
@@ -88,7 +89,7 @@ export class ForumTopicPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Forum Topic');
+      this.googleAnalytics.trackView('Forum Topic');
     }
   }
 

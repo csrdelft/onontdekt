@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, Refresher } from 'ionic-angular';
-import { GoogleAnalytics } from 'ionic-native';
 
 import { ForumTopicPage } from '../forum-topic/forum-topic';
 import { ApiData } from '../../services/api-data';
@@ -20,6 +20,7 @@ export class ForumRecentPage {
 
   constructor(
     private apiData: ApiData,
+    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController
   ) {
     this.initializeParameters();
@@ -85,7 +86,7 @@ export class ForumRecentPage {
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
-      GoogleAnalytics.trackView('Forum Recent');
+      this.googleAnalytics.trackView('Forum Recent');
     }
   }
 
