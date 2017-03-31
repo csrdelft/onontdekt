@@ -7,7 +7,7 @@ set -e
 cd /home/travis/build/Manduro/onontdekt
 rm -f ./.gitkeep
 rm -f ./www/build/main.js.map
-ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD --note "Travis deploy $TRAVIS_BUILD_NUMBER" --deploy=staging
+# ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD --note "Travis deploy $TRAVIS_BUILD_NUMBER" --deploy=staging
 
 # Get the deploy key
 cd .travis

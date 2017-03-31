@@ -17,6 +17,7 @@
     "@angular/http": "4.0.0",
     "@angular/platform-browser": "4.0.0",
     "@ionic-native/calendar": "3.4.4",
+    "@ionic-native/code-push": "3.4.4",
     "@ionic-native/contacts": "3.4.4",
     "@ionic-native/core": "3.4.4",
     "@ionic-native/google-analytics": "3.4.4",

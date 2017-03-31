@@ -1,14 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
+import { CodePush, SyncStatus } from '@ionic-native/code-push';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Events, Nav, Platform, LoadingController } from 'ionic-angular';
-import { Deploy } from '@ionic/cloud-angular';
+import { Events, ToastController, Nav, Platform } from 'ionic-angular';
 import moment from 'moment';
 // import 'moment/src/locale/nl';
 
 import { AuthService } from '../providers/auth';
-import { NotificationService } from '../providers/notification';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 
@@ -22,9 +21,8 @@ export class LustrumApp {
     private events: Events,
     private platform: Platform,
     private authService: AuthService,
-    private notifier: NotificationService,
-    private deploy: Deploy,
-    private loadingCtrl: LoadingController,
+    private codePush: CodePush,
+    private toastCtrl: ToastController,
     private googleAnalytics: GoogleAnalytics,
     private keyboard: Keyboard,
     private splashScreen: SplashScreen
@@ -39,7 +37,7 @@ export class LustrumApp {
 
   private initializeCordova() {
     this.platform.ready().then(() => {
-      this.runDeploy();
+      this.runUpdate();
       this.keyboard.disableScroll(true);
       this.googleAnalytics.startTrackerWithId('UA-79997582-1');
       this.googleAnalytics.enableUncaughtExceptionReporting(true);
@@ -58,35 +56,28 @@ export class LustrumApp {
     });
   }
 
-  private runDeploy() {
-    this.deploy.check().then((result: boolean) => {
-      if (result === true) {
-        let loading = this.loadingCtrl.create({
-          content: 'Update installeren...'
-        });
-        loading.present();
-        this.splashScreen.hide();
-        this.deploy.download().then(() => {
-          this.deploy.extract().then(() => {
-            this.splashScreen.show();
-            this.deploy.load();
-          }, (error: string) => {
-            loading.dismiss();
-            let message = 'Update installeren mislukt: ' + error;
-            this.notifier.notify(message);
-          });
-        }, (error: string) => {
-          loading.dismiss();
-          let message = 'Update downloaden mislukt: ' + error;
-          this.notifier.notify(message);
-        });
-      } else {
-        this.splashScreen.hide();
+  private runUpdate() {
+    const message = 'Update downloaden... ';
+    let toast = this.toastCtrl.create({
+      message: message + '0%',
+    });
+
+    this.codePush.sync({}, (progress) => {
+      const perc = Math.ceil(progress.receivedBytes / progress.totalBytes * 100);
+      toast.setMessage(message + perc + '%');
+    }).subscribe(status => {
+      switch (status) {
+        case SyncStatus.DOWNLOADING_PACKAGE:
+          toast.present();
+          break;
+        case SyncStatus.INSTALLING_UPDATE:
+          toast.dismiss();
+          break;
+        case SyncStatus.ERROR:
+          toast.dismiss();
+          this.toastCtrl.create({ message: 'Update mislukt', duration: 3000 }).present();
+          break;
       }
-    }, (error: string) => {
-      let message = 'Update mislukt: ' + error;
-      this.notifier.notify(message);
-      this.splashScreen.hide();
     });
   }
 

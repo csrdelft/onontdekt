@@ -4,7 +4,7 @@
     <description>Het XIe Lustrum der Civitas Studiosorum Reformatorum.</description>
     <author email="lustrumcie@csrdelft.nl" href="https://csrdelft.nl/">LustrumCie Post</author>
     <content src="index.html" />
-    <access origin="*" /> 
+    <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -28,6 +28,7 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <allow-intent href="geo:*" />
+        <preference name="CodePushDeploymentKey" value="4pJTSlJEEBlYZYSpLqYLh0apa8jvEJ4rXRP2f" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
         <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
@@ -51,6 +52,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <allow-intent href="maps:*" />
+        <preference name="CodePushDeploymentKey" value="ttc7ehu6VuJUZLCvQaV9WtFlcoTGEJ4rXRP2f" />
         <preference name="BackupWebStorage" value="local" />
         <preference name="KeyboardDisplayRequiresUserAction" value="false" />
         <preference name="Orientation" value="all" />
@@ -161,6 +163,7 @@
     <plugin name="com-sarriaroman-photoviewer" spec="~1.1.10" />
     <plugin name="cordova-custom-config" spec="~3.1.3" />
     <plugin name="cordova-plugin-calendar" spec="~4.5.5" />
+    <plugin name="cordova-plugin-code-push" spec="~1.9.3-beta" />
     <plugin name="cordova-plugin-console" spec="~1.0.6" />
     <plugin name="cordova-plugin-contacts" spec="~2.3.0" />
     <plugin name="cordova-plugin-crosswalk-webview" spec="~2.3.0">
@@ -177,7 +180,6 @@
     <plugin name="cordova-plugin-statusbar" spec="~2.2.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.2" />
     <plugin name="cordova-sqlite-storage" spec="~1.5.3" />
-    <plugin name="ionic-plugin-deploy" spec="~0.6.6" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="phonegap-plugin-push" spec="~1.10.0">
         <variable name="SENDER_ID" value="335763697269" />
