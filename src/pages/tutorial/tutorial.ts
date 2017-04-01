@@ -5,7 +5,7 @@ import { IonicPage, NavController, Platform } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'csr-tutorial-page',
+  selector: 'tutorial-page',
   templateUrl: 'tutorial.html'
 })
 export class TutorialPage {

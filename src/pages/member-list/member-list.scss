@@ -1,13 +1,44 @@
+member-list-page {
 
-// Disable as it seems buggy
-// .ios .member-list {
-//   min-height: 100%;
-// }
+  .member-list {
+    margin-bottom: 0;
 
-.member-list {
-  margin-bottom: 0;
+    a[ion-item]:not([hidden]):last-of-type .item-inner {
+      border-bottom: none;
+    }
+  }
 
-  a[ion-item]:not([hidden]):last-of-type .item-inner {
-    border-bottom: none;
+}
+
+.md member-list-page .search-overlay {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+
+  .searchbar-input {
+    height: 50px;
+  }
+
+  .searchbar-search-icon {
+    display: none;
+  }
+
+  .searchbar-clear-icon {
+    right: 0;
+    width: 48px;
+  }
+
+  &.searchbar-has-value {
+    .searchbar-clear-icon {
+      display: block;
+    }
+  }
+
+  .searchbar-md-cancel {
+    display: inline-flex;
+    left: 0;
+    width: 47px;
+    padding: 0 13px;
   }
 }

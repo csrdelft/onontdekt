@@ -7,6 +7,7 @@ import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
+  selector: 'login-page',
   templateUrl: 'login.html'
 })
 export class LoginPage {

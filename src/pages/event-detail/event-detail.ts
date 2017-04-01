@@ -12,6 +12,7 @@ import { Event } from '../../models/event';
 
 @IonicPage()
 @Component({
+  selector: 'event-detail-page',
   templateUrl: 'event-detail.html'
 })
 export class EventDetailPage {

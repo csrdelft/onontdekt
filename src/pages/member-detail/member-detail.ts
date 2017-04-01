@@ -13,6 +13,7 @@ import { Member } from '../../models/member';
 
 @IonicPage()
 @Component({
+  selector: 'member-detail-page',
   templateUrl: 'member-detail.html'
 })
 export class MemberDetailPage {

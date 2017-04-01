@@ -1,21 +1,24 @@
 $categories: (
- maaltijd: color($colors, lustrumgreen),
- activiteit: color($colors, lustrumred),
- agenda: rgb(240, 240, 240)
+  maaltijd: color($colors, lustrumgreen),
+  activiteit: color($colors, lustrumred),
+  agenda: rgb(240, 240, 240)
 );
 
 @function auxiliary-categories() {
   @return map-remove($categories);
 }
 
-.event-list {
-  margin-bottom: 0;
+event-list-page {
 
-  @each $category, $value in auxiliary-categories() {
-   [ion-item][category=#{$category}] ion-label {
-     border-left: 2px solid $value;
-     padding-left: 10px;
-   }
+  .event-list {
+    margin-bottom: 0;
+
+    @each $category, $value in auxiliary-categories() {
+      [ion-item][category=#{$category}] ion-label {
+        border-left: 2px solid $value;
+        padding-left: 10px;
+      }
+    }
   }
-}
 
+}

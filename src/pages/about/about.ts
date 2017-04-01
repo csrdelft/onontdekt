@@ -6,6 +6,7 @@ import { AuthService } from '../../providers/auth';
 
 @IonicPage()
 @Component({
+  selector: 'about-page',
   templateUrl: 'about.html'
 })
 export class AboutPage {

@@ -1,12 +1,15 @@
-.post-list {
-  .item-block [item-left],
-  .item-block [item-right] {
-    align-self: flex-start;
-  }
+forum-topic-page {
 
-  ion-img {
-    border-radius: 50%;
-    overflow: hidden;
+  .post-list {
+    .item-block [item-left],
+    .item-block [item-right] {
+      align-self: flex-start;
+    }
+
+    ion-img {
+      border-radius: 50%;
+      overflow: hidden;
+    }
   }
 
   .post-author {
@@ -27,9 +30,5 @@
       margin-left: 0;
     }
   }
-}
 
-.item-md h2 {
-  overflow: inherit;
-  text-overflow: inherit;
 }

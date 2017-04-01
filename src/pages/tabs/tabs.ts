@@ -6,6 +6,7 @@ import { EventListPage } from '../event-list/event-list';
 
 @IonicPage()
 @Component({
+  selector: 'tabs-page',
   templateUrl: 'tabs.html'
 })
 export class TabsPage {

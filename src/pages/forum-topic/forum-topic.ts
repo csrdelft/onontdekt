@@ -7,6 +7,7 @@ import { IForumPost, IForumTopic } from '../../models/forum';
 
 @IonicPage()
 @Component({
+  selector: 'forum-topic-page',
   templateUrl: 'forum-topic.html'
 })
 export class ForumTopicPage {

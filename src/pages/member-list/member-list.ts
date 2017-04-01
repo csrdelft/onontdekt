@@ -7,6 +7,7 @@ import { ApiData } from '../../providers/api-data';
 
 @IonicPage()
 @Component({
+  selector: 'member-list-page',
   templateUrl: 'member-list.html'
 })
 export class MemberListPage {

@@ -7,6 +7,7 @@ import { IForumTopic } from '../../models/forum';
 
 @IonicPage()
 @Component({
+  selector: 'forum-recent-page',
   templateUrl: 'forum-recent.html'
 })
 export class ForumRecentPage {

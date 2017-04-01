@@ -18,6 +18,7 @@ const DAYS_TO_LOAD: number = 42;
 
 @IonicPage()
 @Component({
+  selector: 'event-list-page',
   templateUrl: 'event-list.html'
 })
 export class EventListPage {
