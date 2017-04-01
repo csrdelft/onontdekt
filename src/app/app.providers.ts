@@ -27,6 +27,7 @@ import { Contacts } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
+import { OneSignal } from '@ionic-native/onesignal';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -38,6 +39,7 @@ const ionicNativeProviders = [
   GoogleAnalytics,
   InAppBrowser,
   Keyboard,
+  OneSignal,
   PhotoViewer,
   SplashScreen,
   StatusBar

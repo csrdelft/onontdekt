@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { OneSignal, OSDisplayType } from '@ionic-native/onesignal';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
-import { Push } from '@ionic/cloud-angular';
 
 import { AppSettings } from '../constants/app-settings';
 
@@ -19,8 +19,8 @@ export class AuthService {
     private http: Http,
     private authHttp: AuthHttp,
     private googleAnalytics: GoogleAnalytics,
+    private oneSignal: OneSignal,
     private platform: Platform,
-    private push: Push,
     private storage: Storage
   ) {
     this.storage.get('userId').then((userId: string) => {
@@ -100,10 +100,13 @@ export class AuthService {
 
   private registerLogin(type: string) {
     if (this.platform.is('cordova')) {
-      this.push.register().then((token) => {
-        this.push.saveToken(token);
-      });
       this.platform.ready().then(() => {
+        this.oneSignal.startInit('7de617c2-1024-4493-9720-a3c6cb90ee9c', '335763697269');
+        this.oneSignal.inFocusDisplaying(OSDisplayType.None);
+        this.oneSignal.endInit();
+        this.oneSignal.setSubscription(true);
+        this.oneSignal.sendTag('userId', this.userId);
+
         this.googleAnalytics.trackEvent('Authorization', 'Login', type);
       });
     }
@@ -111,8 +114,8 @@ export class AuthService {
 
   private registerLogout(type: string) {
     if (this.platform.is('cordova')) {
-      this.push.unregister();
       this.platform.ready().then(() => {
+        this.oneSignal.setSubscription(false);
         this.googleAnalytics.trackEvent('Authorization', 'Logout', type);
       });
     }
