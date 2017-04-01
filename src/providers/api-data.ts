@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import moment from 'moment';
+import addDays from 'date-fns/add_days';
+import addHours from 'date-fns/add_hours';
+import isSameDay from 'date-fns/is_same_day';
+import parse from 'date-fns/parse';
 
 import { AppSettings } from '../constants/app-settings';
 import { AuthService } from '../providers/auth';
 import { Event } from '../models/event';
 import { Member, IMemberShort } from '../models/member';
 import { IForumTopic, IForumPost } from '../models/forum';
+import { formatLocale, isFullDay } from '../util/dates';
 
 @Injectable()
 export class ApiData {
@@ -24,16 +28,16 @@ export class ApiData {
     private authService: AuthService
   ) {}
 
-  public getScheduleList(fromMoment: any, toMoment: any): Promise<Event[]> {
+  public getScheduleList(from: Date, to: Date): Promise<Event[]> {
     return new Promise((resolve, reject) => {
-      let fromISO = fromMoment.toISOString();
-      let toISO = toMoment.toISOString();
+      let fromISO = from.toISOString();
+      let toISO = to.toISOString();
 
       this.getFromApi('/agenda?from=' + fromISO + '&to=' + toISO, 'get')
         .then((res: { events: Event[], joined: { activiteiten: number[], maaltijden: number[] } }) => {
           let schedule = {
-            from: fromMoment.clone(),
-            to: toMoment.clone(),
+            from: new Date(from),
+            to: new Date(to),
             events: res.events
           };
           this._scheduleList.push(schedule);
@@ -49,32 +53,35 @@ export class ApiData {
   }
 
   public addEventMeta(event: Event): Event {
-    let meta: any = {};
+    const start = event.begin_moment ? event.begin_moment : parse(event.datum + ' ' + event.tijd);
+    const end = event.eind_moment ? event.eind_moment : addHours(start, 2);
 
-    meta.start = moment(event.begin_moment || (event.datum + ' ' + event.tijd));
-    meta.end = event.eind_moment ? moment(event.eind_moment) : moment(meta.start).add(2, 'hours');
+    let formattedListDate: string;
+    const sameDay = isSameDay(start, end);
+    const sameDayLate = isSameDay(addDays(start, 1), end) && end.getHours() < 8;
+    const allDay = isFullDay(start, end);
 
-    let sameDay: boolean = meta.start.isSame(meta.end, 'day');
-    let sameDayLate: boolean = moment(meta.start).add(1, 'day').isSame(meta.end, 'day') && meta.end.hour() < 8;
-    let allDay: boolean = meta.start.format('LT') === '00:00' && meta.end.format('LT') === '23:59';
     if (!sameDay && !sameDayLate) {
-      let format: string = allDay ? 'dddd D MMMM' : 'dddd D MMMM LT';
-      meta.formattedListDate = meta.start.format(format) + ' – ' + meta.end.format(format);
+      const formatText = allDay ? 'dddd D MMMM' : 'dddd D MMMM HH:mm';
+      formattedListDate = formatLocale(start, formatText) + ' – ' + formatLocale(end, formatText);
     } else if (allDay) {
-      meta.formattedListDate = 'Hele dag';
+      formattedListDate = 'Hele dag';
     } else {
-      meta.formattedListDate = meta.start.format('LT') + ' – ' + meta.end.format('LT') + ' uur';
+      formattedListDate = formatLocale(start, 'HH:mm') + ' – ' + formatLocale(end, 'HH:mm') + ' uur';
     }
 
+    let category: 'maaltijd' | 'activiteit' | 'agenda';
+    let present: boolean;
+
     if (event.maaltijd_id) {
-      meta.category = 'maaltijd';
+      category = 'maaltijd';
       event.prijs = event.prijs.slice(0, -2) + ',' + event.prijs.substr(-2);
-      meta.present = this._joinedEvents.maaltijden.indexOf(Number(event.maaltijd_id)) !== -1;
+      present = this._joinedEvents.maaltijden.indexOf(Number(event.maaltijd_id)) !== -1;
     } else if (event.id) {
-      meta.category = 'activiteit';
-      meta.present = this._joinedEvents.activiteiten.indexOf(Number(event.id)) !== -1;
+      category = 'activiteit';
+      present = this._joinedEvents.activiteiten.indexOf(Number(event.id)) !== -1;
     } else {
-      meta.category = 'agenda';
+      category = 'agenda';
     }
 
     if (event.titel) {
@@ -85,7 +92,14 @@ export class ApiData {
       event.naam = event.naam.replace(/&amp;/g, '&');
     }
 
-    event._meta = meta;
+    event._meta = {
+      start,
+      end,
+      formattedListDate,
+      category,
+      present
+    };
+
     return event;
   }
 

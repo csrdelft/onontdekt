@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MomentModule } from 'angular2-moment';
 import { IonicPageModule } from 'ionic-angular';
 
 import { BBParsePipeModule } from '../../pipes/bb-parse/bb-parse.module';
+import { DateCalendarPipeModule } from '../../pipes/date-calendar/date-calendar.module';
 import { ForumTopicPage } from './forum-topic';
 
 @NgModule({
@@ -10,9 +10,9 @@ import { ForumTopicPage } from './forum-topic';
     ForumTopicPage
   ],
   imports: [
-    MomentModule,
     IonicPageModule.forChild(ForumTopicPage),
-    BBParsePipeModule
+    BBParsePipeModule,
+    DateCalendarPipeModule
   ]
 })
 export class ForumTopicPageModule { }

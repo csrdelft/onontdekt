@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MomentModule } from 'angular2-moment';
 import { IonicPageModule } from 'ionic-angular';
 
 import { BBStripPipeModule } from '../../pipes/bb-strip/bb-strip.module';
+import { DateCalendarPipeModule } from '../../pipes/date-calendar/date-calendar.module';
 import { ForumRecentPage } from './forum-recent';
 
 @NgModule({
@@ -10,9 +10,9 @@ import { ForumRecentPage } from './forum-recent';
     ForumRecentPage
   ],
   imports: [
-    MomentModule,
     IonicPageModule.forChild(ForumRecentPage),
-    BBStripPipeModule
+    BBStripPipeModule,
+    DateCalendarPipeModule
   ]
 })
 export class ForumRecentPageModule { }

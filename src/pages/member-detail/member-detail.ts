@@ -5,8 +5,9 @@ import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-nati
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
-import moment from 'moment';
+import isPast from 'date-fns/is_past';
 
+import { formatLocale } from '../../util/dates';
 import { NotificationService } from '../../providers/notification';
 import { Member } from '../../models/member';
 
@@ -31,7 +32,7 @@ export class MemberDetailPage {
     this.member = navParams.data;
 
     let date = new Date(this.member.geboortedatum);
-    this.member.geboortedatumText = moment(date).format('LL');
+    this.member.geboortedatumText = formatLocale(date, 'D MMMM YYYY');
     this.member.geboortedatum = date;
   }
 
@@ -77,13 +78,15 @@ export class MemberDetailPage {
   }
 
   openCalendar() {
-    let currentYear = moment().year();
-    let date = moment(this.member.geboortedatum).year(currentYear);
-    if (date.isBefore()) {
-      date.year(currentYear + 1);
+    let currentYear = new Date().getFullYear();
+    let date = new Date(this.member.geboortedatum);
+
+    date.setFullYear(currentYear);
+    if (isPast(date)) {
+      date.setFullYear(currentYear + 1);
     }
 
-    this.calendar.openCalendar(date.toDate());
+    this.calendar.openCalendar(date);
   }
 
   openImage() {

@@ -4,8 +4,6 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Events, ToastController, Nav, Platform } from 'ionic-angular';
-import moment from 'moment';
-// import 'moment/src/locale/nl';
 
 import { AuthService } from '../providers/auth';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -32,7 +30,6 @@ export class LustrumApp {
     if (this.platform.is('cordova')) {
       this.initializeCordova();
     }
-    moment.locale('nl');
   }
 
   private initializeCordova() {

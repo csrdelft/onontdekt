@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
-import moment from 'moment';
-// import 'moment/src/locale/nl';
+import addDays from 'date-fns/add_days';
+import endOfDay from 'date-fns/end_of_day';
+import startOfToday from 'date-fns/start_of_today';
 
+import { formatLocale } from '../../util/dates';
 import { ApiData } from '../../providers/api-data';
 import { Event } from '../../models/event';
 
@@ -24,8 +26,8 @@ export class EventListPage {
   moreAvailable: boolean = true;
   failedToLoad: boolean = false;
 
-  fromMoment: moment.Moment;
-  toMoment: moment.Moment;
+  private from: Date;
+  private to: Date;
 
   constructor(
     private apiData: ApiData,
@@ -33,16 +35,16 @@ export class EventListPage {
     private navCtrl: NavController
   ) {
     this.initializeMoments();
-    this.updateSchedule(this.fromMoment, this.toMoment);
+    this.updateSchedule(this.from, this.to);
   }
 
   initializeMoments() {
-    this.fromMoment = moment().startOf('day');
-    this.toMoment = moment(this.fromMoment).add(DAYS_TO_LOAD - 1, 'days').endOf('day');
+    this.from = startOfToday();
+    this.to = endOfDay(addDays(new Date(), DAYS_TO_LOAD - 1));
   }
 
-  updateSchedule(fromMoment: moment.Moment, toMoment: moment.Moment, reset: boolean = false): Promise<boolean> {
-    return this.apiData.getScheduleList(fromMoment, toMoment)
+  updateSchedule(from: Date, to: Date, reset: boolean = false): Promise<boolean> {
+    return this.apiData.getScheduleList(from, to)
       .then((events: Event[]) => {
 
         if (events.length === 0) {
@@ -55,7 +57,7 @@ export class EventListPage {
 
         let grouped: { [key: string]: Event[] } = events.reduce(
           (result: { [key: string]: Event[] }, event) => {
-            const key = event._meta.start.format('dddd D MMMM');
+            const key = formatLocale(event._meta.start, 'dddd D MMMM');
             (result[key] = result[key] || []).push(event);
             return result;
           },
@@ -81,10 +83,10 @@ export class EventListPage {
   }
 
   doInfinite(infiniteScroll: InfiniteScroll) {
-    this.fromMoment.add(DAYS_TO_LOAD, 'days');
-    this.toMoment.add(DAYS_TO_LOAD, 'days');
+    this.from = addDays(this.from, DAYS_TO_LOAD);
+    this.to = addDays(this.to, DAYS_TO_LOAD);
 
-    this.updateSchedule(this.fromMoment, this.toMoment).then(hasEvents => {
+    this.updateSchedule(this.from, this.to).then(hasEvents => {
       if (hasEvents === true) {
         infiniteScroll.complete();
       } else {
@@ -96,14 +98,14 @@ export class EventListPage {
 
   doRefresh(refresher: Refresher) {
     this.initializeMoments();
-    this.updateSchedule(this.fromMoment, this.toMoment, true).then((hasEvents) => {
+    this.updateSchedule(this.from, this.to, true).then((hasEvents) => {
       refresher.complete();
     });
   }
 
   doRetryLoad() {
     this.failedToLoad = false;
-    this.updateSchedule(this.fromMoment, this.toMoment);
+    this.updateSchedule(this.from, this.to);
   }
 
   goToEventDetail(event: Event) {

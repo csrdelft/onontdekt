@@ -18,10 +18,10 @@ export class Event {
   aanmelden_tot: Date;
   afmelden_tot: Date;
   _meta: {
-    start: any;
-    end: any;
+    start: Date;
+    end: Date;
     formattedListDate: string;
-    category: string;
+    category: 'maaltijd' | 'activiteit' | 'agenda';
     present?: boolean;
   };
 }

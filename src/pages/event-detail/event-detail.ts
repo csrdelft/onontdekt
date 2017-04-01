@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { IonicPage, NavParams } from 'ionic-angular';
-import moment from 'moment';
+import isSameDay from 'date-fns/is_same_day';
+import isPast from 'date-fns/is_past';
+import isFuture from 'date-fns/is_future';
 
+import { formatLocale, isFullDay } from '../../util/dates';
 import { NotificationService } from '../../providers/notification';
 import { ApiData } from '../../providers/api-data';
 import { Event } from '../../models/event';
@@ -24,19 +27,18 @@ export class EventDetailPage {
     this.event = navParams.data;
   }
 
-  getDateTimes(start: moment.Moment, end: moment.Moment): string {
+  getDateTimes(start: Date, end: Date): string {
     let line1: string;
     let line2: string;
-    let multipleDays: boolean = !start.isSame(end, 'day');
-    let fullDay = start.format('HHmm') === '0000' && end.format('HHmm') === '2359';
+    const fullDay = isFullDay(start, end);
 
-    if (multipleDays) {
-      let multipleFormat = fullDay ? 'dddd ll' : 'LT [op] dd ll';
-      line1 = 'van ' + start.format(multipleFormat).toLowerCase();
-      line2 = 'tot ' + end.format(multipleFormat).toLowerCase();
+    if (isSameDay(start, end)) {
+      line1 = formatLocale(start, 'dddd D MMMM YYYY').toLowerCase();
+      line2 = fullDay ? 'Hele dag' : formatLocale(start, '[van] HH:mm [tot] ') + formatLocale(end, 'HH:mm');
     } else {
-      line1 = start.format('dddd ll').toLowerCase();
-      line2 = fullDay ? 'Hele dag' : start.format('[van] LT [tot] ') + end.format('LT');
+      let multipleFormat = fullDay ? 'dddd D MMM YYYY' : 'HH:mm [op] dd D MMM YYYY';
+      line1 = 'van ' + formatLocale(start, multipleFormat).toLowerCase();
+      line2 = 'tot ' + formatLocale(end, multipleFormat).toLowerCase();
     }
 
     return line1 + '\n' + line2;
@@ -47,8 +49,8 @@ export class EventDetailPage {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      let hasOpened = this.event.aanmelden_vanaf === null || moment(this.event.aanmelden_vanaf).isBefore();
-      let notClosed = this.event.aanmelden_tot === null || moment(this.event.aanmelden_tot).isAfter();
+      let hasOpened = this.event.aanmelden_vanaf === null || isPast(this.event.aanmelden_vanaf);
+      let notClosed = this.event.aanmelden_tot === null || isFuture(this.event.aanmelden_tot);
       return hasOpened && notClosed;
     }
   }
@@ -58,7 +60,7 @@ export class EventDetailPage {
       let notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      let notClosed = this.event.afmelden_tot !== null && moment(this.event.afmelden_tot).isAfter();
+      let notClosed = this.event.afmelden_tot !== null && isFuture(this.event.afmelden_tot);
       return notClosed;
     }
   }
