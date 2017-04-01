@@ -16,7 +16,9 @@ export interface EventGroup {
 
 const DAYS_TO_LOAD: number = 42;
 
-@IonicPage()
+@IonicPage({
+  segment: 'agenda'
+})
 @Component({
   selector: 'event-list-page',
   templateUrl: 'event-list.html'

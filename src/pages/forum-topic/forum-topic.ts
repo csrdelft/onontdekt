@@ -5,7 +5,9 @@ import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angul
 import { ApiData } from '../../providers/api-data';
 import { IForumPost, IForumTopic } from '../../models/forum';
 
-@IonicPage()
+@IonicPage({
+  segment: 'draadje'
+})
 @Component({
   selector: 'forum-topic-page',
   templateUrl: 'forum-topic.html'

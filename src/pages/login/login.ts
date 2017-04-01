@@ -5,7 +5,9 @@ import { AlertController, IonicPage, LoadingController, NavController } from 'io
 import { AuthService } from '../../providers/auth';
 import { TabsPage } from '../tabs/tabs';
 
-@IonicPage()
+@IonicPage({
+  segment: 'inloggen'
+})
 @Component({
   selector: 'login-page',
   templateUrl: 'login.html'

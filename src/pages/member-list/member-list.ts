@@ -5,7 +5,9 @@ import { Content, IonicPage, NavController, Platform, Searchbar } from 'ionic-an
 import { IMemberGroup, IMemberShort } from '../../models/member';
 import { ApiData } from '../../providers/api-data';
 
-@IonicPage()
+@IonicPage({
+  segment: 'leden'
+})
 @Component({
   selector: 'member-list-page',
   templateUrl: 'member-list.html'

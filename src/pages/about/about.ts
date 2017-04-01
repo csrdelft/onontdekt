@@ -4,7 +4,9 @@ import { Events, IonicPage, LoadingController } from 'ionic-angular';
 
 import { AuthService } from '../../providers/auth';
 
-@IonicPage()
+@IonicPage({
+  segment: 'lustrum'
+})
 @Component({
   selector: 'about-page',
   templateUrl: 'about.html'

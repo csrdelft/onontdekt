@@ -3,7 +3,9 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicPage, NavController, Platform } from 'ionic-angular';
 
-@IonicPage()
+@IonicPage({
+  segment: 'tour'
+})
 @Component({
   selector: 'tutorial-page',
   templateUrl: 'tutorial.html'

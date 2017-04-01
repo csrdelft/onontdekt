@@ -5,7 +5,9 @@ import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angul
 import { ApiData } from '../../providers/api-data';
 import { IForumTopic } from '../../models/forum';
 
-@IonicPage()
+@IonicPage({
+  segment: 'recent'
+})
 @Component({
   selector: 'forum-recent-page',
   templateUrl: 'forum-recent.html'

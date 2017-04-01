@@ -10,7 +10,9 @@ import { NotificationService } from '../../providers/notification';
 import { ApiData } from '../../providers/api-data';
 import { Event } from '../../models/event';
 
-@IonicPage()
+@IonicPage({
+  segment: 'activiteit'
+})
 @Component({
   selector: 'event-detail-page',
   templateUrl: 'event-detail.html'

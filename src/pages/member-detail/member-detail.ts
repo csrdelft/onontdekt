@@ -11,7 +11,9 @@ import { formatLocale } from '../../util/dates';
 import { NotificationService } from '../../providers/notification';
 import { Member } from '../../models/member';
 
-@IonicPage()
+@IonicPage({
+  segment: 'lid'
+})
 @Component({
   selector: 'member-detail-page',
   templateUrl: 'member-detail.html'

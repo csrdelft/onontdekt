@@ -9,7 +9,9 @@ export interface Ranked {
   latest: number;
 }
 
-@IonicPage()
+@IonicPage({
+  segment: 'stand'
+})
 @Component({
   selector: 'ranking-page',
   templateUrl: 'ranking.html'
