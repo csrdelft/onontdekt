@@ -18,6 +18,9 @@
   "include": [
     "src/**/*.ts"
   ],
+  "exclude": [
+    "node_modules"
+  ],
   "compileOnSave": false,
   "atom": {
     "rewriteTsconfig": false
