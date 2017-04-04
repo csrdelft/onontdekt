@@ -1,25 +1,31 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
 import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
+import { Store } from '@ngrx/store';
 import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import isPast from 'date-fns/is_past';
+import { Observable } from 'rxjs/Observable';
 
-import { formatLocale } from '../../util/dates';
+import * as fromRoot from '../../state';
+import * as members from '../../state/members/members.actions';
+import { Member, MemberDetail } from '../../state/members/members.model';
+
 import { NotificationService } from '../../providers/notification';
-import { Member } from '../../models/member';
 
 @IonicPage({
-  segment: 'lid'
+  segment: 'lid/:id'
 })
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'member-detail-page',
   templateUrl: 'member-detail.html'
 })
-export class MemberDetailPage {
-  member: Member;
+export class MemberDetailPage implements OnInit {
+  member$: Observable<Member>;
+  memberDetail$: Observable<MemberDetail>;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -30,13 +36,19 @@ export class MemberDetailPage {
     private contacts: Contacts,
     private googleAnalytics: GoogleAnalytics,
     private photoViewer: PhotoViewer,
-    navParams: NavParams
-  ) {
-    this.member = navParams.data;
+    private navParams: NavParams,
+    private store: Store<fromRoot.State>
+  ) {}
 
-    let date = new Date(this.member.geboortedatum);
-    this.member.geboortedatumText = formatLocale(date, 'D MMMM YYYY');
-    this.member.geboortedatum = date;
+  ngOnInit() {
+    this.member$ = this.store.select(fromRoot.getSelectedMember);
+    this.memberDetail$ = this.store.select(fromRoot.getSelectedMemberDetail);
+    this.load();
+  }
+
+  load() {
+    const id = this.navParams.get('id') as string;
+    this.store.dispatch(new members.SelectAction(id));
   }
 
   getSafeUrl(scheme: string, target: string): any {
@@ -44,30 +56,28 @@ export class MemberDetailPage {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  save() {
+  save(member: MemberDetail) {
     let actionSheet = this.actionSheetCtrl.create({
-      buttons: [
-        {
-          text: 'Maak nieuw contact',
-          icon: !this.platform.is('ios') ? 'person-add' : null,
-          handler: () => this.saveNew()
-        }, {
-          text: 'Annuleer',
-          icon: !this.platform.is('ios') ? 'close' : null,
-          role: 'cancel'
-        }
-      ]
+      buttons: [{
+        text: 'Maak nieuw contact',
+        icon: !this.platform.is('ios') ? 'person-add' : null,
+        handler: () => this.saveNew(member)
+      }, {
+        text: 'Annuleer',
+        icon: !this.platform.is('ios') ? 'close' : null,
+        role: 'cancel'
+      }]
     });
     actionSheet.present();
   }
 
-  saveNew() {
+  saveNew(member: MemberDetail) {
     let contact = this.contacts.create();
-    contact.name = new ContactName(null, this.member.naam.achternaam, this.member.naam.voornaam, this.member.naam.tussenvoegsel);
-    contact.phoneNumbers = [new ContactField('mobiel', this.member.mobiel, false)];
-    contact.emails = [new ContactField('thuis', this.member.email, false)];
-    contact.addresses = [new ContactAddress(false, this.member.huis.naam || 'adres', null, this.member.huis.adres, this.member.huis.woonplaats, null, this.member.huis.postcode, this.member.huis.land)];
-    contact.birthday = this.member.geboortedatum;
+    contact.name = new ContactName(null, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel);
+    contact.phoneNumbers = [new ContactField('mobiel', member.mobiel, false)];
+    contact.emails = [new ContactField('thuis', member.email, false)];
+    contact.addresses = [new ContactAddress(false, member.huis.naam || 'adres', null, member.huis.adres, member.huis.woonplaats, null, member.huis.postcode, member.huis.land)];
+    contact.birthday = member.geboortedatum;
 
     contact.save()
       .then(() => {
@@ -80,9 +90,9 @@ export class MemberDetailPage {
       });
   }
 
-  openCalendar() {
+  openCalendar(member: MemberDetail) {
     let currentYear = new Date().getFullYear();
-    let date = new Date(this.member.geboortedatum);
+    let date = new Date(member.geboortedatum);
 
     date.setFullYear(currentYear);
     if (isPast(date)) {
@@ -92,11 +102,11 @@ export class MemberDetailPage {
     this.calendar.openCalendar(date);
   }
 
-  openImage() {
-    const url = 'https://csrdelft.nl/plaetjes/' + this.member.pasfoto.replace('.vierkant.png', '.jpg');
+  openImage(member: MemberDetail) {
+    const url = 'https://csrdelft.nl/plaetjes/' + member.pasfoto.replace('.vierkant.png', '.jpg');
 
     if (this.platform.is('cordova')) {
-      this.photoViewer.show(url, this.member.naam.formeel, { share: false });
+      this.photoViewer.show(url, member.naam.formeel, { share: false });
     } else {
       window.open(url, '_blank');
     }

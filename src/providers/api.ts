@@ -1,31 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
 import addDays from 'date-fns/add_days';
 import addHours from 'date-fns/add_hours';
 import isSameDay from 'date-fns/is_same_day';
 import parse from 'date-fns/parse';
+import { Observable } from 'rxjs/Observable';
 
-import { AppSettings } from '../constants/app-settings';
-import { AuthService } from '../providers/auth';
+import { HttpService } from './http';
 import { Event } from '../models/event';
-import { Member, IMemberShort } from '../models/member';
+import { Member, MemberDetail } from '../state/members/members.model';
 import { IForumTopic, IForumPost } from '../models/forum';
 import { formatLocale, isFullDay } from '../util/dates';
 
 @Injectable()
-export class ApiData {
+export class ApiService {
   private _scheduleList: any[] = [];
   private _joinedEvents: any = {
     maaltijden: [],
     activiteiten: []
   };
-  private _memberList: IMemberShort[] = [];
-  private _memberDetail: Member[] = [];
 
   constructor(
-    private authHttp: AuthHttp,
-    private authService: AuthService
+    private httpService: HttpService
   ) {}
 
   public getScheduleList(from: Date, to: Date): Promise<Event[]> {
@@ -33,8 +28,8 @@ export class ApiData {
       let fromISO = from.toISOString();
       let toISO = to.toISOString();
 
-      this.getFromApi('/agenda?from=' + fromISO + '&to=' + toISO, 'get')
-        .then((res: { events: Event[], joined: { activiteiten: number[], maaltijden: number[] } }) => {
+      this.httpService.getFromApi('/agenda?from=' + fromISO + '&to=' + toISO, 'get')
+        .subscribe((res: { events: Event[], joined: { activiteiten: number[], maaltijden: number[] } }) => {
           let schedule = {
             from: new Date(from),
             to: new Date(to),
@@ -47,7 +42,7 @@ export class ApiData {
 
           resolve(schedule.events);
         }, error => {
-          reject();
+          reject(error);
         });
     });
   }
@@ -121,91 +116,24 @@ export class ApiData {
     }
   }
 
-  public getForumRecent(offset: number, limit: number): Promise<IForumTopic[]> {
-    return this.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
+  public getForumRecent(offset: number, limit: number): Observable<IForumTopic[]> {
+    return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
   }
 
-  public getForumTopic(id: number, offset: number, limit: number): Promise<IForumPost[]> {
-    return this.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
+  public getForumTopic(id: number, offset: number, limit: number): Observable<IForumPost[]> {
+    return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
   }
 
-  public getMemberList(): Promise<IMemberShort[]> {
-    if (this._memberList.length > 0) {
-      return Promise.resolve(this._memberList);
-    }
-
-    return new Promise((resolve, reject) => {
-      this.getFromApi('/leden', 'get').then((res: IMemberShort[]) => {
-        this._memberList = res;
-        resolve(this._memberList);
-      }, error => {
-        reject();
-      });
-    });
+  public getMemberList(): Observable<Member[]> {
+    return this.httpService.getFromApi('/leden', 'get');
   }
 
-  public getMemberDetail(id: number): Promise<Member> {
-    return new Promise(resolve => {
-      let member = this._memberDetail.filter((member: Member) => member.id === id);
-
-      if (member.length > 0) {
-        resolve(member[0]);
-      } else {
-        this.getFromApi('/leden/' + id, 'get').then(res => {
-          this._memberDetail.push(res);
-          resolve(res);
-        });
-      }
-    });
+  public getMemberDetail(id: string): Observable<MemberDetail> {
+    return this.httpService.getFromApi('/leden/' + id, 'get');
   }
 
-  public postAction(cat: string, id: number, action: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.getFromApi('/' + cat + '/' + id + '/' + action, 'post').then(res => {
-        resolve(res);
-      }, error => {
-        reject(error);
-      });
-    });
+  public postAction(cat: string, id: number, action: string): Observable<any> {
+    return this.httpService.getFromApi('/' + cat + '/' + id + '/' + action, 'post');
   }
 
-  private getFromApi(url: string, method: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.authHttp.request(AppSettings.API_ENDPOINT + url, {
-        method: method,
-      })
-      .map(res => this.deserialize(res.text()))
-      .subscribe(
-        data => resolve(data.data),
-        (error: Response) => {
-          if (error.status === 401) {
-            this.authService.logout(true);
-          } else {
-            try {
-              const data = error.json();
-              reject(data && data.error && data.error.message);
-            } catch (e) {
-              reject();
-            }
-          }
-        }
-      );
-    });
-  }
-
-  private deserialize(data: string): any {
-    try {
-      return JSON.parse(data, this.reviveDateTime);
-    } catch (error) {
-      return {};
-    }
-  }
-
-  private reviveDateTime(key: any, value: any): any {
-    if (typeof value === 'string' && /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)) {
-      return new Date(value);
-    }
-
-    return value;
-  }
 }

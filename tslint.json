@@ -67,11 +67,6 @@
       true,
       "allow-null-check"
     ],
-    "typedef": [
-      true,
-      "property-declaration",
-      "member-variable-declaration"
-    ],
     "typedef-whitespace": [
       true,
       {

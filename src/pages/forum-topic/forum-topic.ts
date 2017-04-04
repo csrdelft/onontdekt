@@ -2,7 +2,7 @@ import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angular';
 
-import { ApiData } from '../../providers/api-data';
+import { ApiService } from '../../providers/api';
 import { IForumPost, IForumTopic } from '../../models/forum';
 
 @IonicPage({
@@ -28,7 +28,7 @@ export class ForumTopicPage {
   limit: number;
 
   constructor(
-    private apiData: ApiData,
+    private api: ApiService,
     private googleAnalytics: GoogleAnalytics,
     private navParams: NavParams
   ) {
@@ -53,7 +53,7 @@ export class ForumTopicPage {
   }
 
   updateList(offset: number, limit: number, reset: boolean = false): Promise<boolean> {
-    return this.apiData.getForumTopic(this.topic.draad_id, offset, limit)
+    return this.api.getForumTopic(this.topic.draad_id, offset, limit).toPromise()
       .then(posts => {
         if (posts.length < limit) {
           this.moreAvailable = false;

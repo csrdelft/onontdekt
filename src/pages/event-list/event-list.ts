@@ -6,7 +6,7 @@ import endOfDay from 'date-fns/end_of_day';
 import startOfToday from 'date-fns/start_of_today';
 
 import { formatLocale } from '../../util/dates';
-import { ApiData } from '../../providers/api-data';
+import { ApiService } from '../../providers/api';
 import { Event } from '../../models/event';
 
 export interface EventGroup {
@@ -33,7 +33,7 @@ export class EventListPage {
   private to: Date;
 
   constructor(
-    private apiData: ApiData,
+    private api: ApiService,
     private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController
   ) {
@@ -47,7 +47,7 @@ export class EventListPage {
   }
 
   updateSchedule(from: Date, to: Date, reset: boolean = false): Promise<boolean> {
-    return this.apiData.getScheduleList(from, to)
+    return this.api.getScheduleList(from, to)
       .then((events: Event[]) => {
 
         if (events.length === 0) {
@@ -55,7 +55,7 @@ export class EventListPage {
         }
 
         events.forEach(event => {
-          event = this.apiData.addEventMeta(event);
+          event = this.api.addEventMeta(event);
         });
 
         let grouped: { [key: string]: Event[] } = events.reduce(

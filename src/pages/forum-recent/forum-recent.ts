@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
+import 'rxjs/add/operator/toPromise';
 
-import { ApiData } from '../../providers/api-data';
+import { ApiService } from '../../providers/api';
 import { IForumTopic } from '../../models/forum';
 
 @IonicPage({
@@ -22,7 +23,7 @@ export class ForumRecentPage {
   limit: number;
 
   constructor(
-    private apiData: ApiData,
+    private api: ApiService,
     private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController
   ) {
@@ -39,7 +40,7 @@ export class ForumRecentPage {
   }
 
   updateList(offset: number, limit: number, reset: boolean = false): Promise<boolean> {
-    return this.apiData.getForumRecent(offset, limit)
+    return this.api.getForumRecent(offset, limit).toPromise()
       .then(topics => {
 
         if (topics.length === 0) {

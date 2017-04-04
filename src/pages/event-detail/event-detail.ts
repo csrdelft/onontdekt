@@ -7,7 +7,7 @@ import isFuture from 'date-fns/is_future';
 
 import { formatLocale, isFullDay } from '../../util/dates';
 import { NotificationService } from '../../providers/notification';
-import { ApiData } from '../../providers/api-data';
+import { ApiService } from '../../providers/api';
 import { Event } from '../../models/event';
 
 @IonicPage({
@@ -22,7 +22,7 @@ export class EventDetailPage {
   processingAction: boolean = false;
 
   constructor(
-    private apiData: ApiData,
+    private api: ApiService,
     private notifier: NotificationService,
     private googleAnalytics: GoogleAnalytics,
     navParams: NavParams
@@ -74,9 +74,9 @@ export class EventDetailPage {
 
     this.processingAction = true;
 
-    this.apiData.postAction(cat, id, 'aanmelden').then((event: Event) => {
-      this.apiData.addJoined(cat, Number(id));
-      this.event = this.apiData.addEventMeta(event);
+    this.api.postAction(cat, id, 'aanmelden').toPromise().then((event: Event) => {
+      this.api.addJoined(cat, Number(id));
+      this.event = this.api.addEventMeta(event);
       if ((GoogleAnalytics as any)['installed']()) {
         this.googleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
       }
@@ -95,9 +95,9 @@ export class EventDetailPage {
 
     this.processingAction = true;
 
-    this.apiData.postAction(cat, id, 'afmelden').then((event: Event) => {
-      this.apiData.removeJoined(cat, Number(id));
-      this.event = this.apiData.addEventMeta(event);
+    this.api.postAction(cat, id, 'afmelden').toPromise().then((event: Event) => {
+      this.api.removeJoined(cat, Number(id));
+      this.event = this.api.addEventMeta(event);
       if ((GoogleAnalytics as any)['installed']()) {
         this.googleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
       }

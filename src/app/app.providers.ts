@@ -49,15 +49,17 @@ const ionicNativeProviders = [
  * Custom app services
  */
 
-import { ApiData } from '../providers/api-data';
+import { ApiService } from '../providers/api';
 import { AuthService } from '../providers/auth';
 import { BBParseService } from '../providers/bb-parse';
+import { HttpService } from '../providers/http';
 import { NotificationService } from '../providers/notification';
 
 const services = [
-  ApiData,
+  ApiService,
   AuthService,
   BBParseService,
+  HttpService,
   NotificationService
 ];
 

@@ -7,7 +7,7 @@ import { Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 
-import { AppSettings } from '../constants/app-settings';
+import { AppConfig } from '../app/app.config';
 
 @Injectable()
 export class AuthService {
@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   public login(username: string, password: string): Promise<any> {
-    let url = AppSettings.API_ENDPOINT + '/auth/authorize';
+    let url = AppConfig.API_ENDPOINT + '/auth/authorize';
     let params = 'user=' + username + '&pass=' + password;
 
     let headers = new Headers();
@@ -173,7 +173,7 @@ export class AuthService {
   private getNewJwt(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.storage.get('refresh_token').then(refreshToken => {
-        let url = AppSettings.API_ENDPOINT + '/auth/token';
+        let url = AppConfig.API_ENDPOINT + '/auth/token';
         let params = 'refresh_token=' + refreshToken;
 
         let headers = new Headers();
