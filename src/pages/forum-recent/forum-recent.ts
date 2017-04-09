@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
-import 'rxjs/add/operator/toPromise';
 
 import { ApiService } from '../../providers/api';
 import { IForumTopic } from '../../models/forum';

@@ -8,7 +8,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/skip';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/withLatestFrom';
 
 import { LustrumApp } from './app.component';
 import { ionicConfig } from './app.config';

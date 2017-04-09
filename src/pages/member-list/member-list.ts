@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Content, IonicPage, NavController, Searchbar } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/take';
 
 import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
