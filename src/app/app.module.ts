@@ -26,6 +26,7 @@ import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { TutorialPageModule } from '../pages/tutorial/tutorial.module';
 import { reducer } from '../state';
 import { MemberEffects } from '../state/members/members.effects';
+import { TopicEffects } from '../state/topics/topics.effects';
 
 @NgModule({
   declarations: [LustrumApp],
@@ -37,6 +38,7 @@ import { MemberEffects } from '../state/members/members.effects';
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(MemberEffects),
+    EffectsModule.run(TopicEffects),
 
     /**
      * Initial pages are included as they should not be lazy loaded

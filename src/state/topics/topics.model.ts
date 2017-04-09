@@ -1,4 +1,4 @@
-export interface IForumTopic {
+export interface ForumTopic {
   UUID: string;
   attributes_received: any;
   belangrijk: any;
@@ -10,7 +10,7 @@ export interface IForumTopic {
   gedeeld_met: any;
   gesloten: boolean;
   laatst_gewijzigd: Date;
-  laatste_post?: IForumPost;
+  laatste_post?: ForumPost;
   laatste_post_id: number;
   laatste_wijziging_uid: string;
   laatste_wijziging_naam: string;
@@ -23,7 +23,7 @@ export interface IForumTopic {
   wacht_goedkeuring: boolean;
 }
 
-export interface IForumPost {
+export interface ForumPost {
   UUID: string;
   attributes_received: any;
   auteur_ip: string;

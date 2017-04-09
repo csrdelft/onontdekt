@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { Store } from '@ngrx/store';
 import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
-import { ApiService } from '../../providers/api';
-import { IForumTopic } from '../../models/forum';
+import * as fromRoot from '../../state';
+import * as topics from '../../state/topics/topics.actions';
+import { ForumTopic } from '../../state/topics/topics.model';
 
 @IonicPage({
   segment: 'recent'
@@ -12,78 +15,41 @@ import { IForumTopic } from '../../models/forum';
   selector: 'forum-recent-page',
   templateUrl: 'forum-recent.html'
 })
-export class ForumRecentPage {
-  topics: IForumTopic[] = [];
-
-  moreAvailable: boolean = true;
-  failedToLoad: boolean = false;
-
-  offset: number;
-  limit: number;
+export class ForumRecentPage implements OnInit {
+  topics$: Observable<ForumTopic[]>;
+  moreAvailable$: Observable<boolean>;
 
   constructor(
-    private api: ApiService,
     private googleAnalytics: GoogleAnalytics,
-    private navCtrl: NavController
-  ) {
-    this.initializeParameters();
+    private navCtrl: NavController,
+    private store: Store<fromRoot.State>
+  ) { }
+
+  ngOnInit() {
+    this.topics$ = this.store.select(fromRoot.getAllTopics);
+    this.moreAvailable$ = this.store.select(fromRoot.moreTopicsAvailable);
+    this.load(true);
   }
 
-  ionViewDidLoad() {
-    this.updateList(this.offset, this.limit);
-  }
-
-  initializeParameters() {
-    this.offset = 0;
-    this.limit = 10;
-  }
-
-  updateList(offset: number, limit: number, reset: boolean = false): Promise<boolean> {
-    return this.api.getForumRecent(offset, limit).toPromise()
-      .then(topics => {
-
-        if (topics.length === 0) {
-          return false;
-        }
-
-        if (reset) {
-          this.topics = topics;
-        } else {
-          this.topics.push(...topics);
-        }
-
-        return true;
-      }, () => {
-        this.failedToLoad = true;
-      });
+  load(reset: boolean) {
+    this.store.dispatch(new topics.LoadAction(reset));
   }
 
   doInfinite(infiniteScroll: InfiniteScroll) {
-    this.offset += this.limit;
-
-    this.updateList(this.offset, this.limit).then(hasTopics => {
-      if (hasTopics === true) {
-        infiniteScroll.complete();
-      } else {
-        infiniteScroll.enable(false);
-        this.moreAvailable = false;
-      }
+    this.load(false);
+    this.topics$.skip(1).take(1).subscribe(() => {
+      infiniteScroll.complete();
     });
   }
 
   doRefresh(refresher: Refresher) {
-    this.initializeParameters();
-    this.updateList(this.offset, this.limit, true).then((hasTopics) => {
+    this.load(true);
+    this.topics$.skip(1).take(1).subscribe(() => {
       refresher.complete();
     });
   }
 
-  doRetryLoad() {
-    this.failedToLoad = false;
-    this.updateList(this.offset, this.limit, true);
-  }
-
-  goToTopicDetail(topic: IForumTopic) {
+  goToTopicDetail(topic: ForumTopic) {
     this.navCtrl.push('ForumTopicPage', { topic });
   }
 

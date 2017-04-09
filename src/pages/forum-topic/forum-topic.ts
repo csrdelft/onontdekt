@@ -3,7 +3,7 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angular';
 
 import { ApiService } from '../../providers/api';
-import { IForumPost, IForumTopic } from '../../models/forum';
+import { ForumPost, ForumTopic } from '../../state/topics/topics.model';
 
 @IonicPage({
   segment: 'draadje'
@@ -18,8 +18,8 @@ export class ForumTopicPage {
   @ViewChildren(Item)
   public items: QueryList<Item>;
 
-  topic: IForumTopic;
-  posts: IForumPost[] = [];
+  topic: ForumTopic;
+  posts: ForumPost[] = [];
 
   moreAvailable: boolean = true;
   failedToLoad: boolean = false;

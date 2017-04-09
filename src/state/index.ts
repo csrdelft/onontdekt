@@ -6,12 +6,14 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { AppConfig } from '../app/app.config';
 
 import * as fromMembers from './members/members.reducer';
+import * as fromTopics from './topics/topics.reducer';
 
 /**
  * Merge sub states
  */
 export interface State {
   members: fromMembers.State;
+  topics: fromTopics.State;
 }
 
 /**
@@ -19,6 +21,7 @@ export interface State {
  */
 const reducers = {
   members: fromMembers.reducer,
+  topics: fromTopics.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -42,3 +45,12 @@ export const getMembersQueryResults = createSelector(getMembersState, fromMember
 export const getSelectedMember = createSelector(getMembersState, fromMembers.getSelected);
 export const getSelectedMemberDetail = createSelector(getMembersState, fromMembers.getSelectedDetail);
 
+/**
+ * Map Topics selectors to main state
+ */
+export const getTopicsState = (state: State) => state.topics;
+
+export const getAllTopics = createSelector(getTopicsState, fromTopics.getAll);
+export const getSelectedTopic = createSelector(getTopicsState, fromTopics.getSelected);
+export const moreTopicsAvailable = createSelector(getTopicsState, fromTopics.isMoreAvailable);
+export const getTopicsLength = createSelector(getTopicsState, fromTopics.getLength);

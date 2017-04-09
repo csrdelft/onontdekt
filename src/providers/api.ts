@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http';
 import { Event } from '../models/event';
 import { Member, MemberDetail } from '../state/members/members.model';
-import { IForumTopic, IForumPost } from '../models/forum';
+import { ForumTopic, ForumPost } from '../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../util/dates';
 
 @Injectable()
@@ -116,11 +116,11 @@ export class ApiService {
     }
   }
 
-  public getForumRecent(offset: number, limit: number): Observable<IForumTopic[]> {
+  public getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
     return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
   }
 
-  public getForumTopic(id: number, offset: number, limit: number): Observable<IForumPost[]> {
+  public getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
     return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
   }
 
