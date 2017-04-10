@@ -4,9 +4,9 @@ import { ForumTopic } from './topics.model';
 import * as topic from './topics.actions';
 
 export interface State {
-  entities: { [id: string]: ForumTopic };
-  ids: string[];
-  selectedId: string | null;
+  entities: { [id: number]: ForumTopic };
+  ids: number[];
+  selectedId: number | null;
   isMoreAvailable: boolean;
 };
 

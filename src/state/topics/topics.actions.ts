@@ -24,7 +24,7 @@ export class LoadCompleteAction implements Action {
 export class SelectAction implements Action {
   readonly type = ActionTypes.SELECT;
 
-  constructor(public payload: string) { }
+  constructor(public payload: number) { }
 }
 
 export type Actions
