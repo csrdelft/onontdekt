@@ -16,7 +16,8 @@ export class PostEffects {
     .ofType(post.ActionTypes.LOAD)
     .map((action: post.LoadAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength))
-    .switchMap(([topicId, offset]) => {
+    .switchMap(([topicId, length]) => {
+      const offset = length || 0;
       const limit = fromPost.POSTS_PER_LOAD;
       return this.api.getForumTopic(topicId, offset, limit)
         .map(posts => new post.LoadCompleteAction({ topicId, posts }));
