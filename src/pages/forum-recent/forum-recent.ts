@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
+import { NavController, IonicPage, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
@@ -32,11 +32,9 @@ export class ForumRecentPage implements OnInit {
     this.load(true);
   }
 
-  doInfinite(infiniteScroll: InfiniteScroll) {
+  doInfinite(): Promise<any> {
     this.load(false);
-    this.topics$.skip(1).take(1).subscribe(() => {
-      infiniteScroll.complete();
-    });
+    return this.topics$.skip(1).take(1).toPromise();
   }
 
   doRefresh(refresher: Refresher) {

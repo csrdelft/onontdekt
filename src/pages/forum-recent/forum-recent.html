@@ -39,7 +39,7 @@
 
   </div>
 
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)" [enabled]="moreAvailable$ | async">
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [enabled]="moreAvailable$ | async">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 

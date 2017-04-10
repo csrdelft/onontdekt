@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angular';
+import { Content, IonicPage, Item, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
@@ -62,11 +62,9 @@ export class ForumTopicPage implements OnInit {
     }
   }
 
-  doInfinite(infiniteScroll: InfiniteScroll) {
+  doInfinite(): Promise<any> {
     this.load();
-    this.posts$.skip(1).take(1).subscribe(() => {
-      infiniteScroll.complete();
-    });
+    return this.posts$.skip(1).take(1).toPromise();
   }
 
   private load() {
