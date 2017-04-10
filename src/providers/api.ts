@@ -8,7 +8,8 @@ import { Observable } from 'rxjs/Observable';
 import { HttpService } from './http';
 import { Event } from '../models/event';
 import { Member, MemberDetail } from '../state/members/members.model';
-import { ForumTopic, ForumPost } from '../state/topics/topics.model';
+import { ForumPost } from '../state/posts/posts.model';
+import { ForumTopic } from '../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../util/dates';
 
 @Injectable()

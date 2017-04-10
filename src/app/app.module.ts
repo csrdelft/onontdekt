@@ -27,6 +27,7 @@ import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { TutorialPageModule } from '../pages/tutorial/tutorial.module';
 import { reducer } from '../state';
 import { MemberEffects } from '../state/members/members.effects';
+import { PostEffects } from '../state/posts/posts.effects';
 import { TopicEffects } from '../state/topics/topics.effects';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { TopicEffects } from '../state/topics/topics.effects';
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(MemberEffects),
+    EffectsModule.run(PostEffects),
     EffectsModule.run(TopicEffects),
 
     /**

@@ -47,7 +47,7 @@ export class ForumRecentPage implements OnInit {
   }
 
   goToTopicDetail(topic: ForumTopic) {
-    this.navCtrl.push('ForumTopicPage', { topic });
+    this.navCtrl.push('ForumTopicPage', { id: topic.draad_id });
   }
 
   ionViewDidEnter() {

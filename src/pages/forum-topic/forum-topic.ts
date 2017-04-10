@@ -1,42 +1,52 @@
-import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
+import { Store } from '@ngrx/store';
 import { Content, InfiniteScroll, IonicPage, Item, NavParams } from 'ionic-angular';
+import { Observable } from 'rxjs/Observable';
 
-import { ApiService } from '../../providers/api';
-import { ForumPost, ForumTopic } from '../../state/topics/topics.model';
+import * as fromRoot from '../../state';
+import { ForumPost } from '../../state/posts/posts.model';
+import * as post from '../../state/posts/posts.actions';
+import { ForumTopic } from '../../state/topics/topics.model';
+import * as topic from '../../state/topics/topics.actions';
 
 @IonicPage({
-  segment: 'draadje'
+  segment: 'draadje/:id'
 })
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'forum-topic-page',
   templateUrl: 'forum-topic.html'
 })
-export class ForumTopicPage {
+export class ForumTopicPage implements OnInit {
   @ViewChild(Content) content: Content;
+  @ViewChildren(Item) items: QueryList<Item>;
 
-  @ViewChildren(Item)
-  public items: QueryList<Item>;
+  topic$: Observable<ForumTopic>;
+  posts$: Observable<ForumPost[]>;
+  moreAvailable$: Observable<boolean>;
 
-  topic: ForumTopic;
-  posts: ForumPost[] = [];
-
-  moreAvailable: boolean = true;
-  failedToLoad: boolean = false;
-
-  offset: number;
-  limit: number;
+  private topicId: number;
 
   constructor(
-    private api: ApiService,
     private googleAnalytics: GoogleAnalytics,
-    private navParams: NavParams
+    private navParams: NavParams,
+    private store: Store<fromRoot.State>
   ) {
-    this.topic = this.navParams.get('topic');
-    this.topic.laatste_post.uid_naam = this.topic.laatste_wijziging_naam;
+    this.topicId = this.navParams.get('id');
+  }
 
-    this.posts = [this.topic.laatste_post];
-    this.initializeParameters();
+  ngOnInit() {
+    this.topic$ = this.store.select(fromRoot.getSelectedTopic);
+    this.posts$ = this.store.select(fromRoot.getSelectedTopicPostsAll);
+    this.moreAvailable$ = this.store.select(fromRoot.getSelectedTopicMorePostsAvailable);
+
+    this.store.dispatch(new topic.SelectAction(this.topicId));
+
+    this.posts$
+      .take(1)
+      .filter(posts => posts === undefined)
+      .subscribe(() => this.load());
   }
 
   ionViewDidLoad() {
@@ -44,57 +54,23 @@ export class ForumTopicPage {
       this.content.scrollToBottom(0);
       scrollDown.unsubscribe();
     });
-    this.updateList(this.offset, this.limit);
-  }
-
-  initializeParameters() {
-    this.offset = 1;
-    this.limit = 10;
-  }
-
-  updateList(offset: number, limit: number, reset: boolean = false): Promise<boolean> {
-    return this.api.getForumTopic(this.topic.draad_id, offset, limit).toPromise()
-      .then(posts => {
-        if (posts.length < limit) {
-          this.moreAvailable = false;
-        }
-
-        if (posts.length === 0) {
-          return false;
-        }
-
-        if (reset) {
-          this.posts = posts;
-        } else {
-          this.posts.unshift(...posts);
-        }
-        return true;
-      }, () => {
-        this.failedToLoad = true;
-      });
-  }
-
-  doInfinite(infiniteScroll: InfiniteScroll) {
-    this.offset += this.limit;
-
-    this.updateList(this.offset, this.limit).then(hasPosts => {
-      if (hasPosts === true) {
-        infiniteScroll.complete();
-      } else {
-        infiniteScroll.complete();
-      }
-    });
-  }
-
-  doRetryLoad() {
-    this.failedToLoad = false;
-    this.updateList(this.offset, this.limit, true);
   }
 
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
       this.googleAnalytics.trackView('Forum Topic');
     }
+  }
+
+  doInfinite(infiniteScroll: InfiniteScroll) {
+    this.load();
+    this.posts$.skip(1).take(1).subscribe(() => {
+      infiniteScroll.complete();
+    });
+  }
+
+  private load() {
+    this.store.dispatch(new post.LoadAction(this.topicId));
   }
 
 }

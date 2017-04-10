@@ -6,6 +6,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { AppConfig } from '../app/app.config';
 
 import * as fromMembers from './members/members.reducer';
+import * as fromPosts from './posts/posts.reducer';
 import * as fromTopics from './topics/topics.reducer';
 
 /**
@@ -13,6 +14,7 @@ import * as fromTopics from './topics/topics.reducer';
  */
 export interface State {
   members: fromMembers.State;
+  posts: fromPosts.State;
   topics: fromTopics.State;
 }
 
@@ -21,6 +23,7 @@ export interface State {
  */
 const reducers = {
   members: fromMembers.reducer,
+  posts: fromPosts.reducer,
   topics: fromTopics.reducer,
 };
 
@@ -47,11 +50,43 @@ export const getSelectedMember = createSelector(getMembersState, fromMembers.get
 export const getSelectedMemberDetail = createSelector(getMembersState, fromMembers.getSelectedDetail);
 
 /**
+ * Map Posts selectors to main state
+ */
+export const getPostsState = (state: State) => state.posts;
+
+export const getPostEntities = createSelector(getPostsState, fromPosts.getEntities);
+export const getPostsByTopic = createSelector(getPostsState, fromPosts.getByTopic);
+
+/**
  * Map Topics selectors to main state
  */
 export const getTopicsState = (state: State) => state.topics;
 
 export const getAllTopics = createSelector(getTopicsState, fromTopics.getAll);
+export const getSelectedTopicId = createSelector(getTopicsState, fromTopics.getSelectedId);
 export const getSelectedTopic = createSelector(getTopicsState, fromTopics.getSelected);
 export const moreTopicsAvailable = createSelector(getTopicsState, fromTopics.isMoreAvailable);
 export const getTopicsLength = createSelector(getTopicsState, fromTopics.getLength);
+
+/**
+ * Shared Posts and Topics selectors
+ */
+export const getSelectedTopicPosts = createSelector(getSelectedTopicId, getPostsByTopic, (topicId, posts) => {
+  return posts[topicId];
+});
+
+export const getSelectedTopicPostIds = createSelector(getSelectedTopicPosts, (posts) => {
+  return posts && posts.ids;
+});
+
+export const getSelectedTopicPostsAll = createSelector(getSelectedTopicPostIds, getPostEntities, (ids, entities) => {
+  return ids && ids.map(id => entities[id]);
+});
+
+export const getSelectedTopicPostsLength = createSelector(getSelectedTopicPostIds, (postIds) => {
+  return postIds && postIds.length;
+});
+
+export const getSelectedTopicMorePostsAvailable = createSelector(getSelectedTopicPosts, (posts) => {
+  return posts && posts.isMoreAvailable;
+});
