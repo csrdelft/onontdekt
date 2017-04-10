@@ -1,0 +1,5 @@
+// Using an ion-refresher with content padding makes it visible behind the content,
+// so the scroll-content gets a background-color to hide it behind.
+.has-refresher > .scroll-content {
+  background-color: #fff;
+}
