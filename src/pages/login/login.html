@@ -7,29 +7,23 @@
 <ion-content>
 
   <ion-list>
-    <form #loginForm="ngForm" novalidate>
+    <form [formGroup]="loginForm" (submit)="login()" novalidate>
       <p padding-horizontal>
         Gebruik je lidnummer en wachtwoord van de stek om in te loggen.
       </p>
 
       <label ion-item>
         <ion-label fixed>Lidnummer</ion-label>
-        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+        <ion-input name="username" type="text" spellcheck="false" autocapitalize="off" formControlName="username"></ion-input>
       </label>
-      <p [hidden]="username.valid || submitted == false" ion-text color="danger" padding-left>
-        Vul hier je lidnummer in.
-      </p>
 
       <label ion-item>
         <ion-label fixed>Wachtwoord</ion-label>
-        <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required></ion-input>
+        <ion-input name="password" type="password" formControlName="password"></ion-input>
       </label>
-      <p [hidden]="password.valid || submitted == false" ion-text color="danger" padding-left>
-        Vul hier je wachtwoord in.
-      </p>
 
       <div padding>
-        <button ion-button (click)="onLogin(loginForm)" type="submit" color="primary" block>Inloggen</button>
+        <button ion-button type="submit" color="primary" block [disabled]="!loginForm.valid">Inloggen</button>
       </div>
     </form>
   </ion-list>
