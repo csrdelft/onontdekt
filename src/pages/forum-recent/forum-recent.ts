@@ -48,6 +48,10 @@ export class ForumRecentPage implements OnInit {
     this.navCtrl.push('ForumTopicPage', { id: topic.draad_id });
   }
 
+  identify(index: number, topic: ForumTopic) {
+    return topic.UUID;
+  }
+
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
       this.googleAnalytics.trackView('Forum Recent');

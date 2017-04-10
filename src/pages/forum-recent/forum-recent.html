@@ -15,7 +15,7 @@
 
     <ion-list class="topic-list" *ngIf="topics.length > 0; else loading">
 
-      <button ion-item *ngFor="let topic of topics" (click)="goToTopicDetail(topic)">
+      <button ion-item *ngFor="let topic of topics; trackBy:identify" (click)="goToTopicDetail(topic)">
         <h2>
           <ion-icon name="star" *ngIf="topic.belangrijk"></ion-icon>
           <ion-icon name="lock" *ngIf="topic.gesloten"></ion-icon>

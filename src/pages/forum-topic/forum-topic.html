@@ -12,7 +12,7 @@
 
   <ion-list class="post-list" *ngIf="posts$ | async as posts; else loading">
 
-    <ion-item *ngFor="let post of posts" text-wrap>
+    <ion-item *ngFor="let post of posts; trackBy:identify" text-wrap>
       <div item-left>
         <img class="post-image" [attr.src]="'https://csrdelft.nl/plaetjes/pasfoto/' + post.uid + '.vierkant.png'">
       </div>

@@ -3,6 +3,12 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicPage, NavController, Platform } from 'ionic-angular';
 
+export interface TutorialSlide {
+  title: string;
+  description: string;
+  image: string;
+}
+
 @IonicPage({
   segment: 'tour'
 })
@@ -11,7 +17,7 @@ import { IonicPage, NavController, Platform } from 'ionic-angular';
   templateUrl: 'tutorial.html'
 })
 export class TutorialPage {
-  slides: any = [
+  slides: TutorialSlide[] = [
     {
       title: 'Onontdekt',
       description: 'Het <b>XI<sup>e</sup> Lustrum</b> der <b>Civitas Studiosorum Reformatorum</b> is begonnen!',
@@ -36,11 +42,7 @@ export class TutorialPage {
     private statusBar: StatusBar
   ) {}
 
-  startApp() {
-    this.navCtrl.push('LoginPage');
-  }
-
-  public ionViewDidEnter() {
+  ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         this.statusBar.styleDefault();
@@ -49,12 +51,20 @@ export class TutorialPage {
     }
   }
 
-  public ionViewWillLeave() {
+  ionViewWillLeave() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         this.statusBar.styleLightContent();
       });
     }
+  }
+
+  startApp() {
+    this.navCtrl.push('LoginPage');
+  }
+
+  identify(index: number, slide: TutorialSlide) {
+    return slide.title;
   }
 
 }

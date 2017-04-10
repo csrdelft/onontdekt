@@ -16,7 +16,7 @@
       Huidige tussenstand
     </ion-card-header>
     <ion-list>
-      <ion-item *ngFor="let item of ranking; let i = index">
+      <ion-item *ngFor="let item of ranking; trackBy:identify; let i = index">
         <div item-left>
           {{ i + 1 }}.
         </div>

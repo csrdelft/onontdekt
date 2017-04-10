@@ -67,6 +67,10 @@ export class ForumTopicPage implements OnInit {
     return this.posts$.skip(1).take(1).toPromise();
   }
 
+  identify(index: number, post: ForumPost) {
+    return post.UUID;
+  }
+
   private load() {
     this.store.dispatch(new post.LoadAction(this.topicId));
   }

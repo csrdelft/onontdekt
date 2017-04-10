@@ -1,4 +1,5 @@
 export class Event {
+  UUID: string;
   id: number;
   maaltijd_id: number;
   titel: string;

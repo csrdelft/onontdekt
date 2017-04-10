@@ -20,13 +20,13 @@
 
     <ion-list class="member-list" *ngIf="members.length > 0; else loading">
 
-      <ion-item-group *ngFor="let group of members | csrGroupBy:groupBy">
+      <ion-item-group *ngFor="let group of members | csrGroupBy:groupBy; trackBy:identifyGroup">
 
         <ion-item-divider sticky color="light">
           <strong>{{ group.name }}</strong>
         </ion-item-divider>
 
-        <a ion-item detail-none *ngFor="let member of group.elements" (click)="goToMemberDetail(member)">
+        <a ion-item detail-none *ngFor="let member of group.elements; trackBy:identify" (click)="goToMemberDetail(member)">
           {{ member.voornaam }} <strong>{{ member.tussenvoegsel }} {{ member.achternaam }}</strong>
         </a>
 

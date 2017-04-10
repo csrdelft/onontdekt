@@ -5,6 +5,7 @@ import { Content, IonicPage, NavController, Searchbar } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
+import { Group } from '../../pipes/group-by/group-by';
 import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
 import { Member } from '../../state/members/members.model';
@@ -80,6 +81,14 @@ export class MemberListPage implements OnInit {
     this.navCtrl.push('MemberDetailPage', {
       id: member.id
     });
+  }
+
+  identify(index: number, member: Member) {
+    return member.id;
+  }
+
+  identifyGroup(index: number, group: Group) {
+    return group.name;
   }
 
   ionViewDidEnter() {

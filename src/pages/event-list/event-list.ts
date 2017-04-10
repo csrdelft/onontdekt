@@ -115,6 +115,14 @@ export class EventListPage {
     this.navCtrl.push('EventDetailPage', event);
   }
 
+  identifyGroup(index: number, group: { date: string; events: Event[] }) {
+    return group.date;
+  }
+
+  identify(index: number, event: Event) {
+    return event.UUID;
+  }
+
   ionViewDidEnter() {
     if ((GoogleAnalytics as any)['installed']()) {
       this.googleAnalytics.trackView('Event List');

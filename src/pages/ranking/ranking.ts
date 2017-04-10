@@ -43,6 +43,10 @@ export class RankingPage implements OnInit {
     });
   }
 
+  identify(index: number, item: Ranked) {
+    return item.name;
+  }
+
   private load() {
     this.http.get('https://dl.dropboxusercontent.com/s/lm4fvoih6m8tpx1/ranking.json')
       .map(res => res.json())

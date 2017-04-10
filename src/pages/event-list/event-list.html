@@ -17,13 +17,13 @@
 
   <ion-list class="event-list">
 
-    <ion-item-group *ngFor="let group of groups">
+    <ion-item-group *ngFor="let group of groups; trackBy:identifyGroup">
 
       <ion-item-divider sticky color="light">
         <strong>{{ group.date }}</strong>
       </ion-item-divider>
 
-      <button ion-item *ngFor="let event of group.events" (click)="goToEventDetail(event)" [attr.category]="event._meta.category | lowercase">
+      <button ion-item *ngFor="let event of group.events; trackBy:identify" (click)="goToEventDetail(event)" [attr.category]="event._meta.category | lowercase">
         <h3>{{ event.naam || event.titel }}</h3>
         <p>
           {{ event._meta.formattedListDate }}{{ event.locatie ? ': ' + event.locatie : '' }}
