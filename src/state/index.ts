@@ -40,6 +40,7 @@ export function reducer(state: any, action: any) {
  */
 export const getMembersState = (state: State) => state.members;
 
+export const getAllMembers = createSelector(getMembersState, fromMembers.getAll);
 export const getMembersQuery = createSelector(getMembersState, fromMembers.getQuery);
 export const getMembersQueryResults = createSelector(getMembersState, fromMembers.getQueryResults);
 export const getSelectedMember = createSelector(getMembersState, fromMembers.getSelected);
