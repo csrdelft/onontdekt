@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Events, IonicPage, LoadingController } from 'ionic-angular';
 
@@ -8,6 +8,7 @@ import { AuthService } from '../../providers/auth';
   segment: 'lustrum'
 })
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'about-page',
   templateUrl: 'about.html'
 })
