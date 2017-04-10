@@ -11,11 +11,7 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <div *ngIf="!ranking" padding margin text-center>
-    <ion-spinner></ion-spinner>
-  </div>
-
-  <ion-card *ngIf="ranking">
+  <ion-card *ngIf="ranking$ | async as ranking; else loading">
     <ion-card-header>
       Huidige tussenstand
     </ion-card-header>
@@ -36,5 +32,11 @@
       </ion-item>
     </ion-list>
   </ion-card>
+
+  <ng-template #loading>
+    <div padding margin text-center>
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-template>
 
 </ion-content>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { IonicPage, Refresher } from 'ionic-angular';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface Ranked {
   name: string;
@@ -13,13 +14,12 @@ export interface Ranked {
   segment: 'stand'
 })
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ranking-page',
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
-  public ranking: Ranked[];
-
-  private refresher: Refresher;
+  ranking$: BehaviorSubject<Ranked[]> = new BehaviorSubject(null);
 
   constructor(
     private googleAnalytics: GoogleAnalytics,
@@ -38,17 +38,17 @@ export class RankingPage implements OnInit {
 
   doRefresh(refresher: Refresher) {
     this.load();
-    this.refresher = refresher;
+    this.ranking$.skip(1).take(1).subscribe(() => {
+      refresher.complete();
+    });
   }
 
   private load() {
     this.http.get('https://dl.dropboxusercontent.com/s/lm4fvoih6m8tpx1/ranking.json')
       .map(res => res.json())
       .subscribe((data: Ranked[]) => {
-        this.ranking = data.sort(this.sort);
-        if (this.refresher) {
-          this.refresher.complete();
-        }
+        const sorted = data.sort(this.sort);
+        this.ranking$.next(sorted);
       });
   }
 
