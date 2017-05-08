@@ -1,10 +1,11 @@
 {
   "name": "onontdekt",
-  "typescript": true,
-  "v2": true,
   "app_id": "b4141034",
-  "proxies": [{
-    "path": "/api-proxy",
-    "proxyUrl": "https://csrdelft.nl/API/2.0"
-  }]
+  "proxies": [
+    {
+      "path": "/api-proxy",
+      "proxyUrl": "https://csrdelft.nl/API/2.0"
+    }
+  ],
+  "type": "ionic-angular"
 }
