@@ -1,0 +1,12 @@
+csr-forum-message {
+  .post-text {
+    color: #000;
+    white-space: pre-wrap;
+
+    blockquote {
+      border-left: 3px solid #ddd;
+      padding-left: 5px;
+      margin-left: 0;
+    }
+  }
+}

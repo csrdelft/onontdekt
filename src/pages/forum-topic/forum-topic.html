@@ -20,7 +20,7 @@
       <p class="post-date">
         {{ post.datum_tijd | csrDateCalendar: { sameDay: 'HH:mm', lastDay: '[Gisteren om] HH:mm', lastWeek: 'dddd [om] HH:mm', sameElse: 'D MMMM YYYY HH:mm' } }}
       </p>
-      <p class="post-text" [innerHtml]="post.tekst | csrBBParse"></p>
+      <csr-forum-message [text]="post.tekst | csrBBParse"></csr-forum-message>
     </ion-item>
 
   </ion-list>
