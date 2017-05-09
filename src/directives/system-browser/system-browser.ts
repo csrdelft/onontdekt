@@ -1,6 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Platform } from 'ionic-angular';
+
+import { UrlService } from '../../providers/url';
 
 @Directive({
   selector: '[csrSystemBrowser]'
@@ -9,15 +10,15 @@ export class SystemBrowserDirective {
 
   constructor(
     private el: ElementRef,
-    private inAppBrowser: InAppBrowser,
-    private platform: Platform
+    private platform: Platform,
+    private urlService: UrlService
   ) {}
 
   @HostListener('click', ['$event']) onClick(event: MouseEvent) {
     if (this.platform.is('cordova')) {
       event.preventDefault();
-      let url = this.el.nativeElement.getAttribute('href');
-      this.inAppBrowser.create(url, '_system');
+      const url = this.el.nativeElement.getAttribute('href');
+      this.urlService.open(url);
     }
   }
 }
