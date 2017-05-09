@@ -9,6 +9,17 @@ import * as fromMembers from './members/members.reducer';
 import * as fromPosts from './posts/posts.reducer';
 import * as fromTopics from './topics/topics.reducer';
 
+// These imports are somehow needed or the ts compiler throws
+import { Member, MemberDetail } from './members/members.model';
+import { ForumPost } from './posts/posts.model';
+import { ForumTopic } from './topics/topics.model';
+export interface Unused {
+  a: Member;
+  b: MemberDetail;
+  c: ForumPost;
+  d: ForumTopic;
+}
+
 /**
  * Merge sub states
  */
