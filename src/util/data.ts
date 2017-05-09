@@ -9,7 +9,7 @@ export function parseJsonDates(res: Response): any {
   }
 }
 
-function reviveDateTime(key: any, value: any): any {
+export function reviveDateTime(key: any, value: any): any {
   if (typeof value === 'string' && /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)) {
     return new Date(value);
   }
