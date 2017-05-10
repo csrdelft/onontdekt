@@ -56,13 +56,15 @@ import { AuthService } from '../providers/auth';
 import { BBParseService } from '../providers/bb-parse';
 import { HttpService } from '../providers/http';
 import { NotificationService } from '../providers/notification';
+import { UrlService } from '../providers/url';
 
 const services = [
   ApiService,
   AuthService,
   BBParseService,
   HttpService,
-  NotificationService
+  NotificationService,
+  UrlService
 ];
 
 /**
