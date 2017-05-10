@@ -10,7 +10,8 @@
     "ionic:build": "ionic-app-scripts build --prod",
     "ionic:serve": "ionic-app-scripts serve",
     "test": "karma start ./test/karma.conf.js",
-    "test-ci": "karma start ./test/karma.conf.js --single-run"
+    "test-ci": "karma start ./test/karma.conf.js --single-run",
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'"
   },
   "dependencies": {
     "@angular/common": "4.1.0",
@@ -73,7 +74,7 @@
     "@types/jasmine": "2.5.47",
     "@types/node": "7.0.18",
     "angular2-template-loader": "0.6.2",
-    "codelyzer": "2.1.1",
+    "codelyzer": "3.0.1",
     "html-loader": "0.4.5",
     "jasmine": "2.6.0",
     "jasmine-spec-reporter": "4.1.0",
@@ -87,7 +88,7 @@
     "null-loader": "0.1.1",
     "ts-loader": "2.0.3",
     "ts-node": "3.0.4",
-    "tslint": "4.5.1",
+    "tslint": "5.2.0",
     "typescript": "2.2.2"
   },
   "cordova": {

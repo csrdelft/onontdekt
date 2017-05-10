@@ -1,12 +1,14 @@
 import { Action } from '@ngrx/store';
 
-import { ForumPost } from './posts.model';
 import { type } from '../../util/state';
+import { ForumPost } from './posts.model';
+
+// tslint:disable:max-classes-per-file
 
 export class ActionTypes {
   static readonly LOAD               = type('[Posts] Load');
   static readonly LOAD_COMPLETE      = type('[Posts] Load Complete');
-};
+}
 
 export class LoadAction implements Action {
   readonly type = ActionTypes.LOAD;

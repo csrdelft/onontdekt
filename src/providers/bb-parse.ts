@@ -28,10 +28,12 @@ THE SOFTWARE.
   Several tags have been removed, changed, or added.
 */
 
+// tslint:disable:no-conditional-assignment
+
 import { Injectable } from '@angular/core';
 
-import { UrlService } from './url';
 import { isNumeric } from '../util/data';
+import { UrlService } from './url';
 
 const URL_PATTERN = /^(?:https?|file|c):(?:\/{1,3}|\\{1})[-a-zA-Z0-9:;,@#%&()~_?\+=\/\\\.]*$/;
 const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+/;
@@ -120,7 +122,9 @@ export class BBParseService {
       'activiteit': {
         openTag: (params, content) => {
           const id = (params ? params.substr(1) : content);
-          if (!isNumeric(id)) return '<a>';
+          if (!isNumeric(id)) {
+            return '<a>';
+          }
           return `<a href="https://csrdelft.nl/groepen/activiteiten/${id}/">Activiteit ${id}`;
         },
         closeTag: (params, content) => '</a>',
@@ -162,7 +166,9 @@ export class BBParseService {
       'document': {
         openTag: (params, content) => {
           const id = (params ? params.substr(1) : content);
-          if (!isNumeric(id)) return '<a>';
+          if (!isNumeric(id)) {
+            return '<a>';
+          }
           return `<a href="https://csrdelft.nl/documenten/bekijken/${id}/">Document ${id}`;
         },
         closeTag: (params, content) => '</a>',
@@ -227,7 +233,7 @@ export class BBParseService {
       },
       'img': {
         openTag: (params, content) => {
-          var url = content;
+          const url = content;
 
           URL_PATTERN.lastIndex = 0;
           if (!URL_PATTERN.test(url)) {
@@ -242,7 +248,9 @@ export class BBParseService {
       'ketzer': {
         openTag: (params, content) => {
           const id = params ? params.substr(1) : content;
-          if (!isNumeric(id)) return '<a>';
+          if (!isNumeric(id)) {
+            return '<a>';
+          }
           return `<a href="https://csrdelft.nl/groepen/ketzers/${id}/">Ketzer ${id}`;
         },
         closeTag: (params, content) => '</a>',
@@ -256,7 +264,9 @@ export class BBParseService {
       'lid': {
         openTag: (params, content) => {
           const id = params.substr(1);
-          if (!id || id.length !== 4 || !isNumeric(id)) return '<a>';
+          if (!id || id.length !== 4 || !isNumeric(id)) {
+            return '<a>';
+          }
           return `<a href="#/leden/lid/${id}">Lid ${id}`;
         },
         closeTag: (params, content) => '</a>',
@@ -351,7 +361,7 @@ export class BBParseService {
       },
       'video': {
         openTag: (params, content) => {
-          let myUrl = content.replace(/<.*?>/g, '');
+          const myUrl = content.replace(/<.*?>/g, '');
           URL_PATTERN.lastIndex = 0;
           if (!URL_PATTERN.test(myUrl)) {
             return '<a>';
@@ -387,8 +397,8 @@ export class BBParseService {
     this.initTags();
   }
 
-  public process(config: IParseConfig): IParseResult {
-    var ret: IParseResult = {
+  process(config: IParseConfig): IParseResult {
+    const ret: IParseResult = {
       html: '',
       error: false,
       errorQueue: null
@@ -437,7 +447,7 @@ export class BBParseService {
       tagParams = tagParams || '';
       tagContents = tagContents || '';
       return '[' + tagName + tagParams + ']' + tagContents + '[/' + tagName + ']';
-    })));
+    }))) {}
 
     config.text = this.fixStarTag(config.text); // add in closing tags for the [*] tag
 
@@ -448,7 +458,6 @@ export class BBParseService {
     ret.html = this.parse(config);
 
     if (ret.html.indexOf('[') !== -1 || ret.html.indexOf(']') !== -1) {
-      console.log(config.text, ret.html);
       errQueue.push('Some tags appear to be misaligned.');
     }
 
@@ -467,13 +476,13 @@ export class BBParseService {
     ret.errorQueue = errQueue;
 
     return ret;
-  };
+  }
 
   // create tag list and lookup fields
   private initTags() {
     this.tagList = [];
 
-    for (let prop in this.tags) {
+    for (const prop in this.tags) {
       if (this.tags.hasOwnProperty(prop)) {
         if (prop === '*') {
           this.tagList.push('\\' + prop);
@@ -507,10 +516,10 @@ export class BBParseService {
     this.pbbRegExp2 = new RegExp('\\[(' + this.tagsNoParseList.join('|') + ')([ =][^\\]]*?)?\\]([\\s\\S]*?)\\[/\\1\\]', 'gi');
 
     // create the regex for escaping ['s that aren't apart of tags
-    var closeTagList: string[] = [];
-    for (var j = 0; j < this.tagList.length; j++) {
-      if (this.tagList[j] !== '\\*') { // the * tag doesn't have an offical closing tag
-        closeTagList.push('/' + this.tagList[j]);
+    const closeTagList: string[] = [];
+    for (const tag of this.tagList) {
+      if (tag !== '\\*') { // the * tag doesn't have an offical closing tag
+        closeTagList.push('/' + tag);
       }
     }
 
@@ -518,16 +527,24 @@ export class BBParseService {
     this.closeTags = new RegExp('(\\[)(' + closeTagList.join('|') + ')(\\])', 'gi');
   }
 
-  private checkParentChildRestrictions(parentTag: string, bbcode: string, bbcodeLevel: number, tagName: string, tagParams: string, tagContents: string, errQueue: string[]): string[] {
+  private checkParentChildRestrictions(
+    parentTag: string,
+    bbcode: string,
+    bbcodeLevel: number,
+    tagName: string,
+    tagParams: string,
+    tagContents: string,
+    errQueue: string[]
+  ): string[] {
     errQueue = errQueue || [];
     bbcodeLevel++;
 
     // get a list of all of the child tags to this tag
-    var reTagNames = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'gi'),
-      reTagNamesParts = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'i'),
-      matchingTags = tagContents.match(reTagNames) || [],
-      errStr: string,
-      pInfo = this.tags[parentTag];
+    const reTagNames = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'gi');
+    const reTagNamesParts = new RegExp('(<bbcl=' + bbcodeLevel + ' )(' + this.tagList.join('|') + ')([ =>])', 'i');
+    const matchingTags = tagContents.match(reTagNames) || [];
+    const pInfo = this.tags[parentTag];
+    let errStr: string;
 
     reTagNames.lastIndex = 0;
 
@@ -535,9 +552,9 @@ export class BBParseService {
       tagContents = '';
     }
 
-    for (let ii = 0; ii < matchingTags.length; ii++) {
+    for (const tag of matchingTags) {
       reTagNamesParts.lastIndex = 0;
-      let childTag = (matchingTags[ii].match(reTagNamesParts))[2].toLowerCase();
+      const childTag = (tag.match(reTagNamesParts))[2].toLowerCase();
 
       if (pInfo && pInfo.restrictChildrenTo && pInfo.restrictChildrenTo.length > 0) {
         if (!pInfo.validChildLookup[childTag]) {
@@ -545,7 +562,7 @@ export class BBParseService {
           errQueue.push(errStr);
         }
       }
-      let cInfo = this.tags[childTag];
+      const cInfo = this.tags[childTag];
       if (cInfo.restrictParentsTo.length > 0) {
         if (!cInfo.validParentLookup[parentTag]) {
           errStr = 'The tag "' + parentTag + '" is not allowed as a parent of the tag "' + childTag + '"';
@@ -555,8 +572,10 @@ export class BBParseService {
 
     }
 
-    tagContents = tagContents.replace(this.bbRegExp, (matchStr, bbcodeLevel, tagName, tagParams, tagContents) => {
-      errQueue = this.checkParentChildRestrictions(tagName.toLowerCase(), matchStr, bbcodeLevel, tagName, tagParams, tagContents, errQueue);
+    tagContents = tagContents.replace(this.bbRegExp, (matchStr, bbcodeLevel2, tagName2, tagParams2, tagContents2) => {
+      errQueue = this.checkParentChildRestrictions(
+        tagName.toLowerCase(), matchStr, bbcodeLevel2, tagName2, tagParams2, tagContents2, errQueue
+      );
       return matchStr;
     });
     return errQueue;
@@ -569,11 +588,11 @@ export class BBParseService {
   */
   private updateTagDepths(tagContents: string): string {
     tagContents = tagContents.replace(/\<([^\>][^\>]*?)\>/gi, (matchStr, subMatchStr) => {
-      var bbCodeLevel = subMatchStr.match(/^bbcl=([0-9]+) /);
+      const bbCodeLevel = subMatchStr.match(/^bbcl=([0-9]+) /);
       if (bbCodeLevel === null) {
         return '<bbcl=0 ' + subMatchStr + '>';
       } else {
-        return '<' + subMatchStr.replace(/^(bbcl=)([0-9]+)/, (matchStr: string, m1: string, m2: string) => {
+        return '<' + subMatchStr.replace(/^(bbcl=)([0-9]+)/, (matchStr2: string, m1: string, m2: string) => {
           return m1 + (parseInt(m2, 10) + 1);
         }) + '>';
       }
@@ -592,9 +611,14 @@ export class BBParseService {
     const replaceFunct = (matchStr: string, bbcodeLevel: string, tagName: string, tagParams: string, tagContents: string) => {
       tagName = tagName.toLowerCase();
 
-      var processedContent: string = this.tags[tagName].noParse ? this.unprocess(tagContents) : tagContents.replace(this.bbRegExp, replaceFunct),
-        openTag = this.tags[tagName].openTag(tagParams, processedContent),
-        closeTag = this.tags[tagName].closeTag(tagParams, processedContent);
+      let processedContent: string;
+      if (this.tags[tagName].noParse === true) {
+        processedContent = this.unprocess(tagContents);
+      } else {
+        processedContent = tagContents.replace(this.bbRegExp, replaceFunct);
+      }
+      const openTag = this.tags[tagName].openTag(tagParams, processedContent);
+      const closeTag = this.tags[tagName].closeTag(tagParams, processedContent);
 
       if (this.tags[tagName].displayContent === false) {
         processedContent = '';
@@ -603,7 +627,7 @@ export class BBParseService {
       return openTag + processedContent + closeTag;
     };
 
-    var output = config.text;
+    let output = config.text;
     output = output.replace(this.bbRegExp, replaceFunct);
     return output;
   }
@@ -621,19 +645,19 @@ export class BBParseService {
 
     while (text !== (text = text.replace(/>list([ =][^\]]*)?\]([^>]*?)(>\/list])/gi, (matchStr, contents, endTag) => {
 
-      var innerListTxt = matchStr;
-      while (innerListTxt !== (innerListTxt = innerListTxt.replace(/\[\*\]([^\[]*?)(\[\*\]|>\/list])/i, (matchStr, contents, endTag) => {
-        if (endTag.toLowerCase() === '>/list]') {
-          endTag = '</*]</list]';
+      let innerListTxt = matchStr;
+      while (innerListTxt !== (innerListTxt = innerListTxt.replace(/\[\*\]([^\[]*?)(\[\*\]|>\/list])/i, (matchStr2, contents2, endTag2) => {
+        if (endTag2.toLowerCase() === '>/list]') {
+          endTag2 = '</*]</list]';
         } else {
-          endTag = '</*][*]';
+          endTag2 = '</*][*]';
         }
-        return '<*]' + contents + endTag;
-      })));
+        return '<*]' + contents2 + endTag2;
+      }))) {}
 
       innerListTxt = innerListTxt.replace(/>/g, '<');
       return innerListTxt;
-    })));
+    }))) {}
 
     // add ['s for our tags back in
     text = text.replace(/</g, '[');
@@ -645,7 +669,7 @@ export class BBParseService {
       matchStr = matchStr.replace(/\[/g, '<');
       matchStr = matchStr.replace(/\]/g, '>');
       return this.updateTagDepths(matchStr);
-    })));
+    }))) {}
     return text;
   }
 

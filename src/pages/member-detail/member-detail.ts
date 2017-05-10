@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
-import { Contacts, ContactAddress, ContactField, ContactName } from '@ionic-native/contacts';
+import { ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Store } from '@ngrx/store';
-import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import isPast from 'date-fns/is_past';
+import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
@@ -20,7 +20,7 @@ import { NotificationService } from '../../providers/notification';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'member-detail-page',
+  selector: 'csr-member-detail',
   templateUrl: 'member-detail.html'
 })
 export class MemberDetailPage implements OnInit {
@@ -52,12 +52,12 @@ export class MemberDetailPage implements OnInit {
   }
 
   getSafeUrl(scheme: string, target: string): any {
-    let url = scheme + ':' + encodeURIComponent(target);
+    const url = scheme + ':' + encodeURIComponent(target);
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
   save(member: MemberDetail) {
-    let actionSheet = this.actionSheetCtrl.create({
+    const actionSheet = this.actionSheetCtrl.create({
       buttons: [{
         text: 'Maak nieuw contact',
         icon: !this.platform.is('ios') ? 'person-add' : null,
@@ -72,11 +72,13 @@ export class MemberDetailPage implements OnInit {
   }
 
   saveNew(member: MemberDetail) {
-    let contact = this.contacts.create();
+    const contact = this.contacts.create();
     contact.name = new ContactName(null, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel);
     contact.phoneNumbers = [new ContactField('mobiel', member.mobiel, false)];
     contact.emails = [new ContactField('thuis', member.email, false)];
-    contact.addresses = [new ContactAddress(false, member.huis.naam || 'adres', null, member.huis.adres, member.huis.woonplaats, null, member.huis.postcode, member.huis.land)];
+    contact.addresses = [new ContactAddress(
+      false, member.huis.naam || 'adres', null, member.huis.adres, member.huis.woonplaats, null, member.huis.postcode, member.huis.land
+    )];
     contact.birthday = member.geboortedatum;
 
     contact.save()
@@ -91,8 +93,8 @@ export class MemberDetailPage implements OnInit {
   }
 
   openCalendar(member: MemberDetail) {
-    let currentYear = new Date().getFullYear();
-    let date = new Date(member.geboortedatum);
+    const currentYear = new Date().getFullYear();
+    const date = new Date(member.geboortedatum);
 
     date.setFullYear(currentYear);
     if (isPast(date)) {

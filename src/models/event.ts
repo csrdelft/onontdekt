@@ -1,3 +1,5 @@
+// tslint:disable:variable-name
+
 export class Event {
   UUID: string;
   id: number;

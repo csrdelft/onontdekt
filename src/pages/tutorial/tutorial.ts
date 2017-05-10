@@ -13,7 +13,7 @@ export interface TutorialSlide {
   segment: 'tour'
 })
 @Component({
-  selector: 'tutorial-page',
+  selector: 'csr-tutorial',
   templateUrl: 'tutorial.html'
 })
 export class TutorialPage {

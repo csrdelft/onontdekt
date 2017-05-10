@@ -7,9 +7,9 @@ export class NotificationService {
     private toastCtrl: ToastController
   ) {}
 
-  public notify(message: string) {
-    let toast = this.toastCtrl.create({
-      message: message,
+  notify(message: string) {
+    const toast = this.toastCtrl.create({
+      message,
       duration: 3000
     });
     toast.present();

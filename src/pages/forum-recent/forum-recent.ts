@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { NavController, IonicPage, Refresher } from 'ionic-angular';
+import { IonicPage, NavController, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
@@ -13,7 +13,7 @@ import { ForumTopic } from '../../state/topics/topics.model';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'forum-recent-page',
+  selector: 'csr-forum-recent',
   templateUrl: 'forum-recent.html'
 })
 export class ForumRecentPage implements OnInit {

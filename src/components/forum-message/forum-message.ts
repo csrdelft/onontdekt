@@ -10,7 +10,7 @@ import { isNumeric } from '../../util/data';
   templateUrl: 'forum-message.html'
 })
 export class ForumMessageComponent {
-  @Input() public text: string;
+  @Input() text: string;
 
   constructor(
     private navCtrl: NavController,
@@ -19,14 +19,20 @@ export class ForumMessageComponent {
 
   checkAnchorClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (target.nodeName !== 'A') return;
+    if (target.nodeName !== 'A') {
+      return;
+    }
 
     const url = target.getAttribute('href');
-    if (!url || url.length === 0) return;
+    if (!url || url.length === 0) {
+      return;
+    }
 
     if (url.substr(0, 12) === '#/leden/lid/') {
       const id = url.substr(12);
-      if (!id || id.length !== 4 || !isNumeric(id)) return;
+      if (!id || id.length !== 4 || !isNumeric(id)) {
+        return;
+      }
 
       event.preventDefault();
       this.navCtrl.push('MemberDetailPage', { id });
@@ -34,7 +40,9 @@ export class ForumMessageComponent {
 
     if (url.substr(0, 13) === '#/verklapper/') {
       const text = decodeURIComponent(target.dataset.text);
-      if (!text) return;
+      if (!text) {
+        return;
+      }
 
       event.preventDefault();
       this.navCtrl.push('ForumTextPage', { text });

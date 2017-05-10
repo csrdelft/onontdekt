@@ -5,17 +5,17 @@ import isSameDay from 'date-fns/is_same_day';
 import parse from 'date-fns/parse';
 import { Observable } from 'rxjs/Observable';
 
-import { HttpService } from './http';
 import { Event } from '../models/event';
 import { Member, MemberDetail } from '../state/members/members.model';
 import { ForumPost } from '../state/posts/posts.model';
 import { ForumTopic } from '../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../util/dates';
+import { HttpService } from './http';
 
 @Injectable()
 export class ApiService {
-  private _scheduleList: any[] = [];
-  private _joinedEvents: any = {
+  private scheduleList: any[] = [];
+  private joinedEvents: any = {
     maaltijden: [],
     activiteiten: []
   };
@@ -24,22 +24,22 @@ export class ApiService {
     private httpService: HttpService
   ) {}
 
-  public getScheduleList(from: Date, to: Date): Promise<Event[]> {
+  getScheduleList(from: Date, to: Date): Promise<Event[]> {
     return new Promise((resolve, reject) => {
-      let fromISO = from.toISOString();
-      let toISO = to.toISOString();
+      const fromISO = from.toISOString();
+      const toISO = to.toISOString();
 
       this.httpService.getFromApi('/agenda?from=' + fromISO + '&to=' + toISO, 'get')
         .subscribe((res: { events: Event[], joined: { activiteiten: number[], maaltijden: number[] } }) => {
-          let schedule = {
+          const schedule = {
             from: new Date(from),
             to: new Date(to),
             events: res.events
           };
-          this._scheduleList.push(schedule);
+          this.scheduleList.push(schedule);
 
-          this._joinedEvents.maaltijden.push(...res.joined.maaltijden);
-          this._joinedEvents.activiteiten.push(...res.joined.activiteiten);
+          this.joinedEvents.maaltijden.push(...res.joined.maaltijden);
+          this.joinedEvents.activiteiten.push(...res.joined.activiteiten);
 
           resolve(schedule.events);
         }, error => {
@@ -48,7 +48,7 @@ export class ApiService {
     });
   }
 
-  public addEventMeta(event: Event): Event {
+  addEventMeta(event: Event): Event {
     const start = event.begin_moment ? event.begin_moment : parse(event.datum + ' ' + event.tijd);
     const end = event.eind_moment ? event.eind_moment : addHours(start, 2);
 
@@ -72,10 +72,10 @@ export class ApiService {
     if (event.maaltijd_id) {
       category = 'maaltijd';
       event.prijs = event.prijs.slice(0, -2) + ',' + event.prijs.substr(-2);
-      present = this._joinedEvents.maaltijden.indexOf(Number(event.maaltijd_id)) !== -1;
+      present = this.joinedEvents.maaltijden.indexOf(Number(event.maaltijd_id)) !== -1;
     } else if (event.id) {
       category = 'activiteit';
-      present = this._joinedEvents.activiteiten.indexOf(Number(event.id)) !== -1;
+      present = this.joinedEvents.activiteiten.indexOf(Number(event.id)) !== -1;
     } else {
       category = 'agenda';
     }
@@ -99,41 +99,41 @@ export class ApiService {
     return event;
   }
 
-  public addJoined(cat: string, id: number) {
+  addJoined(cat: string, id: number) {
     if (cat === 'maaltijden') {
-      this._joinedEvents.maaltijden.push(id);
+      this.joinedEvents.maaltijden.push(id);
     } else {
-      this._joinedEvents.activiteiten.push(id);
+      this.joinedEvents.activiteiten.push(id);
     }
   }
 
-  public removeJoined(cat: string, id: number) {
+  removeJoined(cat: string, id: number) {
     if (cat === 'maaltijden') {
-      let index = this._joinedEvents.maaltijden.indexOf(id);
-      this._joinedEvents.maaltijden.splice(index, 1);
+      const index = this.joinedEvents.maaltijden.indexOf(id);
+      this.joinedEvents.maaltijden.splice(index, 1);
     } else {
-      let index = this._joinedEvents.activiteiten.indexOf(id);
-      this._joinedEvents.activiteiten.splice(index, 1);
+      const index = this.joinedEvents.activiteiten.indexOf(id);
+      this.joinedEvents.activiteiten.splice(index, 1);
     }
   }
 
-  public getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
+  getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
     return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
   }
 
-  public getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
+  getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
     return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
   }
 
-  public getMemberList(): Observable<Member[]> {
+  getMemberList(): Observable<Member[]> {
     return this.httpService.getFromApi('/leden', 'get');
   }
 
-  public getMemberDetail(id: string): Observable<MemberDetail> {
+  getMemberDetail(id: string): Observable<MemberDetail> {
     return this.httpService.getFromApi('/leden/' + id, 'get');
   }
 
-  public postAction(cat: string, id: number, action: string): Observable<any> {
+  postAction(cat: string, id: number, action: string): Observable<any> {
     return this.httpService.getFromApi('/' + cat + '/' + id + '/' + action, 'post');
   }
 

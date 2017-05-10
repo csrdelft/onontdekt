@@ -1,7 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { Member, MemberDetail } from './members.model';
 import { type } from '../../util/state';
+import { Member, MemberDetail } from './members.model';
+
+// tslint:disable:max-classes-per-file
 
 export class ActionTypes {
   static readonly LOAD_ALL          = type('[Members] Load All');
@@ -9,7 +11,7 @@ export class ActionTypes {
   static readonly LOAD              = type('[Members] Load');
   static readonly SELECT            = type('[Members] Select');
   static readonly SEARCH            = type('[Members] Search');
-};
+}
 
 export class LoadAllAction implements Action {
   readonly type = ActionTypes.LOAD_ALL;

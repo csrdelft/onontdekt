@@ -51,6 +51,6 @@ import { TopicEffects } from '../state/topics/topics.effects';
     TutorialPageModule
   ],
   bootstrap: [IonicApp],
-  providers: providers
+  providers
 })
 export class AppModule {}

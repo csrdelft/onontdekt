@@ -20,9 +20,9 @@ export class BBParsePipe implements PipeTransform {
       escapeHtml: false
     });
 
-    if (parsed.error) {
-      console.warn(parsed.errorQueue);
-    }
+    // if (parsed.error) {
+    //   console.error(parsed.errorQueue);
+    // }
 
     return this.sanitizer.bypassSecurityTrustHtml(parsed.html);
   }

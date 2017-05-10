@@ -1,6 +1,10 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>{{ (topic$ | async).titel }}</ion-title>
+    <ion-title>
+      <span *ngIf="topic$ | async as topic">
+        {{ topic.titel }}
+      </span>
+    </ion-title>
   </ion-navbar>
 </ion-header>
 

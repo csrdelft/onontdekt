@@ -8,7 +8,7 @@ $categories: (
   @return map-remove($categories);
 }
 
-event-list-page {
+csr-event-list {
 
   .event-list {
     margin-bottom: 0;

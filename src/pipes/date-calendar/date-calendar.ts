@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 import isToday from 'date-fns/is_today';
 import isYesterday from 'date-fns/is_yesterday';
-import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
 
 import { formatLocale } from '../../util/dates';
 

@@ -15,7 +15,7 @@ import { Member } from '../../state/members/members.model';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'member-list-page',
+  selector: 'csr-member-list',
   templateUrl: 'member-list.html'
 })
 export class MemberListPage implements OnInit {

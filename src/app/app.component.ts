@@ -3,11 +3,11 @@ import { CodePush, SyncStatus } from '@ionic-native/code-push';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Events, ToastController, Nav, Platform } from 'ionic-angular';
+import { Events, Nav, Platform, ToastController } from 'ionic-angular';
 
-import { AuthService } from '../providers/auth';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
+import { AuthService } from '../providers/auth';
 
 @Component({
   templateUrl: 'app.component.html'
@@ -43,7 +43,7 @@ export class LustrumApp {
 
   private initializeRootPage() {
     this.authService.tryAuthentication().then((authenticated: boolean) => {
-      let pageToLoad = authenticated ? TabsPage : TutorialPage;
+      const pageToLoad = authenticated ? TabsPage : TutorialPage;
       this.nav.setRoot(pageToLoad);
       if (this.platform.is('cordova')) {
         this.platform.ready().then(() => {
@@ -55,7 +55,7 @@ export class LustrumApp {
 
   private runUpdate() {
     const message = 'Update downloaden... ';
-    let toast = this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message: message + '0%',
     });
 

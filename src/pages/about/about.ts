@@ -9,7 +9,7 @@ import { AuthService } from '../../providers/auth';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'about-page',
+  selector: 'csr-about',
   templateUrl: 'about.html'
 })
 export class AboutPage {
@@ -20,8 +20,8 @@ export class AboutPage {
     private googleAnalytics: GoogleAnalytics
   ) {}
 
-  public logout() {
-    let loading = this.loadingCtrl.create({
+  logout() {
+    const loading = this.loadingCtrl.create({
       content: 'Uitloggen...'
     });
     loading.present();

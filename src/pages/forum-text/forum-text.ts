@@ -6,7 +6,7 @@ import { IonicPage, NavParams } from 'ionic-angular';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'forum-text-page',
+  selector: 'csr-forum-text',
   templateUrl: 'forum-text.html'
 })
 export class ForumTextPage implements OnInit {

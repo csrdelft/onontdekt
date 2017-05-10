@@ -6,7 +6,7 @@ import { EventListPage } from '../event-list/event-list';
 
 @IonicPage()
 @Component({
-  selector: 'tabs-page',
+  selector: 'csr-tabs',
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
@@ -27,7 +27,7 @@ export class TabsPage {
     }
   }
 
-  public ionViewDidEnter() {
+  ionViewDidEnter() {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         this.statusBar.styleLightContent();

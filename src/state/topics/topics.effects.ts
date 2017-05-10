@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ApiService } from '../../providers/api';
 import * as fromRoot from '../';
+import { ApiService } from '../../providers/api';
 import * as topic from './topics.actions';
 import * as fromTopic from './topics.reducer';
 
@@ -22,15 +22,6 @@ export class TopicEffects {
       return this.api.getForumRecent(offset, limit)
         .map(topics => new topic.LoadCompleteAction({ reset, topics }));
     });
-
-  // @Effect()
-  // select$: Observable<Action> = this.actions$
-  //   .ofType(member.ActionTypes.SELECT)
-  //   .map(toPayload)
-  //   .switchMap((id: string) => {
-  //     return this.api.getMemberDetail(id)
-  //       .map(detail => new member.LoadAction(detail));
-  //   });
 
   constructor(
     private actions$: Actions,

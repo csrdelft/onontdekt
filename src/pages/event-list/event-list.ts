@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { NavController, InfiniteScroll, IonicPage, Refresher } from 'ionic-angular';
 import addDays from 'date-fns/add_days';
 import endOfDay from 'date-fns/end_of_day';
 import startOfToday from 'date-fns/start_of_today';
+import { InfiniteScroll, IonicPage, NavController, Refresher } from 'ionic-angular';
 
-import { formatLocale } from '../../util/dates';
-import { ApiService } from '../../providers/api';
 import { Event } from '../../models/event';
+import { ApiService } from '../../providers/api';
+import { formatLocale } from '../../util/dates';
 
 export interface EventGroup {
   date: string;
   events: Event[];
-};
+}
 
 const DAYS_TO_LOAD: number = 42;
 
@@ -20,7 +20,7 @@ const DAYS_TO_LOAD: number = 42;
   segment: 'agenda'
 })
 @Component({
-  selector: 'event-list-page',
+  selector: 'csr-event-list',
   templateUrl: 'event-list.html'
 })
 export class EventListPage {
@@ -58,7 +58,7 @@ export class EventListPage {
           event = this.api.addEventMeta(event);
         });
 
-        let grouped: { [key: string]: Event[] } = events.reduce(
+        const grouped: { [key: string]: Event[] } = events.reduce(
           (result: { [key: string]: Event[] }, event) => {
             const key = formatLocale(event._meta.start, 'dddd D MMMM');
             (result[key] = result[key] || []).push(event);
@@ -66,7 +66,7 @@ export class EventListPage {
           },
         {});
 
-        let mapped = Object.keys(grouped).map(key => {
+        const mapped = Object.keys(grouped).map(key => {
           return {
             date: key,
             events: grouped[key]

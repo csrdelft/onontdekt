@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { OneSignal, OSDisplayType } from '@ionic-native/onesignal';
+import { Storage } from '@ionic/storage';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Platform } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 
 import { AppConfig } from '../app/app.config';
@@ -31,7 +31,7 @@ export class AuthService {
     });
   }
 
-  public tryAuthentication(): Promise<boolean> {
+  tryAuthentication(): Promise<boolean> {
     if (this.authenticated()) {
       this.startupTokenRefresh();
       return Promise.resolve(true);
@@ -58,18 +58,18 @@ export class AuthService {
     });
   }
 
-  public login(username: string, password: string): Promise<any> {
-    let url = AppConfig.API_ENDPOINT + '/auth/authorize';
-    let params = 'user=' + username + '&pass=' + password;
+  login(username: string, password: string): Promise<any> {
+    const url = AppConfig.API_ENDPOINT + '/auth/authorize';
+    const params = 'user=' + username + '&pass=' + password;
 
-    let headers = new Headers();
+    const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
     return new Promise((resolve, reject) => {
       this.http.post(url, params, {
-        headers: headers
+        headers
       }).subscribe(res => {
-        let data = res.json();
+        const data = res.json();
         this.userId = username;
         this.storage.set('userId', this.userId);
         this.storage.set('id_token', data.token);
@@ -84,7 +84,7 @@ export class AuthService {
     });
   }
 
-  public logout(reload: boolean = false) {
+  logout(reload: boolean = false) {
     this.storage.remove('userId');
     this.userId = null;
     this.storage.remove('id_token');
@@ -93,7 +93,7 @@ export class AuthService {
     this.unscheduleRefresh();
     this.registerLogout(reload ? 'Automatic' : 'Manual');
 
-    if (reload) {
+    if (reload === true) {
       location.reload();
     }
   }
@@ -132,12 +132,12 @@ export class AuthService {
   }
 
   private scheduleRefresh() {
-    let source = this.authHttp.tokenStream.flatMap((token: string) => {
-      let jwtIat: number = this.jwtHelper.decodeToken(token).iat;
-      let jwtExp: number = this.jwtHelper.decodeToken(token).exp;
-      let iat: Date = new Date(0);
-      let exp: Date = new Date(0);
-      let delay: number = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
+    const source = this.authHttp.tokenStream.flatMap((token: string) => {
+      const jwtIat: number = this.jwtHelper.decodeToken(token).iat;
+      const jwtExp: number = this.jwtHelper.decodeToken(token).exp;
+      const iat: Date = new Date(0);
+      const exp: Date = new Date(0);
+      const delay: number = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
 
       return Observable.interval(delay - 15);
     });
@@ -154,12 +154,12 @@ export class AuthService {
   }
 
   private startupTokenRefresh() {
-    let source = this.authHttp.tokenStream.flatMap((token: string) => {
-      let now: number = new Date().valueOf();
-      let jwtExp: number = this.jwtHelper.decodeToken(token).exp;
-      let exp: Date = new Date(0);
+    const source = this.authHttp.tokenStream.flatMap((token: string) => {
+      const now: number = new Date().valueOf();
+      const jwtExp: number = this.jwtHelper.decodeToken(token).exp;
+      const exp: Date = new Date(0);
       exp.setUTCSeconds(jwtExp);
-      let delay: number = exp.valueOf() - now;
+      const delay: number = exp.valueOf() - now;
 
       return Observable.timer(delay - 15);
     });
@@ -173,16 +173,16 @@ export class AuthService {
   private getNewJwt(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.storage.get('refresh_token').then(refreshToken => {
-        let url = AppConfig.API_ENDPOINT + '/auth/token';
-        let params = 'refresh_token=' + refreshToken;
+        const url = AppConfig.API_ENDPOINT + '/auth/token';
+        const params = 'refresh_token=' + refreshToken;
 
-        let headers = new Headers();
+        const headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
         this.http.post(url, params, {
-          headers: headers
+          headers
         }).subscribe(res => {
-          let data = res.json();
+          const data = res.json();
           this.storage.set('id_token', data.token);
           localStorage.setItem('id_token', data.token);
           resolve();

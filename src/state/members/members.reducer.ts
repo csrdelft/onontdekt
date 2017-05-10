@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import { Member, MemberDetail } from './members.model';
 import * as member from './members.actions';
+import { Member, MemberDetail } from './members.model';
 
 export interface State {
   ids: string[];
@@ -10,7 +10,7 @@ export interface State {
   detailEntities: { [id: string]: MemberDetail };
   query: string;
   selectedMemberId: string | null;
-};
+}
 
 export const initialState: State = {
   ids: [],

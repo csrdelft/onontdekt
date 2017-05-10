@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { IonicPage, NavParams } from 'ionic-angular';
-import isSameDay from 'date-fns/is_same_day';
-import isPast from 'date-fns/is_past';
 import isFuture from 'date-fns/is_future';
+import isPast from 'date-fns/is_past';
+import isSameDay from 'date-fns/is_same_day';
+import { IonicPage, NavParams } from 'ionic-angular';
 
-import { formatLocale, isFullDay } from '../../util/dates';
-import { NotificationService } from '../../providers/notification';
-import { ApiService } from '../../providers/api';
 import { Event } from '../../models/event';
+import { ApiService } from '../../providers/api';
+import { NotificationService } from '../../providers/notification';
+import { formatLocale, isFullDay } from '../../util/dates';
 
 @IonicPage({
   segment: 'activiteit'
 })
 @Component({
-  selector: 'event-detail-page',
+  selector: 'csr-event-detail',
   templateUrl: 'event-detail.html'
 })
 export class EventDetailPage {
@@ -39,7 +39,7 @@ export class EventDetailPage {
       line1 = formatLocale(start, 'dddd D MMMM YYYY').toLowerCase();
       line2 = fullDay ? 'Hele dag' : formatLocale(start, '[van] HH:mm [tot] ') + formatLocale(end, 'HH:mm');
     } else {
-      let multipleFormat = fullDay ? 'dddd D MMM YYYY' : 'HH:mm [op] dd D MMM YYYY';
+      const multipleFormat = fullDay ? 'dddd D MMM YYYY' : 'HH:mm [op] dd D MMM YYYY';
       line1 = 'van ' + formatLocale(start, multipleFormat).toLowerCase();
       line2 = 'tot ' + formatLocale(end, multipleFormat).toLowerCase();
     }
@@ -49,28 +49,28 @@ export class EventDetailPage {
 
   isJoinable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
-      let notClosed = this.event.gesloten === '0';
+      const notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      let hasOpened = this.event.aanmelden_vanaf === null || isPast(this.event.aanmelden_vanaf);
-      let notClosed = this.event.aanmelden_tot === null || isFuture(this.event.aanmelden_tot);
+      const hasOpened = this.event.aanmelden_vanaf === null || isPast(this.event.aanmelden_vanaf);
+      const notClosed = this.event.aanmelden_tot === null || isFuture(this.event.aanmelden_tot);
       return hasOpened && notClosed;
     }
   }
 
   isLeaveable(): boolean {
     if (this.event._meta.category === 'maaltijd') {
-      let notClosed = this.event.gesloten === '0';
+      const notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      let notClosed = this.event.afmelden_tot !== null && isFuture(this.event.afmelden_tot);
+      const notClosed = this.event.afmelden_tot !== null && isFuture(this.event.afmelden_tot);
       return notClosed;
     }
   }
 
-  public join() {
-    let cat = this.event._meta.category + 'en';
-    let id = this.event.id || this.event.maaltijd_id;
+  join() {
+    const cat = this.event._meta.category + 'en';
+    const id = this.event.id || this.event.maaltijd_id;
 
     this.processingAction = true;
 
@@ -89,9 +89,9 @@ export class EventDetailPage {
     });
   }
 
-  public leave() {
-    let cat = this.event._meta.category + 'en';
-    let id = this.event.id || this.event.maaltijd_id;
+  leave() {
+    const cat = this.event._meta.category + 'en';
+    const id = this.event.id || this.event.maaltijd_id;
 
     this.processingAction = true;
 

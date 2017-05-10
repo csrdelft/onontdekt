@@ -15,25 +15,23 @@ export class HttpService {
     private authService: AuthService
   ) {}
 
-  public getFromApi(url: string, method: string): Observable<any> {
-    return this.authHttp.request(AppConfig.API_ENDPOINT + url, {
-      method: method,
-    })
-    .map(res => parseJsonDates(res))
-    .map(data => data.data)
-    .catch((error: Response) => {
-      if (error.status === 401) {
-        return this.authService.logout(true);
-      }
-
-      try {
-        const data = error.json();
-        if (data && data.error && data.error.message) {
-          return data.error.message;
+  getFromApi(url: string, method: string): Observable<any> {
+    return this.authHttp.request(AppConfig.API_ENDPOINT + url, { method })
+      .map(res => parseJsonDates(res))
+      .map(data => data.data)
+      .catch((error: Response) => {
+        if (error.status === 401) {
+          return this.authService.logout(true);
         }
-      } catch (e) {
-        return e;
-      }
-    });
+
+        try {
+          const data = error.json();
+          if (data && data.error && data.error.message) {
+            return data.error.message;
+          }
+        } catch (e) {
+          return e;
+        }
+      });
   }
 }

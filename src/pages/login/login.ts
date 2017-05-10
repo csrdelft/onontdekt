@@ -10,7 +10,7 @@ import { TabsPage } from '../tabs/tabs';
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'login-page',
+  selector: 'csr-login',
   templateUrl: 'login.html'
 })
 export class LoginPage implements OnInit {
@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    let loading = this.loadingCtrl.create({
+    const loading = this.loadingCtrl.create({
       content: 'Inloggen...'
     });
 
@@ -47,9 +47,10 @@ export class LoginPage implements OnInit {
       })
       .catch(error => {
         loading.dismiss();
-        let alert = this.alertCtrl.create({
+        const alert = this.alertCtrl.create({
           title: 'Inloggen mislukt',
-          message: 'Pff, die verplicht ingewikkelde wachtwoorden ook... Het kan zijn dat je even moet wachten voor je een nieuwe poging mag wagen.',
+          message: 'Pff, die verplicht ingewikkelde wachtwoorden ook... \
+            Het kan zijn dat je even moet wachten voor je een nieuwe poging mag wagen.',
           buttons: ['Probeer het nog eens']
         });
         alert.present();

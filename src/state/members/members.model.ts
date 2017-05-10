@@ -1,6 +1,6 @@
 export interface Member extends MemberName {
   id: string;
-};
+}
 
 export interface MemberDetail {
   id: string;

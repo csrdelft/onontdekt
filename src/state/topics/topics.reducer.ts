@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 
-import { ForumTopic } from './topics.model';
 import * as topic from './topics.actions';
+import { ForumTopic } from './topics.model';
 
 export interface State {
   entities: { [id: number]: ForumTopic };
   ids: number[];
   selectedId: number | null;
   isMoreAvailable: boolean;
-};
+}
 
 export const initialState: State = {
   ids: [],

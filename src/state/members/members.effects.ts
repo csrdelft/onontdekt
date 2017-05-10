@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
-import { ApiService } from '../../providers/api';
 import * as fromRoot from '../';
+import { ApiService } from '../../providers/api';
 import * as member from './members.actions';
 
 @Injectable()

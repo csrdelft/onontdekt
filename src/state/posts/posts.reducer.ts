@@ -1,5 +1,5 @@
-import { ForumPost } from './posts.model';
 import * as post from './posts.actions';
+import { ForumPost } from './posts.model';
 
 export interface State {
   entities: { [id: number]: ForumPost };
@@ -9,7 +9,7 @@ export interface State {
       isMoreAvailable: boolean;
     };
   };
-};
+}
 
 export const initialState: State = {
   entities: {},

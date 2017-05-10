@@ -40,7 +40,8 @@ const tests = [{
   output: '<a></a>'
 }, {
   input: '[foto]/a/b/c.jpg[/foto]',
-  output: '<a href="https://csrdelft.nl/plaetjes/fotoalbum/a/b/c.jpg"><img width="150" height="150" src="https://csrdelft.nl/plaetjes/fotoalbum/a/b/_thumbs/c.jpg"></a>'
+  output: '<a href="https://csrdelft.nl/plaetjes/fotoalbum/a/b/c.jpg">\
+<img width="150" height="150" src="https://csrdelft.nl/plaetjes/fotoalbum/a/b/_thumbs/c.jpg"></a>'
 }, {
   input: '[img]https://csrdelft.nl/a.jpg[/img]',
   output: '<a href="https://csrdelft.nl/a.jpg">Foto</a>'
@@ -80,7 +81,7 @@ class UrlServiceMock {
 describe('BBParseService', () => {
   let service: BBParseService;
 
-  let urlMock = new UrlServiceMock() as UrlService;
+  const urlMock = new UrlServiceMock() as UrlService;
   beforeEach(() => service = new BBParseService(urlMock));
 
   tests.forEach((test, index) => {

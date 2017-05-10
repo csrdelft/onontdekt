@@ -1,7 +1,7 @@
-import { createSelector } from 'reselect';
 import { compose } from '@ngrx/core/compose';
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
+import { createSelector } from 'reselect';
 
 import { AppConfig } from '../app/app.config';
 

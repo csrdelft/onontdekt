@@ -1,21 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
 import { Content, IonicPage, Item, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
-import { ForumPost } from '../../state/posts/posts.model';
 import * as post from '../../state/posts/posts.actions';
-import { ForumTopic } from '../../state/topics/topics.model';
+import { ForumPost } from '../../state/posts/posts.model';
 import * as topic from '../../state/topics/topics.actions';
+import { ForumTopic } from '../../state/topics/topics.model';
 
 @IonicPage({
   segment: 'draadje/:id'
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'forum-topic-page',
+  selector: 'csr-forum-topic',
   templateUrl: 'forum-topic.html'
 })
 export class ForumTopicPage implements OnInit {

@@ -13,12 +13,12 @@ export interface Grouped {
   name: 'csrGroupBy'
 })
 export class GroupByPipe implements PipeTransform {
-  public transform(elements: any[], groupBy: (element: any) => string): Group[] {
+  transform(elements: any[], groupBy: (element: any) => string): Group[] {
     if (!elements) {
       return null;
     }
 
-    const groups: Grouped = elements.reduce((groups: Grouped, element: any) => {
+    const grouped: Grouped = elements.reduce((groups: Grouped, element: any) => {
       const key = groupBy(element);
       if (!groups[key]) {
         groups[key] = {
@@ -30,6 +30,6 @@ export class GroupByPipe implements PipeTransform {
       return groups;
     }, {});
 
-    return Object.keys(groups).map(key => groups[key]);
+    return Object.keys(grouped).map(key => grouped[key]);
   }
 }

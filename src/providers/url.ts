@@ -11,7 +11,7 @@ export class UrlService {
     private safariViewController: SafariViewController
   ) {}
 
-  public open(url: string) {
+  open(url: string) {
     if (this.platform.is('cordova')) {
       if (this.platform.is('ios')) {
         this.safariViewController.isAvailable().then(available => {
@@ -29,7 +29,7 @@ export class UrlService {
     }
   }
 
-  public getMapsUrl(query: string): string {
+  getMapsUrl(query: string): string {
     query = encodeURIComponent(query);
 
     if (this.platform.is('mobile') === true) {

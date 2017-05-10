@@ -15,7 +15,7 @@ export interface Ranked {
 })
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'ranking-page',
+  selector: 'csr-ranking',
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
@@ -57,10 +57,12 @@ export class RankingPage implements OnInit {
   }
 
   private sort(a: Ranked, b: Ranked) {
-    if (a.score < b.score)
+    if (a.score < b.score) {
       return 1;
-    if (a.score > b.score)
+    }
+    if (a.score > b.score) {
       return -1;
+    }
     return 0;
   }
 }
