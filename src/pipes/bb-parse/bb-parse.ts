@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { BBParseService } from '../../providers/bb-parse';
 
@@ -6,9 +7,12 @@ import { BBParseService } from '../../providers/bb-parse';
   name: 'csrBBParse'
 })
 export class BBParsePipe implements PipeTransform {
-  constructor(private bbParse: BBParseService) {}
+  constructor(
+    private bbParse: BBParseService,
+    private sanitizer: DomSanitizer
+  ) {}
 
-  transform(value: string, args: any[]): string {
+  transform(value: string, args: any[]): SafeHtml {
     const parsed = this.bbParse.process({
       text: value,
       removeMisalignedTags: false,
@@ -20,6 +24,6 @@ export class BBParsePipe implements PipeTransform {
       console.warn(parsed.errorQueue);
     }
 
-    return parsed.html;
+    return this.sanitizer.bypassSecurityTrustHtml(parsed.html);
   }
 }
