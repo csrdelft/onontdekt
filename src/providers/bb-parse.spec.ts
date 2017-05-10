@@ -61,7 +61,7 @@ const tests = [{
   output: '<a href="https://maps.google.com?q=C.S.R.%20Delft">Locatie: C.S.R. Delft</a>'
 }, {
   input: '[verklapper]hi[/verklapper]',
-  output: '<button class="spoiler-button">Verklapper</button><blockquote class="spoiler">hi</blockquote>'
+  output: '<a href="#/verklapper/" data-text="hi">Verklapper</a>'
 }, {
   input: '[video]http://youtu.be/abcdefgh[/video]',
   output: '<a href="http://youtu.be/abcdefgh">Video</a>'
