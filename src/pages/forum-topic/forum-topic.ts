@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { Content, IonicPage, Item, NavParams } from 'ionic-angular';
+import { Content, IonicPage, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
@@ -30,6 +30,7 @@ export class ForumTopicPage implements OnInit {
 
   constructor(
     private googleAnalytics: GoogleAnalytics,
+    private navCtrl: NavController,
     private navParams: NavParams,
     private store: Store<fromRoot.State>
   ) {
@@ -69,6 +70,10 @@ export class ForumTopicPage implements OnInit {
 
   identify(index: number, post: ForumPost) {
     return post.UUID;
+  }
+
+  goToMemberDetail(id: string) {
+    this.navCtrl.push('MemberDetailPage', { id });
   }
 
   private load() {
