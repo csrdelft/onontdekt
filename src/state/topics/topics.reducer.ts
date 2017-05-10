@@ -57,7 +57,7 @@ export const getIds = (state: State) => state.ids;
 export const getSelectedId = (state: State) => state.selectedId;
 
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
-  return entities[selectedId];
+  return selectedId && entities[selectedId];
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {

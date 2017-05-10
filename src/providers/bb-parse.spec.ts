@@ -2,7 +2,7 @@ import { BBParseService, IParseConfig } from './bb-parse';
 import { UrlService } from './url';
 
 const config: IParseConfig = {
-  text: null,
+  text: '',
   removeMisalignedTags: false,
   addInLineBreaks: false,
   escapeHtml: false

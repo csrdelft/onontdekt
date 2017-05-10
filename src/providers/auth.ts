@@ -13,7 +13,7 @@ import { AppConfig } from '../app/app.config';
 export class AuthService {
   private jwtHelper: JwtHelper = new JwtHelper();
   private refreshSubscription: any;
-  private userId: string;
+  private userId: string | undefined;
 
   constructor(
     private http: Http,
@@ -86,7 +86,7 @@ export class AuthService {
 
   logout(reload: boolean = false) {
     this.storage.remove('userId');
-    this.userId = null;
+    this.userId = undefined;
     this.storage.remove('id_token');
     localStorage.removeItem('id_token');
     this.storage.remove('refresh_token');
@@ -105,7 +105,7 @@ export class AuthService {
         this.oneSignal.inFocusDisplaying(OSDisplayType.None);
         this.oneSignal.endInit();
         this.oneSignal.setSubscription(true);
-        this.oneSignal.sendTag('userId', this.userId);
+        this.oneSignal.sendTag('userId', this.userId !);
 
         this.googleAnalytics.trackEvent('Authorization', 'Login', type);
       });

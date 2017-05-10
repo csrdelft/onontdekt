@@ -14,7 +14,12 @@ module.exports = {
         test: /\.ts$/,
         loaders: [
           {
-            loader: 'ts-loader'
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                strictNullChecks: false
+              }
+            }
           } , 'angular2-template-loader'
         ]
       },

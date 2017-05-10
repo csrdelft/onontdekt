@@ -19,7 +19,7 @@ export class ForumMessageComponent {
 
   checkAnchorClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (target.nodeName !== 'A') {
+    if (!target || target.nodeName !== 'A') {
       return;
     }
 
@@ -39,10 +39,10 @@ export class ForumMessageComponent {
     }
 
     if (url.substr(0, 13) === '#/verklapper/') {
-      const text = decodeURIComponent(target.dataset.text);
-      if (!text) {
+      if (!target.dataset || !target.dataset.text) {
         return;
       }
+      const text = decodeURIComponent(target.dataset.text !);
 
       event.preventDefault();
       this.navCtrl.push('ForumTextPage', { text });

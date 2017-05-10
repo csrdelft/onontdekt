@@ -19,7 +19,7 @@ export interface Ranked {
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
-  ranking$: BehaviorSubject<Ranked[]> = new BehaviorSubject(null);
+  ranking$: BehaviorSubject<Ranked[]> = new BehaviorSubject([]);
 
   constructor(
     private googleAnalytics: GoogleAnalytics,

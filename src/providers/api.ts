@@ -67,7 +67,7 @@ export class ApiService {
     }
 
     let category: 'maaltijd' | 'activiteit' | 'agenda';
-    let present: boolean;
+    let present = false;
 
     if (event.maaltijd_id) {
       category = 'maaltijd';

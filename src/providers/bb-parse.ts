@@ -401,7 +401,7 @@ export class BBParseService {
     const ret: IParseResult = {
       html: '',
       error: false,
-      errorQueue: null
+      errorQueue: []
     };
     let errQueue: string[] = [];
 
@@ -453,7 +453,7 @@ export class BBParseService {
 
     config.text = this.addBbcodeLevels(config.text); // add in level metadata
 
-    errQueue = this.checkParentChildRestrictions('bbcode', config.text, -1, '', '', config.text, null);
+    errQueue = this.checkParentChildRestrictions('bbcode', config.text, -1, '', '', config.text, []);
 
     ret.html = this.parse(config);
 
@@ -498,13 +498,11 @@ export class BBParseService {
         this.tags[prop].restrictParentsTo = this.tags[prop].restrictParentsTo || [];
         this.tags[prop].restrictChildrenTo = this.tags[prop].restrictChildrenTo || [];
 
-        const len = this.tags[prop].restrictChildrenTo.length;
-        for (let ii = 0; ii < len; ii++) {
-          this.tags[prop].validChildLookup[this.tags[prop].restrictChildrenTo[ii]] = true;
+        for (const tag of this.tags[prop].restrictChildrenTo !) {
+          this.tags[prop].validChildLookup ![tag] = true;
         }
-        const len2 = this.tags[prop].restrictParentsTo.length;
-        for (let ii = 0; ii < len2; ii++) {
-          this.tags[prop].validParentLookup[this.tags[prop].restrictParentsTo[ii]] = true;
+        for (const tag of this.tags[prop].restrictParentsTo !) {
+          this.tags[prop].validParentLookup ![tag] = true;
         }
       }
     }
@@ -554,17 +552,17 @@ export class BBParseService {
 
     for (const tag of matchingTags) {
       reTagNamesParts.lastIndex = 0;
-      const childTag = (tag.match(reTagNamesParts))[2].toLowerCase();
+      const childTag = (tag.match(reTagNamesParts) !)[2].toLowerCase();
 
       if (pInfo && pInfo.restrictChildrenTo && pInfo.restrictChildrenTo.length > 0) {
-        if (!pInfo.validChildLookup[childTag]) {
+        if (!pInfo.validChildLookup ![childTag]) {
           errStr = 'The tag "' + childTag + '" is not allowed as a child of the tag "' + parentTag + '"';
           errQueue.push(errStr);
         }
       }
       const cInfo = this.tags[childTag];
-      if (cInfo.restrictParentsTo.length > 0) {
-        if (!cInfo.validParentLookup[parentTag]) {
+      if (cInfo.restrictParentsTo !.length > 0) {
+        if (!cInfo.validParentLookup ![parentTag]) {
           errStr = 'The tag "' + parentTag + '" is not allowed as a parent of the tag "' + childTag + '"';
           errQueue.push(errStr);
         }

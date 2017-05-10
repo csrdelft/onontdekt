@@ -13,7 +13,7 @@ export interface Grouped {
   name: 'csrGroupBy'
 })
 export class GroupByPipe implements PipeTransform {
-  transform(elements: any[], groupBy: (element: any) => string): Group[] {
+  transform(elements: any[], groupBy: (element: any) => string): Group[] | null {
     if (!elements) {
       return null;
     }

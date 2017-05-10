@@ -82,11 +82,11 @@ export const getQuery = (state: State) => state.query;
 export const getSelectedId = (state: State) => state.selectedMemberId;
 
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
-  return entities[selectedId];
+  return selectedId && entities[selectedId];
 });
 
 export const getSelectedDetail = createSelector(getDetailEntities, getSelectedId, (detailEntities, selectedId) => {
-  return detailEntities[selectedId];
+  return selectedId && detailEntities[selectedId];
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {

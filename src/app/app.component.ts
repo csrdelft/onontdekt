@@ -60,8 +60,10 @@ export class LustrumApp {
     });
 
     this.codePush.sync({}, (progress) => {
-      const perc = Math.ceil(progress.receivedBytes / progress.totalBytes * 100);
-      toast.setMessage(message + perc + '%');
+      if (progress) {
+        const perc = Math.ceil(progress.receivedBytes / progress.totalBytes * 100);
+        toast.setMessage(message + perc + '%');
+      }
     }).subscribe(status => {
       switch (status) {
         case SyncStatus.DOWNLOADING_PACKAGE:

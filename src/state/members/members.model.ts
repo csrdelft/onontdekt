@@ -28,6 +28,6 @@ export interface MemberDetail {
 
 export interface MemberName {
   voornaam: string;
-  tussenvoegsel: null | string;
+  tussenvoegsel: undefined | string;
   achternaam: string;
 }

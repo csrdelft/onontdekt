@@ -60,11 +60,11 @@ export class MemberDetailPage implements OnInit {
     const actionSheet = this.actionSheetCtrl.create({
       buttons: [{
         text: 'Maak nieuw contact',
-        icon: !this.platform.is('ios') ? 'person-add' : null,
+        icon: !this.platform.is('ios') ? 'person-add' : undefined,
         handler: () => this.saveNew(member)
       }, {
         text: 'Annuleer',
-        icon: !this.platform.is('ios') ? 'close' : null,
+        icon: !this.platform.is('ios') ? 'close' : undefined,
         role: 'cancel'
       }]
     });
@@ -73,11 +73,18 @@ export class MemberDetailPage implements OnInit {
 
   saveNew(member: MemberDetail) {
     const contact = this.contacts.create();
-    contact.name = new ContactName(null, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel);
+    contact.name = new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel);
     contact.phoneNumbers = [new ContactField('mobiel', member.mobiel, false)];
     contact.emails = [new ContactField('thuis', member.email, false)];
     contact.addresses = [new ContactAddress(
-      false, member.huis.naam || 'adres', null, member.huis.adres, member.huis.woonplaats, null, member.huis.postcode, member.huis.land
+      false,
+      member.huis.naam || 'adres',
+      undefined,
+      member.huis.adres,
+      member.huis.woonplaats,
+      undefined,
+      member.huis.postcode,
+      member.huis.land
     )];
     contact.birthday = member.geboortedatum;
 

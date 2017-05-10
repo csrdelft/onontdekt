@@ -83,7 +83,7 @@ export const getTopicsLength = createSelector(getTopicsState, fromTopics.getLeng
  * Shared Posts and Topics selectors
  */
 export const getSelectedTopicPosts = createSelector(getSelectedTopicId, getPostsByTopic, (topicId, posts) => {
-  return posts[topicId];
+  return topicId && posts[topicId];
 });
 
 export const getSelectedTopicPostIds = createSelector(getSelectedTopicPosts, (posts) => {
