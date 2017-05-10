@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Content, IonicPage, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
+import { UrlService } from '../../providers/url';
 import * as fromRoot from '../../state';
 import * as post from '../../state/posts/posts.actions';
 import { ForumPost } from '../../state/posts/posts.model';
@@ -32,7 +33,8 @@ export class ForumTopicPage implements OnInit {
     private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
     private navParams: NavParams,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private urlService: UrlService
   ) {
     this.topicId = this.navParams.get('id');
   }
@@ -74,6 +76,11 @@ export class ForumTopicPage implements OnInit {
 
   goToMemberDetail(id: string) {
     this.navCtrl.push('MemberDetailPage', { id });
+  }
+
+  viewExternal() {
+    const url = `https://csrdelft.nl/forum/onderwerp/${this.topicId}#ongelezen`;
+    this.urlService.open(url);
   }
 
   private load() {
