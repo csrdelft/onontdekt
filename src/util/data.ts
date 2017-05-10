@@ -16,3 +16,7 @@ export function reviveDateTime(key: any, value: any): any {
 
   return value;
 }
+
+export function isNumeric(input: any): boolean {
+  return !isNaN(input);
+}

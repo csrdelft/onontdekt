@@ -1,4 +1,4 @@
-import { reviveDateTime } from './data';
+import { isNumeric, reviveDateTime } from './data';
 
 describe('reviveDateTime', () => {
 
@@ -15,6 +15,22 @@ describe('reviveDateTime', () => {
   it('should not parse non-strings', () => {
     const parsed = reviveDateTime(null, 1500);
     expect(parsed).toEqual(1500);
+  });
+
+});
+
+describe('isNumeric', () => {
+
+  it('should allow strings containing numbers', () => {
+    expect(isNumeric('546')).toBe(true);
+  });
+
+  it('should allow numbers', () => {
+    expect(isNumeric(546)).toBe(true);
+  });
+
+  it('should not parse strings without numbers', () => {
+    expect(isNumeric('546x')).toBe(false);
   });
 
 });
