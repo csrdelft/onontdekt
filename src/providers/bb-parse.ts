@@ -24,11 +24,14 @@ THE SOFTWARE.
   Extendible BBCode Parser v1.0.0
   https://github.com/patorjk/Extendible-BBCode-Parser
 
-  Adjusted to function as an Angular 2 service.
+  Adjusted to use TypeScript function as an Angular service.
   Several tags have been removed, changed, or added.
 */
 
 import { Injectable } from '@angular/core';
+
+import { UrlService } from './url';
+import { isNumeric } from '../util/data';
 
 const URL_PATTERN = /^(?:https?|file|c):(?:\/{1,3}|\\{1})[-a-zA-Z0-9:;,@#%&()~_?\+=\/\\\.]*$/;
 const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+/;
@@ -110,19 +113,22 @@ export class BBParseService {
    *    tag names, just make sure the tag name gets escaped properly (if needed).
    * --------------------------------------------------------------------------- */
 
-  constructor() {
+  constructor(
+    private urlService: UrlService
+  ) {
     this.tags = {
-      'activiteit': { // TODO
-        openTag: (params, content) => '<strong>Activiteit ' + (params ? params.substr(1) : content),
-        closeTag: (params, content) => '</strong>'
+      'activiteit': {
+        openTag: (params, content) => {
+          const id = (params ? params.substr(1) : content);
+          if (!isNumeric(id)) return '<a>';
+          return `<a href="https://csrdelft.nl/groepen/activiteiten/${id}/">Activiteit ${id}`;
+        },
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'b': {
-        openTag: (params, content) => {
-          return '<strong>';
-        },
-        closeTag: (params, content) => {
-          return '</strong>';
-        }
+        openTag: (params, content) => '<strong>',
+        closeTag: (params, content) => '</strong>'
       },
       /*
         This tag does nothing and is here mostly to be used as a classification for
@@ -134,16 +140,17 @@ export class BBParseService {
       },
       'bijbel': {
         openTag: (params, content) => {
-          return '[bijbel]';
+          const query = params ? params.substr(1) : content;
+          const url = 'https://www.debijbel.nl/bijbel/NBV/' + encodeURIComponent(query);
+          return `<a href="${url}">${query}`;
         },
-        closeTag: (params, content) => {
-          return '[/bijbel]';
-        }
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'citaat': {
         openTag: (params, content) => {
-          // Todo: add author
-          return '<blockquote>';
+          const pre = params ? ' van ' + params.substr(1) : '';
+          return 'Citaat' + pre + ':<br><blockquote>';
         },
         closeTag: (params, content) => '</blockquote>'
       },
@@ -152,9 +159,14 @@ export class BBParseService {
         closeTag: (params, content) => '</pre>',
         noParse: true
       },
-      'document': { // TODO
-        openTag: (params, content) => '<strong>Document: ' + content,
-        closeTag: (params, content) => '</strong>'
+      'document': {
+        openTag: (params, content) => {
+          const id = (params ? params.substr(1) : content);
+          if (!isNumeric(id)) return '<a>';
+          return `<a href="https://csrdelft.nl/documenten/bekijken/${id}/">Document ${id}`;
+        },
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'email': {
         openTag: (params, content) => {
@@ -175,12 +187,23 @@ export class BBParseService {
         },
         closeTag: (params, content) => '</a>'
       },
-      'foto': { // TODO
+      'foto': {
         openTag: (params, content) => {
-          const url = params ? params.substr(1) : content;
-          return '<strong>Foto ' + url;
+          const path = 'https://csrdelft.nl/plaetjes/fotoalbum';
+          const url = path + content;
+          const arr = content.split('/');
+          arr.splice(-1, 0, '_thumbs');
+          const thumbUrl = path + arr.join('/');
+
+          URL_PATTERN.lastIndex = 0;
+          if (content[0] !== '/' || !URL_PATTERN.test(url) || !URL_PATTERN.test(thumbUrl)) {
+            return '<a>';
+          }
+
+          return `<a href="${url}"><img width="150" height="150" src="${thumbUrl}">`;
         },
-        closeTag: (params, content) => '</strong>'
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'h': {
         openTag: (params, content) => {
@@ -204,39 +227,52 @@ export class BBParseService {
       },
       'img': {
         openTag: (params, content) => {
-          var myUrl = content;
+          var url = content;
 
           URL_PATTERN.lastIndex = 0;
-          if (!URL_PATTERN.test(myUrl)) {
-            myUrl = '';
+          if (!URL_PATTERN.test(url)) {
+            return '<a>';
           }
 
-          return `<img src="${myUrl}" />`;
+          return `<a href="${url}">Foto`;
         },
-        closeTag: (params, content) => '',
+        closeTag: (params, content) => '</a>',
         displayContent: false
       },
-      'ketzer': { // TODO
-        openTag: (params, content) => '<strong>Ketzer ' + params.substr(1),
-        closeTag: (params, content) => '</strong>'
+      'ketzer': {
+        openTag: (params, content) => {
+          const id = params ? params.substr(1) : content;
+          if (!isNumeric(id)) return '<a>';
+          return `<a href="https://csrdelft.nl/groepen/ketzers/${id}/">Ketzer ${id}`;
+        },
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'li': {
         openTag: (params, content) => '<li>',
         closeTag: (params, content) => '</li>',
         restrictParentsTo: ['list', 'ul', 'ol']
       },
-      'lid': { // TODO
-        openTag: (params, content) => '<strong>Lid ' + params.substr(1),
-        closeTag: (params, content) => '</strong>'
+      'lid': {
+        openTag: (params, content) => {
+          const id = params.substr(1);
+          if (!id || id.length !== 4 || !isNumeric(id)) return '<a>';
+          return `<a href="#/leden/lid/${id}">Lid ${id}`;
+        },
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       'list': {
         openTag: (params, content) => '<ul>',
         closeTag: (params, content) => '</ul>',
         restrictChildrenTo: ['*', 'li']
       },
-      'locatie': { // TODO
-        openTag: (params, content) => '<strong>Locatie: ' + content,
-        closeTag: (params, content) => '</strong>'
+      'locatie': {
+        openTag: (params, content) => {
+          const url = this.urlService.getMapsUrl(content);
+          return `<a href="${url}">Locatie: `;
+        },
+        closeTag: (params, content) => '</a>'
       },
       'offtopic': {
         openTag: (params, content) => '<small>',
@@ -305,27 +341,33 @@ export class BBParseService {
         },
         closeTag: (params, content) => '</a>'
       },
-      'verklapper': { // TODO
-        openTag: (params, content) => '<strong>Verklapper</strong>' + content,
-        closeTag: (params, content) => '<strong>Einde verklapper</strong>'
+      'verklapper': {
+        openTag: (params, content) => {
+          content = encodeURIComponent(content);
+          return `<a href="#/verklapper/" data-text="${content}">Verklapper`;
+        },
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
-      'video': { // TODO
+      'video': {
         openTag: (params, content) => {
           let myUrl = content.replace(/<.*?>/g, '');
           URL_PATTERN.lastIndex = 0;
           if (!URL_PATTERN.test(myUrl)) {
-            myUrl = '#';
+            return '<a>';
           }
-          return `<a href="${myUrl}">`;
+          return `<a href="${myUrl}">Video`;
         },
-        closeTag: (params, content) => '</a>'
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
-      'youtube': { // TODO
+      'youtube': {
         openTag: (params, content) => {
           const url = 'http://youtu.be/' + content;
-          return `<a href="${url}">`;
+          return `<a href="${url}">YouTube video`;
         },
-        closeTag: (params, content) => '</a>'
+        closeTag: (params, content) => '</a>',
+        displayContent: false
       },
       /*
         The [*] tag is special since the user does not define a closing [/*] tag when writing their bbcode.
@@ -338,6 +380,10 @@ export class BBParseService {
         restrictParentsTo: ['list', 'ul', 'ol']
       }
     };
+
+    // Synonyms
+    this.tags['rul'] = this.tags['url'];
+
     this.initTags();
   }
 
@@ -356,7 +402,6 @@ export class BBParseService {
 
     for (let i = 0; i < 3; i++) {
       if (config.text.indexOf('[/]') > -1) {
-        console.log('BEFORE', config.text);
         // Modify generic closing tags to be specific
         config.text = config.text.replace(/\[([^\/][^\[]*)\](((?!\[\/\]).)*)\[\/\]/gi, (match, value, value2) => {
           if (value.indexOf('=') > -1) {
@@ -364,11 +409,9 @@ export class BBParseService {
           } else if (value.indexOf(' ') > -1) {
             value = value.substring(0, value.indexOf(' '));
           }
-          console.log(match, value, value2, match.replace(new RegExp('\[\/\]$'), `[/${value}]`));
 
-          return match.replace(new RegExp('\[\/\]$'), `[/${value}]`);
+          return match.replace('[/]', `[/${value}]`);
         });
-        console.log('AFTER', config.text);
       }
     }
 
@@ -405,6 +448,7 @@ export class BBParseService {
     ret.html = this.parse(config);
 
     if (ret.html.indexOf('[') !== -1 || ret.html.indexOf(']') !== -1) {
+      console.log(config.text, ret.html);
       errQueue.push('Some tags appear to be misaligned.');
     }
 
