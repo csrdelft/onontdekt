@@ -29,13 +29,13 @@
   <ion-list [ngSwitch]="event._meta.category">
     <ion-item *ngSwitchCase="'maaltijd'">
       Inschrijvingen
-      <ion-note item-right>
+      <ion-note item-end>
         {{ event.aantal_aanmeldingen }} van {{ event.aanmeld_limiet }}
       </ion-note>
     </ion-item>
     <ion-item *ngSwitchCase="'maaltijd'">
       Prijs
-      <ion-note item-right>
+      <ion-note item-end>
         € {{ event.prijs }}
       </ion-note>
     </ion-item>

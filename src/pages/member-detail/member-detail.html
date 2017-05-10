@@ -23,7 +23,7 @@
   <ion-list *ngIf="memberDetail$ | async as member; else loading">
 
     <ion-item>
-      <ion-avatar item-left tappable (click)="openImage(member)">
+      <ion-avatar item-start tappable (click)="openImage(member)">
         <img [src]="'https://csrdelft.nl/plaetjes/' + member.pasfoto">
       </ion-avatar>
       <h3><strong>{{ member.naam.formeel }}</strong></h3>
@@ -31,16 +31,16 @@
     </ion-item>
 
     <a ion-item detail-none [href]="getSafeUrl('mailto', member.email)">
-      <ion-icon name="mail" isActive="false" color="primary" item-right></ion-icon>
+      <ion-icon name="mail" isActive="false" color="primary" item-end></ion-icon>
       <p ion-text color="primary">e-mail</p>
       <h3>{{ member.email }}</h3>
     </a>
 
     <a ion-item detail-none [href]="'tel:' + member.mobiel">
-      <a ion-button icon-only item-right clear [href]="getSafeUrl('sms', member.mobiel)" hideWhen="core">
+      <a ion-button icon-only item-end clear [href]="getSafeUrl('sms', member.mobiel)" hideWhen="core">
         <ion-icon color="primary" name="text" isActive="false"></ion-icon>
       </a>
-      <a ion-button icon-only item-right clear [href]="getSafeUrl('tel', member.mobiel)">
+      <a ion-button icon-only item-end clear [href]="getSafeUrl('tel', member.mobiel)">
         <ion-icon color="primary" name="call" isActive="false"></ion-icon>
       </a>
       <p ion-text color="primary">mobiel</p>
@@ -48,7 +48,7 @@
     </a>
 
     <a ion-item detail-none [csrMapsHref]="member.huis.adres + ', ' + member.huis.woonplaats">
-      <ion-icon name="map" isActive="false" color="primary" item-right></ion-icon>
+      <ion-icon name="map" isActive="false" color="primary" item-end></ion-icon>
       <p ion-text color="primary">{{ member.huis.naam || 'adres' }}</p>
       <h3>
         {{ member.huis.adres }}<br>

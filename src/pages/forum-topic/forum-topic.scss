@@ -1,8 +1,8 @@
 forum-topic-page {
 
   .post-list {
-    .item-block [item-left],
-    .item-block [item-right] {
+    .item-block [item-start],
+    .item-block [item-end] {
       align-self: flex-start;
     }
   }
