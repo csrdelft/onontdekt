@@ -7,6 +7,8 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 
 export function authFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
+    tokenName: 'id_token',
+    tokenGetter: () => localStorage.getItem('id_token'),
     headerName: 'X-Csr-Authorization'
   }), http, options);
 }
