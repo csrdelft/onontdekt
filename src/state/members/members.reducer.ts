@@ -8,7 +8,7 @@ export interface State {
   entities: { [id: string]: Member };
   detailIds: string[];
   detailEntities: { [id: string]: MemberDetail };
-  query: string;
+  query: string | null;
   selectedMemberId: string | null;
 }
 
@@ -94,6 +94,10 @@ export const getAll = createSelector(getEntities, getIds, (entities, ids) => {
 });
 
 export const getQueryResults = createSelector(getAll, getQuery, (members, query) => {
+  if (!query) {
+    return members;
+  }
+
   const queryText = query.toLowerCase().replace(/,|\.|-/g, ' ');
   if (queryText.length === 0) {
     return members;
