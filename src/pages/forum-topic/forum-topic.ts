@@ -1,19 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { Content, IonicPage, Item, NavController, NavParams } from 'ionic-angular';
+import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
-import { UrlService } from '../../providers/url';
+import { UrlService } from '../../services/url/url';
 import * as fromRoot from '../../state';
 import * as post from '../../state/posts/posts.actions';
 import { ForumPost } from '../../state/posts/posts.model';
 import * as topic from '../../state/topics/topics.actions';
 import { ForumTopic } from '../../state/topics/topics.model';
+import { MemberDetailPage } from '../member-detail/member-detail';
 
-@IonicPage({
-  segment: 'draadje/:id'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-forum-topic',
@@ -75,7 +73,7 @@ export class ForumTopicPage implements OnInit {
   }
 
   goToMemberDetail(id: string) {
-    this.navCtrl.push('MemberDetailPage', { id });
+    this.navCtrl.push(MemberDetailPage, { id });
   }
 
   viewExternal() {

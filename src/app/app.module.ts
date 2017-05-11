@@ -20,18 +20,26 @@ import 'rxjs/add/operator/withLatestFrom';
 
 import { LustrumApp } from './app.component';
 import { ionicConfig } from './app.config';
-import { providers } from './app.providers';
+import { PROVIDERS } from './app.providers';
 
-import { EventListPageModule } from '../pages/event-list/event-list.module';
-import { TabsPageModule } from '../pages/tabs/tabs.module';
-import { TutorialPageModule } from '../pages/tutorial/tutorial.module';
 import { reducer } from '../state';
 import { MemberEffects } from '../state/members/members.effects';
 import { PostEffects } from '../state/posts/posts.effects';
 import { TopicEffects } from '../state/topics/topics.effects';
 
+import { COMPONENTS } from '../components';
+import { DIRECTIVES } from '../directives';
+import { PAGES } from '../pages';
+import { PIPES } from '../pipes';
+
 @NgModule({
-  declarations: [LustrumApp],
+  declarations: [
+    LustrumApp,
+    COMPONENTS,
+    DIRECTIVES,
+    PAGES,
+    PIPES
+  ],
   imports: [
     BrowserModule,
     HttpModule,
@@ -41,16 +49,13 @@ import { TopicEffects } from '../state/topics/topics.effects';
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
     EffectsModule.run(MemberEffects),
     EffectsModule.run(PostEffects),
-    EffectsModule.run(TopicEffects),
-
-    /**
-     * Initial pages are included as they should not be lazy loaded
-     */
-    EventListPageModule,
-    TabsPageModule,
-    TutorialPageModule
+    EffectsModule.run(TopicEffects)
+  ],
+  entryComponents: [
+    LustrumApp,
+    PAGES
   ],
   bootstrap: [IonicApp],
-  providers
+  providers: PROVIDERS
 })
 export class AppModule {}

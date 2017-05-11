@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 import { Platform } from 'ionic-angular';
 
-import { UrlService } from '../../providers/url';
+import { UrlService } from '../../services/url/url';
 
 @Directive({
   selector: '[csrSystemBrowser]'

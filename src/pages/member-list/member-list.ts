@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, Renderer, ViewChild } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { Content, IonicPage, NavController, Searchbar } from 'ionic-angular';
+import { Content, NavController, Searchbar } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
@@ -9,10 +9,8 @@ import { Group } from '../../pipes/group-by/group-by';
 import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
 import { Member } from '../../state/members/members.model';
+import { MemberDetailPage } from '../member-detail/member-detail';
 
-@IonicPage({
-  segment: 'leden'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-member-list',
@@ -78,7 +76,7 @@ export class MemberListPage implements OnInit {
   }
 
   goToMemberDetail(member: Member) {
-    this.navCtrl.push('MemberDetailPage', {
+    this.navCtrl.push(MemberDetailPage, {
       id: member.id
     });
   }

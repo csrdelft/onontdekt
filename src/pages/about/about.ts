@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { Events, IonicPage, LoadingController } from 'ionic-angular';
+import { Events, LoadingController } from 'ionic-angular';
 
-import { AuthService } from '../../providers/auth';
+import { AuthService } from '../../services/auth/auth';
 
-@IonicPage({
-  segment: 'lustrum'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-about',

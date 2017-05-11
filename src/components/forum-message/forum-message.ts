@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { UrlService } from '../../providers/url';
+import { ForumTextPage } from '../../pages/forum-text/forum-text';
+import { MemberDetailPage } from '../../pages/member-detail/member-detail';
+import { UrlService } from '../../services/url/url';
 import { isNumeric } from '../../util/data';
 
 @Component({
@@ -35,7 +37,7 @@ export class ForumMessageComponent {
       }
 
       event.preventDefault();
-      this.navCtrl.push('MemberDetailPage', { id });
+      this.navCtrl.push(MemberDetailPage, { id });
     }
 
     if (url.substr(0, 13) === '#/verklapper/') {
@@ -45,7 +47,7 @@ export class ForumMessageComponent {
       const text = decodeURIComponent(target.dataset.text !);
 
       event.preventDefault();
-      this.navCtrl.push('ForumTextPage', { text });
+      this.navCtrl.push(ForumTextPage, { text });
     }
 
     if (url.substr(0, 8) === 'https://' || url.substr(0, 7) === 'http://') {

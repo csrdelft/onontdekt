@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
-import { IonicPage, NavController, Refresher } from 'ionic-angular';
+import { NavController, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
 import * as topics from '../../state/topics/topics.actions';
 import { ForumTopic } from '../../state/topics/topics.model';
+import { ForumTopicPage } from '../forum-topic/forum-topic';
 
-@IonicPage({
-  segment: 'recent'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-forum-recent',
@@ -45,7 +43,7 @@ export class ForumRecentPage implements OnInit {
   }
 
   goToTopicDetail(topic: ForumTopic) {
-    this.navCtrl.push('ForumTopicPage', { id: topic.draad_id });
+    this.navCtrl.push(ForumTopicPage, { id: topic.draad_id });
   }
 
   identify(index: number, topic: ForumTopic) {

@@ -3,11 +3,12 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import addDays from 'date-fns/add_days';
 import endOfDay from 'date-fns/end_of_day';
 import startOfToday from 'date-fns/start_of_today';
-import { InfiniteScroll, IonicPage, NavController, Refresher } from 'ionic-angular';
+import { InfiniteScroll, NavController, Refresher } from 'ionic-angular';
 
 import { Event } from '../../models/event';
-import { ApiService } from '../../providers/api';
+import { ApiService } from '../../services/api/api';
 import { formatLocale } from '../../util/dates';
+import { EventDetailPage } from '../event-detail/event-detail';
 
 export interface EventGroup {
   date: string;
@@ -16,9 +17,6 @@ export interface EventGroup {
 
 const DAYS_TO_LOAD: number = 42;
 
-@IonicPage({
-  segment: 'agenda'
-})
 @Component({
   selector: 'csr-event-list',
   templateUrl: 'event-list.html'
@@ -112,7 +110,7 @@ export class EventListPage {
   }
 
   goToEventDetail(event: Event) {
-    this.navCtrl.push('EventDetailPage', event);
+    this.navCtrl.push(EventDetailPage, event);
   }
 
   identifyGroup(index: number, group: { date: string; events: Event[] }) {

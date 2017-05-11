@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, IonicPage, LoadingController, NavController } from 'ionic-angular';
+import { AlertController, LoadingController, NavController } from 'ionic-angular';
 
-import { AuthService } from '../../providers/auth';
+import { AuthService } from '../../services/auth/auth';
 import { TabsPage } from '../tabs/tabs';
 
-@IonicPage({
-  segment: 'inloggen'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-login',

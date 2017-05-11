@@ -6,18 +6,15 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Store } from '@ngrx/store';
 import isPast from 'date-fns/is_past';
-import { ActionSheetController, IonicPage, NavParams, Platform } from 'ionic-angular';
+import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
 import { Member, MemberDetail } from '../../state/members/members.model';
 
-import { NotificationService } from '../../providers/notification';
+import { NotificationService } from '../../services/notification/notification';
 
-@IonicPage({
-  segment: 'lid/:id'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-member-detail',

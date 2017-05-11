@@ -7,7 +7,7 @@ import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
 import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
-import { AppConfig } from '../app/app.config';
+import { AppConfig } from '../../app/app.config';
 
 @Injectable()
 export class AuthService {

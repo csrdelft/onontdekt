@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { BBParseService } from '../../providers/bb-parse';
+import { BBParseService } from '../../services/bb-parse/bb-parse';
 
 @Pipe({
   name: 'csrBBParse'

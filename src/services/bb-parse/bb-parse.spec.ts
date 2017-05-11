@@ -1,5 +1,5 @@
+import { UrlService } from '../url/url';
 import { BBParseService, IParseConfig } from './bb-parse';
-import { UrlService } from './url';
 
 const config: IParseConfig = {
   text: '',

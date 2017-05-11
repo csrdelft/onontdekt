@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 
-import { UrlService } from '../../providers/url';
+import { UrlService } from '../../services/url/url';
 
 @Directive({
   selector: '[csrMapsHref]'

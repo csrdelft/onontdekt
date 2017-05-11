@@ -7,7 +7,7 @@ import { Events, Nav, Platform, ToastController } from 'ionic-angular';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
-import { AuthService } from '../providers/auth';
+import { AuthService } from '../services/auth/auth';
 
 @Component({
   templateUrl: 'app.component.html'

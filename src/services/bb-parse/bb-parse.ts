@@ -32,8 +32,8 @@ THE SOFTWARE.
 
 import { Injectable } from '@angular/core';
 
-import { isNumeric } from '../util/data';
-import { UrlService } from './url';
+import { isNumeric } from '../../util/data';
+import { UrlService } from '../url/url';
 
 const URL_PATTERN = /^(?:https?|file|c):(?:\/{1,3}|\\{1})[-a-zA-Z0-9:;,@#%&()~_?\+=\/\\\.]*$/;
 const EMAIL_PATTERN = /[^\s@]+@[^\s@]+\.[^\s@]+/;

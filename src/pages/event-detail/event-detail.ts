@@ -3,16 +3,13 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import isFuture from 'date-fns/is_future';
 import isPast from 'date-fns/is_past';
 import isSameDay from 'date-fns/is_same_day';
-import { IonicPage, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
 
 import { Event } from '../../models/event';
-import { ApiService } from '../../providers/api';
-import { NotificationService } from '../../providers/notification';
+import { ApiService } from '../../services/api/api';
+import { NotificationService } from '../../services/notification/notification';
 import { formatLocale, isFullDay } from '../../util/dates';
 
-@IonicPage({
-  segment: 'activiteit'
-})
 @Component({
   selector: 'csr-event-detail',
   templateUrl: 'event-detail.html'

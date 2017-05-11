@@ -3,9 +3,9 @@ import { Response } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Observable';
 
-import { AppConfig } from '../app/app.config';
-import { AuthService } from '../providers/auth';
-import { parseJsonDates } from '../util/data';
+import { AppConfig } from '../../app/app.config';
+import { parseJsonDates } from '../../util/data';
+import { AuthService } from '../auth/auth';
 
 @Injectable()
 export class HttpService {

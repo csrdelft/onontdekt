@@ -4,7 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../';
-import { ApiService } from '../../providers/api';
+import { ApiService } from '../../services/api/api';
 import * as post from './posts.actions';
 import * as fromPost from './posts.reducer';
 

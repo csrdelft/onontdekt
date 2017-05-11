@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
-import { IonicPage, Refresher } from 'ionic-angular';
+import { Refresher } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export interface Ranked {
@@ -10,16 +10,13 @@ export interface Ranked {
   latest: number;
 }
 
-@IonicPage({
-  segment: 'stand'
-})
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-ranking',
   templateUrl: 'ranking.html'
 })
 export class RankingPage implements OnInit {
-  ranking$: BehaviorSubject<Ranked[]> = new BehaviorSubject([]);
+  ranking$: BehaviorSubject<Ranked[] | null> = new BehaviorSubject(null);
 
   constructor(
     private googleAnalytics: GoogleAnalytics,

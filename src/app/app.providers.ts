@@ -53,14 +53,14 @@ const ionicNativeProviders = [
  * Custom app services
  */
 
-import { ApiService } from '../providers/api';
-import { AuthService } from '../providers/auth';
-import { BBParseService } from '../providers/bb-parse';
-import { HttpService } from '../providers/http';
-import { NotificationService } from '../providers/notification';
-import { UrlService } from '../providers/url';
+import { ApiService } from '../services/api/api';
+import { AuthService } from '../services/auth/auth';
+import { BBParseService } from '../services/bb-parse/bb-parse';
+import { HttpService } from '../services/http/http';
+import { NotificationService } from '../services/notification/notification';
+import { UrlService } from '../services/url/url';
 
-const services = [
+const SERVICES = [
   ApiService,
   AuthService,
   BBParseService,
@@ -70,11 +70,24 @@ const services = [
 ];
 
 /**
+ * Ionic error handler
+ */
+
+import { ErrorHandler } from '@angular/core';
+import { IonicErrorHandler } from 'ionic-angular';
+
+const errorProvider = {
+  provide: ErrorHandler,
+  useClass: IonicErrorHandler
+};
+
+/**
  * Export all providers for use in our app module
  */
 
-export const providers = [
+export const PROVIDERS = [
+  SERVICES,
   ionicNativeProviders,
-  services,
-  authProvider
+  authProvider,
+  errorProvider
 ];

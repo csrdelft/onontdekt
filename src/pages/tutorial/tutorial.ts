@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { StatusBar } from '@ionic-native/status-bar';
-import { IonicPage, NavController, Platform } from 'ionic-angular';
+import { NavController, Platform } from 'ionic-angular';
+
+import { LoginPage } from '../login/login';
 
 export interface TutorialSlide {
   title: string;
@@ -9,9 +11,6 @@ export interface TutorialSlide {
   image: string;
 }
 
-@IonicPage({
-  segment: 'tour'
-})
 @Component({
   selector: 'csr-tutorial',
   templateUrl: 'tutorial.html'
@@ -60,7 +59,7 @@ export class TutorialPage {
   }
 
   startApp() {
-    this.navCtrl.push('LoginPage');
+    this.navCtrl.push(LoginPage);
   }
 
   identify(index: number, slide: TutorialSlide) {
