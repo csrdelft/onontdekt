@@ -3,3 +3,12 @@
 .has-refresher > .scroll-content {
   background-color: #fff;
 }
+
+.toolbar-ios ion-title {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.header-ios .toolbar-ios:last-child .toolbar-background-ios {
+  border-bottom-width: 0;
+}

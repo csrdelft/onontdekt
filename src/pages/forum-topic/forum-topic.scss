@@ -5,6 +5,10 @@ csr-forum-topic {
     .item-block [item-end] {
       align-self: flex-start;
     }
+
+    &.list-ios > .item-block:last-child {
+      border-bottom: none;
+    }
   }
 
   .post-image {
