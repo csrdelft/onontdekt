@@ -24,8 +24,11 @@ const tests = [{
   input: '[citaat]lorem[/citaat]',
   output: 'Citaat:<br><blockquote>lorem</blockquote>'
 }, {
-  input: '[citaat=Naam]lorem[/citaat]',
-  output: 'Citaat van Naam:<br><blockquote>lorem</blockquote>'
+  input: '[citaat=Naam_Achternaam]lorem[/citaat]',
+  output: 'Citaat van Naam Achternaam:<br><blockquote>lorem</blockquote>'
+}, {
+  input: '[citaat=1113]lorem[/citaat]',
+  output: 'Citaat van <a href="#/leden/lid/1113">1113</a>:<br><blockquote>lorem</blockquote>'
 }, {
   input: '[document]1234[/document]',
   output: '<a href="https://csrdelft.nl/documenten/bekijken/1234/">Document 1234</a>'

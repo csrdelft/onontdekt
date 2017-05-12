@@ -153,7 +153,14 @@ export class BBParseService {
       },
       'citaat': {
         openTag: (params, content) => {
-          const pre = params ? ' van ' + params.substr(1) : '';
+          let pre = '';
+          if (params) {
+            let name = params.substr(1).replace('_', ' ');
+            if (name.length === 4 && isNumeric(name)) {
+              name = `<a href="#/leden/lid/${name}">${name}</a>`;
+            }
+            pre = ' van ' + name;
+          }
           return 'Citaat' + pre + ':<br><blockquote>';
         },
         closeTag: (params, content) => '</blockquote>'
