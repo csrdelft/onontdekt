@@ -54,27 +54,13 @@ export class LustrumApp {
   }
 
   private runUpdate() {
-    const message = 'Update downloaden... ';
-    const toast = this.toastCtrl.create({
-      message: message + '0%',
-    });
-
-    this.codePush.sync({}, (progress) => {
-      if (progress) {
-        const perc = Math.ceil(progress.receivedBytes / progress.totalBytes * 100);
-        toast.setMessage(message + perc + '%');
-      }
-    }).subscribe(status => {
+    this.codePush.sync().subscribe(status => {
       switch (status) {
-        case SyncStatus.DOWNLOADING_PACKAGE:
-          toast.present();
-          break;
         case SyncStatus.INSTALLING_UPDATE:
-          toast.dismiss();
-          break;
-        case SyncStatus.ERROR:
-          toast.dismiss();
-          this.toastCtrl.create({ message: 'Update mislukt', duration: 3000 }).present();
+          this.toastCtrl.create({
+            message: 'Er is een update beschikbaar. Herstart de app om deze direct te gebruiken.',
+            duration: 6000
+          }).present();
           break;
       }
     });
