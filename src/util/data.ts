@@ -10,7 +10,9 @@ export function parseJsonDates(res: Response): any {
 }
 
 export function reviveDateTime(key: any, value: any): any {
+  // Server returns datetimes in the following format: '2017-05-09 18:30:00'
   if (typeof value === 'string' && /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)) {
+    value = value.replace(' ', 'T');
     return new Date(value);
   }
 
