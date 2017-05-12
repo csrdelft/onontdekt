@@ -10,6 +10,8 @@ import { Member, MemberDetail } from '../../state/members/members.model';
 import { ForumPost } from '../../state/posts/posts.model';
 import { ForumTopic } from '../../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../../util/dates';
+import { postsMock, topicsMock, memberDetailMock, membersMock } from '../../util/mocks';
+import { AuthService } from '../auth/auth';
 import { HttpService } from '../http/http';
 
 @Injectable()
@@ -21,6 +23,7 @@ export class ApiService {
   };
 
   constructor(
+    private authService: AuthService,
     private httpService: HttpService
   ) {}
 
@@ -118,18 +121,34 @@ export class ApiService {
   }
 
   getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
+    if (this.useMock()) {
+      return Observable.of(topicsMock as ForumTopic[]);
+    }
+
     return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
   }
 
   getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
+    if (this.useMock()) {
+      return Observable.of(postsMock as ForumPost[]);
+    }
+
     return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
   }
 
   getMemberList(): Observable<Member[]> {
+    if (this.useMock()) {
+      return Observable.of(membersMock as Member[]);
+    }
+
     return this.httpService.getFromApi('/leden', 'get');
   }
 
   getMemberDetail(id: string): Observable<MemberDetail> {
+    if (this.useMock()) {
+      return Observable.of(memberDetailMock as MemberDetail);
+    }
+
     return this.httpService.getFromApi('/leden/' + id, 'get');
   }
 
@@ -137,4 +156,7 @@ export class ApiService {
     return this.httpService.getFromApi('/' + cat + '/' + id + '/' + action, 'post');
   }
 
+  private useMock() {
+    return this.authService.isDemo();
+  }
 }

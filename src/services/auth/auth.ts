@@ -98,6 +98,10 @@ export class AuthService {
     }
   }
 
+  isDemo() {
+    return this.userId === 'x037';
+  }
+
   private registerLogin(type: string) {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
