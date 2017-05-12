@@ -8,6 +8,7 @@ import { NavParams } from 'ionic-angular';
 import { Event } from '../../models/event';
 import { ApiService } from '../../services/api/api';
 import { NotificationService } from '../../services/notification/notification';
+import { UrlService } from '../../services/url/url';
 import { formatLocale, isFullDay } from '../../util/dates';
 
 @Component({
@@ -16,12 +17,13 @@ import { formatLocale, isFullDay } from '../../util/dates';
 })
 export class EventDetailPage {
   event: Event;
-  processingAction: boolean = false;
+  processingAction = false;
 
   constructor(
     private api: ApiService,
     private notifier: NotificationService,
     private googleAnalytics: GoogleAnalytics,
+    private urlService: UrlService,
     navParams: NavParams
   ) {
     this.event = navParams.data;
@@ -105,6 +107,11 @@ export class EventDetailPage {
       this.notifier.notify(message);
       this.processingAction = false;
     });
+  }
+
+  viewExternal() {
+    const url = `https://csrdelft.nl/groepen/activiteiten/${this.event.id}/`;
+    this.urlService.open(url);
   }
 
   ionViewDidEnter() {

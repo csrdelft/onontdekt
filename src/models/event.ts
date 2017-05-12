@@ -20,6 +20,8 @@ export class Event {
   aanmelden_vanaf: Date;
   aanmelden_tot: Date;
   afmelden_tot: Date;
+  aantal_aanmeldingen?: number;
+  aanmeld_limiet?: number;
   _meta: {
     start: Date;
     end: Date;
