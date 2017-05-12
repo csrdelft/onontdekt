@@ -10,7 +10,7 @@ import { Member, MemberDetail } from '../../state/members/members.model';
 import { ForumPost } from '../../state/posts/posts.model';
 import { ForumTopic } from '../../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../../util/dates';
-import { postsMock, topicsMock, memberDetailMock, membersMock } from '../../util/mocks';
+import { memberDetailMock, membersMock, postsMock, topicsMock } from '../../util/mocks';
 import { AuthService } from '../auth/auth';
 import { HttpService } from '../http/http';
 
