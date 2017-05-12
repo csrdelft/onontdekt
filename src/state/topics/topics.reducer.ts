@@ -40,7 +40,12 @@ export function reducer(state = initialState, action: topic.Actions): State {
 
     case topic.ActionTypes.SELECT: {
       return Object.assign({}, state, {
-        selectedId: action.payload
+        selectedId: action.payload,
+        entities: Object.assign({}, state.entities, {
+          [action.payload]: Object.assign({}, state.entities[action.payload], {
+            ongelezen: 0
+          })
+        })
       });
     }
 
