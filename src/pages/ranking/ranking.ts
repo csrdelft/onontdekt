@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Refresher } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -19,18 +18,11 @@ export class RankingPage implements OnInit {
   ranking$: BehaviorSubject<Ranked[] | null> = new BehaviorSubject(null);
 
   constructor(
-    private googleAnalytics: GoogleAnalytics,
     private http: Http
   ) {}
 
   ngOnInit() {
     this.load();
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Ranking');
-    }
   }
 
   doRefresh(refresher: Refresher) {

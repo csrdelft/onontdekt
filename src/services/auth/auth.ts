@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { OneSignal, OSDisplayType } from '@ionic-native/onesignal';
 import { Storage } from '@ionic/storage';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
@@ -18,7 +17,6 @@ export class AuthService {
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private googleAnalytics: GoogleAnalytics,
     private oneSignal: OneSignal,
     private platform: Platform,
     private storage: Storage
@@ -110,8 +108,6 @@ export class AuthService {
         this.oneSignal.endInit();
         this.oneSignal.setSubscription(true);
         this.oneSignal.sendTag('userId', this.userId !);
-
-        this.googleAnalytics.trackEvent('Authorization', 'Login', type);
       });
     }
   }
@@ -120,7 +116,6 @@ export class AuthService {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         this.oneSignal.setSubscription(false);
-        this.googleAnalytics.trackEvent('Authorization', 'Logout', type);
       });
     }
   }

@@ -23,7 +23,6 @@
     "@ionic-native/code-push": "3.7.0",
     "@ionic-native/contacts": "3.7.0",
     "@ionic-native/core": "3.7.0",
-    "@ionic-native/google-analytics": "3.7.0",
     "@ionic-native/in-app-browser": "3.7.0",
     "@ionic-native/keyboard": "3.7.0",
     "@ionic-native/onesignal": "3.7.0",
@@ -53,7 +52,6 @@
     "cordova-plugin-contacts": "2.3.1",
     "cordova-plugin-crosswalk-webview": "2.3.0",
     "cordova-plugin-device": "1.1.6",
-    "cordova-plugin-google-analytics": "1.8.2",
     "cordova-plugin-inappbrowser": "1.7.1",
     "cordova-plugin-safariviewcontroller": "1.4.7",
     "cordova-plugin-splashscreen": "4.0.3",
@@ -111,7 +109,6 @@
         "XWALK_MULTIPLEAPK": "true"
       },
       "cordova-plugin-device": {},
-      "cordova-plugin-google-analytics": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-safariviewcontroller": {},
       "cordova-plugin-splashscreen": {},

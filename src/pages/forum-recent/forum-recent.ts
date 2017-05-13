@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
 import { NavController, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -19,7 +18,6 @@ export class ForumRecentPage implements OnInit {
   moreAvailable$: Observable<boolean>;
 
   constructor(
-    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
     private store: Store<fromRoot.State>
   ) { }
@@ -48,12 +46,6 @@ export class ForumRecentPage implements OnInit {
 
   identify(index: number, topic: ForumTopic) {
     return topic.UUID;
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Forum Recent');
-    }
   }
 
   private load(reset: boolean) {

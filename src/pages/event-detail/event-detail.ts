@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import isFuture from 'date-fns/is_future';
 import isPast from 'date-fns/is_past';
 import isSameDay from 'date-fns/is_same_day';
@@ -22,7 +21,6 @@ export class EventDetailPage {
   constructor(
     private api: ApiService,
     private notifier: NotificationService,
-    private googleAnalytics: GoogleAnalytics,
     private urlService: UrlService,
     navParams: NavParams
   ) {
@@ -76,9 +74,6 @@ export class EventDetailPage {
     this.api.postAction(cat, id, 'aanmelden').toPromise().then((event: Event) => {
       this.api.addJoined(cat, Number(id));
       this.event = this.api.addEventMeta(event);
-      if ((GoogleAnalytics as any)['installed']()) {
-        this.googleAnalytics.trackEvent('Events', 'Join', event._meta.category, id);
-      }
       return 'Aanmelden gelukt!';
     }, error => {
       return 'Aanmelden mislukt: ' + error;
@@ -97,9 +92,6 @@ export class EventDetailPage {
     this.api.postAction(cat, id, 'afmelden').toPromise().then((event: Event) => {
       this.api.removeJoined(cat, Number(id));
       this.event = this.api.addEventMeta(event);
-      if ((GoogleAnalytics as any)['installed']()) {
-        this.googleAnalytics.trackEvent('Events', 'Leave', event._meta.category, id);
-      }
       return 'Afmelden gelukt!';
     }, error => {
       return 'Afmelden mislukt: ' + error;
@@ -112,11 +104,5 @@ export class EventDetailPage {
   viewExternal() {
     const url = `https://csrdelft.nl/groepen/activiteiten/${this.event.id}/`;
     this.urlService.open(url);
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Event Detail');
-    }
   }
 }

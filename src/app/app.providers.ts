@@ -26,7 +26,6 @@ const authProvider = {
 import { Calendar } from '@ionic-native/calendar';
 import { CodePush } from '@ionic-native/code-push';
 import { Contacts } from '@ionic-native/contacts';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
 import { OneSignal } from '@ionic-native/onesignal';
@@ -39,7 +38,6 @@ const ionicNativeProviders = [
   Calendar,
   CodePush,
   Contacts,
-  GoogleAnalytics,
   InAppBrowser,
   Keyboard,
   OneSignal,

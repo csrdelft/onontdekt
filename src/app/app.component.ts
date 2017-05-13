@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { CodePush, SyncStatus } from '@ionic-native/code-push';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Events, Nav, Platform, ToastController } from 'ionic-angular';
@@ -21,7 +20,6 @@ export class LustrumApp {
     private authService: AuthService,
     private codePush: CodePush,
     private toastCtrl: ToastController,
-    private googleAnalytics: GoogleAnalytics,
     private keyboard: Keyboard,
     private splashScreen: SplashScreen
   ) {
@@ -36,8 +34,6 @@ export class LustrumApp {
     this.platform.ready().then(() => {
       this.runUpdate();
       this.keyboard.disableScroll(true);
-      this.googleAnalytics.startTrackerWithId('UA-79997582-1');
-      this.googleAnalytics.enableUncaughtExceptionReporting(true);
     });
   }
 

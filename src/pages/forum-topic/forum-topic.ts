@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { Store } from '@ngrx/store';
 import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -28,7 +27,6 @@ export class ForumTopicPage implements OnInit {
   private topicId: number;
 
   constructor(
-    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
     private navParams: NavParams,
     private store: Store<fromRoot.State>,
@@ -55,12 +53,6 @@ export class ForumTopicPage implements OnInit {
       this.content.scrollToBottom(0);
       scrollDown.unsubscribe();
     });
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Forum Topic');
-    }
   }
 
   doInfinite(): Promise<any> {

@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
 import { ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Store } from '@ngrx/store';
 import isPast from 'date-fns/is_past';
@@ -31,7 +30,6 @@ export class MemberDetailPage implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private calendar: Calendar,
     private contacts: Contacts,
-    private googleAnalytics: GoogleAnalytics,
     private photoViewer: PhotoViewer,
     private navParams: NavParams,
     private store: Store<fromRoot.State>
@@ -88,9 +86,6 @@ export class MemberDetailPage implements OnInit {
     contact.save()
       .then(() => {
         this.notifier.notify('Succesvol opgeslagen in contacten.');
-        if ((GoogleAnalytics as any)['installed']()) {
-          this.googleAnalytics.trackEvent('Members', 'Save', 'New');
-        }
       }, () => {
         this.notifier.notify('Opslaan in contacten mislukt.');
       });
@@ -115,12 +110,6 @@ export class MemberDetailPage implements OnInit {
       this.photoViewer.show(url, member.naam.formeel, { share: false });
     } else {
       window.open(url, '_blank');
-    }
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Member Detail');
     }
   }
 }

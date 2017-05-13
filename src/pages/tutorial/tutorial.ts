@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import { StatusBar } from '@ionic-native/status-bar';
 import { NavController, Platform } from 'ionic-angular';
 
@@ -35,7 +34,6 @@ export class TutorialPage {
   ];
 
   constructor(
-    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController,
     private platform: Platform,
     private statusBar: StatusBar
@@ -45,7 +43,6 @@ export class TutorialPage {
     if (this.platform.is('cordova')) {
       this.platform.ready().then(() => {
         this.statusBar.styleDefault();
-        this.googleAnalytics.trackView('Tutorial');
       });
     }
   }

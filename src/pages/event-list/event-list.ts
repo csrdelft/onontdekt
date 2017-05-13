@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GoogleAnalytics } from '@ionic-native/google-analytics';
 import addDays from 'date-fns/add_days';
 import endOfDay from 'date-fns/end_of_day';
 import startOfToday from 'date-fns/start_of_today';
@@ -32,7 +31,6 @@ export class EventListPage {
 
   constructor(
     private api: ApiService,
-    private googleAnalytics: GoogleAnalytics,
     private navCtrl: NavController
   ) {
     this.initializeMoments();
@@ -119,12 +117,6 @@ export class EventListPage {
 
   identify(index: number, event: Event) {
     return event.UUID;
-  }
-
-  ionViewDidEnter() {
-    if ((GoogleAnalytics as any)['installed']()) {
-      this.googleAnalytics.trackView('Event List');
-    }
   }
 
 }
