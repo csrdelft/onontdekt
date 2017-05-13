@@ -22,7 +22,7 @@ script:
 
 deploy:
   provider: script
-  script: ./.travis/deploy.sh
+  script: ./scripts/ci/deploy.sh
   skip_cleanup: true
   on:
     repo: Manduro/onontdekt

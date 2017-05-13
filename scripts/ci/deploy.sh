@@ -10,7 +10,7 @@ rm -f ./www/build/main.js.map
 # ionic upload --email $IONIC_EMAIL --password $IONIC_PASSWORD --note "Travis deploy $TRAVIS_BUILD_NUMBER" --deploy=staging
 
 # Get the deploy key
-cd .travis
+cd scripts/ci
 ENCRYPTED_KEY_VAR="encrypted_40378fca9f07_key"
 ENCRYPTED_IV_VAR="encrypted_40378fca9f07_iv"
 ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
