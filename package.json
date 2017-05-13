@@ -13,6 +13,9 @@
     "test-ci": "karma start ./config/unit-test/karma.conf.js --single-run",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'"
   },
+  "config": {
+    "ionic_copy": "./config/app-scripts/copy.config.js"
+  },
   "dependencies": {
     "@angular/common": "4.1.2",
     "@angular/core": "4.1.2",
