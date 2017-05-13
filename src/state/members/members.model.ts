@@ -18,16 +18,16 @@ export interface MemberDetail {
   email: string;
   mobiel: string;
   pasfoto: string;
-  lichting: string;
+  lichting: number;
   verticale: string;
   studie: {
     naam: string;
-    sinds: string;
+    sinds: number;
   };
 }
 
 export interface MemberName {
   voornaam: string;
-  tussenvoegsel: undefined | string;
+  tussenvoegsel: null | string;
   achternaam: string;
 }

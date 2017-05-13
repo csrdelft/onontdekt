@@ -1,14 +1,25 @@
-export const postsMock = [{
+import { Member, MemberDetail } from '../state/members/members.model';
+import { ForumPost } from '../state/posts/posts.model';
+import { ForumTopic } from '../state/topics/topics.model';
+
+export const postsMock: ForumPost[] = [{
   post_id: 1,
   draad_id: 1,
   uid: 'x037',
   tekst: 'Example message content',
   datum_tijd: new Date('2017-05-02T10:59:03Z'),
   laatst_gewijzigd: new Date('2017-05-02T10:59:03Z'),
-  uid_naam: 'Mr. User'
+  uid_naam: 'Mr. User',
+  UUID: '',
+  attributes_received: false,
+  auteur_ip: '',
+  bewerkt_tekst: '',
+  gefilterd: '',
+  verwijderd: false,
+  wacht_goedkeuring: false
 }];
 
-export const topicsMock = [{
+export const topicsMock: ForumTopic[] = [{
   draad_id: 1,
   forum_id: 1,
   gedeeld_met: null,
@@ -20,21 +31,31 @@ export const topicsMock = [{
   laatste_wijziging_uid: 'x037',
   ongelezen: 0,
   laatste_post: postsMock[0],
-  laatste_wijziging_naam: postsMock[0].uid_naam
+  laatste_wijziging_naam: postsMock[0].uid_naam,
+  UUID: '',
+  attributes_received: false,
+  belangrijk: false,
+  eerste_post_plakkerig: false,
+  forum_titel: '',
+  gesloten: false,
+  pagina_per_post: false,
+  plakkerig: false,
+  verwijderd: false,
+  wacht_goedkeuring: false
 }];
 
-export const membersMock = [{
+export const membersMock: Member[] = [{
   id: 'x037',
   voornaam: 'Demo',
-  tussenvoegsel: undefined,
+  tussenvoegsel: null,
   achternaam: 'User'
 }];
 
-export const memberDetailMock = {
+export const memberDetailMock: MemberDetail = {
   id: 'x037',
   naam: {
     voornaam: 'Demo',
-    tussenvoegsel: undefined,
+    tussenvoegsel: null,
     achternaam: 'User',
     formeel: 'Mr. User'
   },
@@ -51,8 +72,8 @@ export const memberDetailMock = {
   },
   studie: {
     naam: 'Education',
-    sinds: '2000'
+    sinds: 2000
   },
-  lichting: '2011',
+  lichting: 2011,
   verticale: 'Group'
 };

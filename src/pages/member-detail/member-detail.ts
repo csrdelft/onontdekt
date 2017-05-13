@@ -68,7 +68,7 @@ export class MemberDetailPage implements OnInit {
 
   saveNew(member: MemberDetail) {
     const contact = this.contacts.create();
-    contact.name = new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel);
+    contact.name = new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel || undefined);
     contact.phoneNumbers = [new ContactField('mobiel', member.mobiel, false)];
     contact.emails = [new ContactField('thuis', member.email, false)];
     contact.addresses = [new ContactAddress(

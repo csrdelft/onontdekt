@@ -10,7 +10,7 @@ export interface ForumPost {
   post_id: number;
   tekst: string;
   uid: string;
-  uid_naam?: string;
+  uid_naam: string;
   verwijderd: boolean;
   wacht_goedkeuring: boolean;
 }

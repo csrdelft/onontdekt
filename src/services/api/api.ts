@@ -122,7 +122,7 @@ export class ApiService {
 
   getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
     if (this.useMock()) {
-      return Observable.of(topicsMock as ForumTopic[]);
+      return Observable.of(topicsMock);
     }
 
     return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
@@ -130,7 +130,7 @@ export class ApiService {
 
   getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
     if (this.useMock()) {
-      return Observable.of(postsMock as ForumPost[]);
+      return Observable.of(postsMock);
     }
 
     return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
@@ -138,7 +138,7 @@ export class ApiService {
 
   getMemberList(): Observable<Member[]> {
     if (this.useMock()) {
-      return Observable.of(membersMock as Member[]);
+      return Observable.of(membersMock);
     }
 
     return this.httpService.getFromApi('/leden', 'get');
@@ -146,7 +146,7 @@ export class ApiService {
 
   getMemberDetail(id: string): Observable<MemberDetail> {
     if (this.useMock()) {
-      return Observable.of(memberDetailMock as MemberDetail);
+      return Observable.of(memberDetailMock);
     }
 
     return this.httpService.getFromApi('/leden/' + id, 'get');
