@@ -11,7 +11,10 @@
     "ionic:serve": "ionic-app-scripts serve",
     "test": "karma start ./config/unit-test/karma.conf.js",
     "test-ci": "karma start ./config/unit-test/karma.conf.js --single-run",
-    "lint": "tslint -c ./tslint.json 'src/**/*.ts'"
+    "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "deploy": "npm run test-ci && npm run lint && npm run deploy-ios && npm run deploy-android",
+    "deploy-ios": "ionic cordova build ios --prod && code-push release-cordova csrdelft.ios ios -d \"Production\"",
+    "deploy-android": "ionic cordova build android --prod && code-push release-cordova csrdelft.android android -d \"Production\""
   },
   "config": {
     "ionic_copy": "./config/app-scripts/copy.config.js"
