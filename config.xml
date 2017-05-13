@@ -63,7 +63,7 @@
         </config-file>
         <config-file parent="CFBundleLocalizations" target="*-Info.plist">
             <array>
-                <string>nl-NL</string>
+                <string>nl</string>
             </array>
         </config-file>
         <config-file parent="LSApplicationQueriesSchemes" target="*-Info.plist">
@@ -87,44 +87,17 @@
                 <string>itms-apps</string>
             </array>
         </config-file>
-        <config-file parent="UISupportedInterfaceOrientations" target="*-Info.plist">
+        <config-file parent="UISupportedInterfaceOrientations" mode="replace" target="*-Info.plist">
             <array>
                 <string>UIInterfaceOrientationPortrait</string>
             </array>
         </config-file>
-        <config-file parent="UISupportedInterfaceOrientations~ipad" target="*-Info.plist">
+        <config-file parent="UISupportedInterfaceOrientations~ipad" mode="replace" target="*-Info.plist">
             <array>
                 <string>UIInterfaceOrientationPortrait</string>
                 <string>UIInterfaceOrientationLandscapeLeft</string>
                 <string>UIInterfaceOrientationLandscapeRight</string>
             </array>
-        </config-file>
-        <config-file parent="NSAppTransportSecurity" target="*-Info.plist">
-            <dict>
-                <key>NSAllowsArbitraryLoads</key>
-                <true />
-                <key>NSExceptionDomains</key>
-                <dict>
-                    <key>amazonaws.com</key>
-                    <dict>
-                        <key>NSThirdPartyExceptionMinimumTLSVersion</key>
-                        <string>TLSv1.0</string>
-                        <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-                        <false />
-                        <key>NSIncludesSubdomains</key>
-                        <true />
-                    </dict>
-                    <key>amazonaws.com.cn</key>
-                    <dict>
-                        <key>NSThirdPartyExceptionMinimumTLSVersion</key>
-                        <string>TLSv1.0</string>
-                        <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
-                        <false />
-                        <key>NSIncludesSubdomains</key>
-                        <true />
-                    </dict>
-                </dict>
-            </dict>
         </config-file>
         <config-file parent="NSCalendarsUsageDescription" target="*-Info.plist">
             <string>Hiermee kun je verjaardagen openen in je agenda.</string>
