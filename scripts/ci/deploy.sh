@@ -29,5 +29,5 @@ rm -rf ./www/*
 cp -Rf /home/travis/build/Manduro/onontdekt/www ./
 cd www
 git add --all .
-git commit -m "Travis deploy $TRAVIS_BUILD_NUMBER"
+git diff-index --quiet HEAD || git commit -m "Travis deploy $TRAVIS_BUILD_NUMBER"
 git push --force --quiet git@github.com:csrdelft/lustrum.git master > /dev/null
