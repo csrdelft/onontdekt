@@ -1,6 +1,10 @@
 var webpack = require('webpack');
 var path = require('path');
 
+function root(localPath) {
+  return path.resolve(__dirname, localPath);
+}
+
 module.exports = {
   devtool: 'inline-source-map',
 
@@ -40,7 +44,3 @@ module.exports = {
     )
   ]
 };
-
-function root(localPath) {
-  return path.resolve(__dirname, localPath);
-}

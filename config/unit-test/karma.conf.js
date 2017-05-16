@@ -6,9 +6,10 @@ module.exports = function (config) {
 
     frameworks: ['jasmine'],
 
-    files: [
-      {pattern: './karma-test-shim.js', watched: true}
-    ],
+    files: [{
+      pattern: './karma-test-shim.js',
+      watched: true
+    }],
 
     preprocessors: {
       './karma-test-shim.js': ['webpack', 'sourcemap']
@@ -38,7 +39,7 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     customLaunchers: {
-      Chrome_travis_ci: {
+      chromeTravisCI: {
         base: 'Chrome',
         flags: ['--no-sandbox']
       }
@@ -46,7 +47,7 @@ module.exports = function (config) {
   };
 
   if (process.env.TRAVIS) {
-    _config.browsers = ['Chrome_travis_ci'];
+    _config.browsers = ['chromeTravisCI'];
   }
 
   config.set(_config);

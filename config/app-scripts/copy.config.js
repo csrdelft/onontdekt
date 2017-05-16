@@ -19,4 +19,4 @@ module.exports = {
     ],
     dest: '{{WWW}}/assets/fonts'
   }
-}
+};
