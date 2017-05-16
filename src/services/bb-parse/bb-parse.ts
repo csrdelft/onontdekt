@@ -413,7 +413,7 @@ export class BBParseService {
     let errQueue: string[] = [];
 
     // Add ending tag for singulars
-    config.text = config.text.replace(/\[(lid|ketzer|activiteit|document)=(.*)\]/gi, (match, value) => {
+    config.text = config.text.replace(/\[(lid|ketzer|activiteit|document)=(\w*)\]/gi, (match, value) => {
       return match + '[/' + value + ']';
     });
 

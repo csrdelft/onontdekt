@@ -105,4 +105,12 @@ describe('BBParseService', () => {
     expect(parsed.html).toBe('<a href="https://csrdelft.nl/a.jpg">Foto</a>');
   });
 
+  it('should parse multiple singular tags', () => {
+    config.text = '[lid=1101] en [lid=1102]';
+    const parsed = service.process(config);
+    expect(parsed.error).toBe(false);
+    expect(parsed.errorQueue.length).toBe(0);
+    expect(parsed.html).toBe('<a href="#/leden/lid/1101">Lid 1101</a> en <a href="#/leden/lid/1102">Lid 1102</a>');
+  });
+
 });
