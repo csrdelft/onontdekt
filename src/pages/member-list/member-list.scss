@@ -8,6 +8,30 @@ csr-member-list {
     }
   }
 
+  .item-divider-ios .label-ios {
+    margin: 3px 8px 4px 0;
+  }
+
+  strong {
+    font-weight: 500;
+  }
+
+  .search-toolbar {
+    padding: 0;
+
+    .toolbar-background-ios {
+      background-color: #bdbdc3;
+    }
+
+    .searchbar-ios {
+      border-top-width: 0;
+    }
+
+    .searchbar-ios .searchbar-input {
+      background-color: #fff;
+    }
+  }
+
 }
 
 .md csr-member-list .search-overlay {

@@ -9,12 +9,14 @@
     <ion-searchbar hideWhen="ios" class="search-overlay" placeholder="Zoek op naam of lidnummer" [ngModel]="searchQuery$ | async" #searchFocus (ionInput)="search($event)" (ionBlur)="stopSearchSoft()" (ionCancel)="stopSearch()" [hidden]="!(searching$ | async)" debounce="50">
     </ion-searchbar>
   </ion-navbar>
+  <ion-toolbar showWhen="ios" class="search-toolbar">
+    <ion-searchbar placeholder="Zoek op naam of lidnummer" [ngModel]="searchQuery$ | async" (ionInput)="search($event)" cancelButtonText="Annuleer" showCancelButton="true" debounce="50">
+    </ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
-  <ion-searchbar showWhen="ios" placeholder="Zoek op naam of lidnummer" [ngModel]="searchQuery$ | async" (ionInput)="search($event)" cancelButtonText="Annuleer" showCancelButton="true" debounce="50">
-  </ion-searchbar>
 
   <div *ngIf="members$ | async as members">
 
