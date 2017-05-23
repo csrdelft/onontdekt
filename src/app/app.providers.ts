@@ -53,7 +53,6 @@ const ionicNativeProviders = [
 
 import { ApiService } from '../services/api/api';
 import { AuthService } from '../services/auth/auth';
-import { BBParseService } from '../services/bb-parse/bb-parse';
 import { HttpService } from '../services/http/http';
 import { NotificationService } from '../services/notification/notification';
 import { UrlService } from '../services/url/url';
@@ -61,7 +60,6 @@ import { UrlService } from '../services/url/url';
 const SERVICES = [
   ApiService,
   AuthService,
-  BBParseService,
   HttpService,
   NotificationService,
   UrlService

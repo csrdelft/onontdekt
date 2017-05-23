@@ -9,6 +9,14 @@ csr-forum-topic {
     &.list-ios > .item-block:last-child {
       border-bottom: none;
     }
+
+    .item-block {
+      margin-bottom: 10px;
+
+      > .item-inner {
+        padding-bottom: 10px;
+      }
+    }
   }
 
   .post-image {
