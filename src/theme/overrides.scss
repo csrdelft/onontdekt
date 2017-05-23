@@ -13,6 +13,10 @@
   border-bottom-width: 0;
 }
 
+ion-infinite-scroll.hideinf ion-infinite-scroll-content {
+  display: none;
+}
+
 .item-block h2,
 .item-block h3 {
   overflow: inherit;

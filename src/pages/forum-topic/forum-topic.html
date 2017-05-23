@@ -15,7 +15,7 @@
 
 <ion-content scrollDownOnLoad="true">
 
-  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [enabled]="moreAvailable$ | async" position="top">
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(doInfinite())" [class.hideinf]="(moreAvailable$ | async) === false" [enabled]="moreAvailable$ | async" position="top">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
