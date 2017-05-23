@@ -4,6 +4,7 @@ import isPast from 'date-fns/is_past';
 import isSameDay from 'date-fns/is_same_day';
 import { NavParams } from 'ionic-angular';
 
+import { AppConfig } from '../../app/app.config';
 import { Event } from '../../models/event';
 import { ApiService } from '../../services/api/api';
 import { NotificationService } from '../../services/notification/notification';
@@ -102,7 +103,7 @@ export class EventDetailPage {
   }
 
   viewExternal() {
-    const url = `https://csrdelft.nl/groepen/activiteiten/${this.event.id}/`;
+    const url = AppConfig.SITE_URL + `/groepen/activiteiten/${this.event.id}/`;
     this.urlService.open(url);
   }
 }

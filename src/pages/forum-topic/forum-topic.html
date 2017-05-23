@@ -23,7 +23,7 @@
 
     <ion-item *ngFor="let post of posts; trackBy:identify" text-wrap>
       <div item-start tappable (click)="goToMemberDetail(post.uid)">
-        <img class="post-image" [attr.src]="'https://csrdelft.nl/plaetjes/pasfoto/' + post.uid + '.vierkant.png'">
+        <img class="post-image" [attr.src]="imageUrl + post.uid + '.vierkant.png'">
       </div>
       <h3 class="post-author">{{ post.uid_naam }}</h3>
       <p class="post-date">

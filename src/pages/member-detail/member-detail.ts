@@ -8,6 +8,7 @@ import isPast from 'date-fns/is_past';
 import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
+import { AppConfig } from '../../app/app.config';
 import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
 import { Member, MemberDetail } from '../../state/members/members.model';
@@ -22,6 +23,7 @@ import { NotificationService } from '../../services/notification/notification';
 export class MemberDetailPage implements OnInit {
   member$: Observable<Member>;
   memberDetail$: Observable<MemberDetail>;
+  imageUrl = AppConfig.SITE_URL + '/plaetjes/';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -104,7 +106,7 @@ export class MemberDetailPage implements OnInit {
   }
 
   openImage(member: MemberDetail) {
-    const url = 'https://csrdelft.nl/plaetjes/' + member.pasfoto.replace('.vierkant.png', '.jpg');
+    const url = this.imageUrl + member.pasfoto.replace('.vierkant.png', '.jpg');
 
     if (this.platform.is('cordova')) {
       this.photoViewer.show(url, member.naam.formeel, { share: false });
