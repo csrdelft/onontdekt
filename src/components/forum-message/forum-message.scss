@@ -1,16 +1,205 @@
 csr-forum-message {
   .post-text {
     color: #000;
-    white-space: pre-wrap;
-
-    blockquote {
-      border-left: 3px solid #ddd;
-      padding-left: 10px;
-      margin: 10px 0 0;
-    }
+    line-height: 18px;
 
     img {
       background-color: #eee;
     }
+
+    ul, ol {
+      padding-left: 20px;
+    }
   }
 }
+
+/* BB block level links */
+.bb-link-block {
+  @extend .card;
+  min-height: 70px;
+
+  img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background-color: #eee;
+  }
+}
+
+.ios .bb-link-block {
+  @extend .card-ios;
+  h2 { @extend .card-header-ios; }
+  p { @extend .card-content-ios; }
+}
+
+.md .bb-link-block {
+  @extend .card-md;
+  h2 { @extend .card-header-md; }
+  p { @extend .card-content-md; }
+}
+
+
+.bb-link-block,
+.bb-link-image,
+.bb-link-thumbnail {
+  display: block;
+  text-decoration: none;
+
+  + br {
+    display: none;
+  }
+}
+
+.bb-link-image {
+  background-color: #eee;
+  padding: 5px 10px;
+  margin: 10px 0;
+}
+
+.bb-link-image,
+.bb-link-thumnail img {
+  width: 150px;
+  height: 150px;
+  padding: 0;
+}
+
+.bb-tag-citaat {
+  padding-bottom: 10px;
+
+  .citaat {
+    border-left: 3px solid #ddd;
+    padding-left: 10px;
+    margin: 10px 0 0;
+  }
+
+  + br {
+    display: none;
+  }
+}
+
+br + .bb-tag-citaat {
+  padding-top: 10px;
+}
+
+.bb-tag-offtopic {
+  font-size: 85%;
+  opacity: 0.7;
+}
+
+.bb-tag-spoiler {
+  @extend .button;
+  line-height: 2.3em;
+  text-decoration: none;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+.ios .bb-tag-spoiler {
+  @extend .button-ios;
+  @extend .button-small-ios;
+}
+.md .bb-tag-spoiler {
+  @extend .button-md;
+  @extend .button-small-md;
+}
+
+.bb-tag-query,
+.bb-tag-spotify,
+.bb-tag-twitter,
+.bb-tag-ketzer,
+.bb-tag-activiteit,
+.bb-tag-bestuur,
+.bb-tag-commissie,
+.bb-tag-werkgroep,
+.bb-tag-woonoord,
+.bb-tag-ondervereniging,
+.bb-tag-groep,
+.bb-tag-boek,
+.bb-tag-document,
+.bb-tag-maaltijd,
+.bb-tag-mededelingen,
+.bb-tag-map,
+.bb-tag-peiling,
+.bb-tag-slideshow,
+.bb-tag-bijbelrooster,
+.bb-tag-ledenmemoryscores {
+  &:before {
+    @extend ion-icon;
+    float: left;
+    width: 58px;
+    line-height: 72px;
+    font-size: 32px;
+    text-align: center;
+  }
+}
+
+.bb-link-image {
+  &:before {
+    @extend ion-icon;
+    width: 150px;
+    line-height: 150px;
+    font-size: 32px;
+    text-align: center;
+  }
+}
+
+.md .bb-link-image:before { @extend .ion-md-image:before; }
+.ios .bb-link-image:before { @extend .ion-ios-image:before; }
+
+.md .bb-tag-query:before { @extend .ion-md-analytics:before; }
+.ios .bb-tag-query:before { @extend .ion-ios-analytics:before; }
+
+.md .bb-tag-spotify:before { @extend .ion-md-musical-notes:before; }
+.ios .bb-tag-spotify:before { @extend .ion-ios-musical-notes:before; }
+
+.bb-tag-twitter:before { @extend .ion-logo-twitter:before; }
+
+.md .bb-tag-ketzer:before { @extend .ion-md-list-box:before; }
+.ios .bb-tag-ketzer:before { @extend .ion-ios-list-box:before; }
+
+.md .bb-tag-activiteit:before { @extend .ion-md-calendar:before; }
+.ios .bb-tag-activiteit:before { @extend .ion-ios-calendar:before; }
+
+.md .bb-tag-bestuur:before { @extend .ion-md-medal:before; }
+.ios .bb-tag-bestuur:before { @extend .ion-ios-medal:before; }
+
+.md .bb-tag-commissie:before { @extend .ion-md-people:before; }
+.ios .bb-tag-commissie:before { @extend .ion-ios-people:before; }
+
+.md .bb-tag-werkgroep:before { @extend .ion-md-people:before; }
+.ios .bb-tag-werkgroep:before { @extend .ion-ios-people:before; }
+
+.md .bb-tag-woonoord:before { @extend .ion-md-home:before; }
+.ios .bb-tag-woonoord:before { @extend .ion-ios-home:before; }
+
+.md .bb-tag-ondervereniging:before { @extend .ion-md-people:before; }
+.ios .bb-tag-ondervereniging:before { @extend .ion-ios-people:before; }
+
+.md .bb-tag-groep:before { @extend .ion-md-people:before; }
+.ios .bb-tag-groep:before { @extend .ion-ios-people:before; }
+
+.md .bb-tag-boek:before { @extend .ion-md-book:before; }
+.ios .bb-tag-boek:before { @extend .ion-ios-book:before; }
+
+.md .bb-tag-document:before { @extend .ion-md-paper:before; }
+.ios .bb-tag-document:before { @extend .ion-ios-paper:before; }
+
+.md .bb-tag-maaltijd:before { @extend .ion-md-restaurant:before; }
+.ios .bb-tag-maaltijd:before { @extend .ion-ios-restaurant:before; }
+
+.md .bb-tag-mededelingen:before { @extend .ion-md-megaphone:before; }
+.ios .bb-tag-mededelingen:before { @extend .ion-ios-megaphone:before; }
+
+.md .bb-tag-map:before { @extend .ion-md-map:before; }
+.ios .bb-tag-map:before { @extend .ion-ios-map:before; }
+
+.md .bb-tag-peiling:before { @extend .ion-md-stats:before; }
+.ios .bb-tag-peiling:before { @extend .ion-ios-stats:before; }
+
+.md .bb-tag-slideshow:before { @extend .ion-md-albums:before; }
+.ios .bb-tag-slideshow:before { @extend .ion-ios-albums:before; }
+
+.md .bb-tag-bijbelrooster:before { @extend .ion-md-book:before; }
+.ios .bb-tag-bijbelrooster:before { @extend .ion-ios-book:before; }
+
+.md .bb-tag-ledenmemoryscores:before { @extend .ion-md-podium:before; }
+.ios .bb-tag-ledenmemoryscores:before { @extend .ion-ios-podium:before; }

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
 
+import { AppConfig } from '../../app/app.config';
 import { ForumTextPage } from '../../pages/forum-text/forum-text';
 import { MemberDetailPage } from '../../pages/member-detail/member-detail';
 import { UrlService } from '../../services/url/url';
@@ -15,44 +16,63 @@ export class ForumMessageComponent {
   @Input() text: string;
 
   constructor(
+    private alertCtrl: AlertController,
     private navCtrl: NavController,
     private urlService: UrlService
   ) {}
 
   checkAnchorClick(event: MouseEvent) {
-    const target = event.target as HTMLElement;
+    let target = event.target as HTMLElement;
     if (!target || target.nodeName !== 'A') {
-      return;
+      const parent = target.closest('a');
+      if (!parent) {
+        return;
+      } else {
+        target = parent as HTMLElement;
+      }
     }
 
-    const url = target.getAttribute('href');
+    let url = target.getAttribute('href');
     if (!url || url.length === 0) {
       return;
     }
 
-    if (url.substr(0, 12) === '#/leden/lid/') {
-      const id = url.substr(12);
+    if (url.substr(0, 9) === '/profiel/') {
+      const id = url.substr(9);
       if (!id || id.length !== 4 || !isNumeric(id)) {
-        return;
+        return event.preventDefault();
       }
 
-      event.preventDefault();
       this.navCtrl.push(MemberDetailPage, { id });
+      return event.preventDefault();
     }
 
     if (url.substr(0, 13) === '#/verklapper/') {
-      if (!target.dataset || !target.dataset.text) {
-        return;
+      const text = decodeURIComponent(url.substr(13).replace(/\+/g, ' '));
+      if (!text) {
+        return event.preventDefault();
       }
-      const text = decodeURIComponent(target.dataset.text !);
 
-      event.preventDefault();
       this.navCtrl.push(ForumTextPage, { text });
+      return event.preventDefault();
+    }
+
+    if (url.substr(0, 10) === '#/peiling/' || url.substr(0, 12) === '#/slideshow/') {
+      this.alertCtrl
+        .create()
+        .setMessage('Deze link wordt niet ondersteund. Bekijk het draadje op de stek!')
+        .addButton('Ok')
+        .present();
+      return event.preventDefault();
+    }
+
+    if (url.substr(0, 1) === '/') {
+      url = AppConfig.SITE_URL + url;
     }
 
     if (url.substr(0, 8) === 'https://' || url.substr(0, 7) === 'http://') {
-      event.preventDefault();
       this.urlService.open(url);
+      return event.preventDefault();
     }
   }
 }

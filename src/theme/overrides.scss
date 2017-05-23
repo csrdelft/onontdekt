@@ -5,10 +5,20 @@
 }
 
 .toolbar-ios ion-title {
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 45px;
+  padding-right: 45px;
 }
 
 .header-ios .toolbar-ios:last-child .toolbar-background-ios {
   border-bottom-width: 0;
+}
+
+ion-infinite-scroll.hideinf ion-infinite-scroll-content {
+  display: none;
+}
+
+.item-block h2,
+.item-block h3 {
+  overflow: inherit;
+  text-overflow: inherit;
 }

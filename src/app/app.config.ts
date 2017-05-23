@@ -8,6 +8,10 @@ export class AppConfig {
     return isDevMode();
   }
 
+  static get SITE_URL(): string {
+    return isDevMode() ? 'http://csrdelft.dev' : 'https://csrdelft.nl';
+  }
+
   static get API_ENDPOINT(): string {
     return isDevMode() ? '/api-proxy' : 'https://csrdelft.nl/API/2.0';
   }

@@ -9,7 +9,7 @@ export interface MemberDetail {
   };
   geboortedatum: Date;
   huis: {
-    naam: string;
+    naam: null | string;
     adres: string;
     woonplaats: string;
     postcode: string;

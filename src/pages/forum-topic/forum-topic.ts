@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
+import { AppConfig } from '../../app/app.config';
 import { UrlService } from '../../services/url/url';
 import * as fromRoot from '../../state';
 import * as post from '../../state/posts/posts.actions';
@@ -23,6 +24,7 @@ export class ForumTopicPage implements OnInit {
   topic$: Observable<ForumTopic>;
   posts$: Observable<ForumPost[]>;
   moreAvailable$: Observable<boolean>;
+  imageUrl = AppConfig.SITE_URL + '/plaetjes/pasfoto/';
 
   private topicId: number;
 
@@ -69,7 +71,7 @@ export class ForumTopicPage implements OnInit {
   }
 
   viewExternal() {
-    const url = `https://csrdelft.nl/forum/onderwerp/${this.topicId}#ongelezen`;
+    const url = AppConfig.SITE_URL + `/forum/onderwerp/${this.topicId}#ongelezen`;
     this.urlService.open(url);
   }
 
