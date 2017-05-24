@@ -31,22 +31,26 @@ export function reducer(state = initialState, action: topic.Actions): State {
         });
       }, {});
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         ids: reset ? topicIds : [...state.ids, ...topicIds],
-        entities: reset ? topicEntities : Object.assign({}, state.entities, topicEntities),
+        entities: reset ? topicEntities : { ...state.entities, ...topicEntities },
         isMoreAvailable: topics.length === TOPICS_PER_LOAD
-      });
+      };
     }
 
     case topic.ActionTypes.SELECT: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         selectedId: action.payload,
-        entities: Object.assign({}, state.entities, {
-          [action.payload]: Object.assign({}, state.entities[action.payload], {
+        entities: {
+          ...state.entities,
+          [action.payload]: {
+            ...state.entities[action.payload],
             ongelezen: 0
-          })
-        })
-      });
+          }
+        }
+      };
     }
 
     default: {

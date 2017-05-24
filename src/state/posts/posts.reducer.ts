@@ -25,18 +25,20 @@ export function reducer(state = initialState, action: post.Actions): State {
       const posts = action.payload.posts;
       const postIds = posts.map(post => post.post_id);
       const postEntities = posts.reduce((entities: { [id: number]: ForumPost }, post) => {
-        return {...entities, [post.post_id]: post };
+        return { ...entities, [post.post_id]: post };
       }, {});
 
-      return Object.assign({}, state, {
-        entities: Object.assign({}, state.entities, postEntities),
-        byTopic: Object.assign({}, state.byTopic, {
+      return {
+        ...state,
+        entities: { ...state.entities, ...postEntities },
+        byTopic: {
+          ...state.byTopic,
           [topicId]: {
             ids: state.byTopic[topicId] !== undefined ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
             isMoreAvailable: posts.length === POSTS_PER_LOAD
           }
-        })
-      });
+        }
+      };
     }
 
     default: {

@@ -16,6 +16,7 @@
     "quotemark": [true, "single", "avoid-escape"],
     "trailing-comma": [false],
     "no-empty": false,
+    "prefer-conditional-expression": false,
 
     /* Codelyzer rules */
     "directive-selector": [true, "attribute", ["csr"], "camelCase"],

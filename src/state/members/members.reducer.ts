@@ -32,10 +32,11 @@ export function reducer(state = initialState, action: member.Actions): State {
         });
       }, {});
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         ids: memberIds,
         entities: memberEntities
-      });
+      };
     }
 
     case member.ActionTypes.LOAD: {
@@ -45,24 +46,28 @@ export function reducer(state = initialState, action: member.Actions): State {
         return state;
       }
 
-      return Object.assign({}, state, {
+      return {
+        ...state,
         detailIds: [...state.detailIds, member.id],
-        detailEntities: Object.assign({}, state.detailEntities, {
+        detailEntities: {
+          ...state.detailEntities,
           [member.id]: member
-        })
-      });
+        }
+      };
     }
 
     case member.ActionTypes.SELECT: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         selectedMemberId: action.payload
-      });
+      };
     }
 
     case member.ActionTypes.SEARCH: {
-      return Object.assign({}, state, {
+      return {
+        ...state,
         query: action.payload
-      });
+      };
     }
 
     default: {
