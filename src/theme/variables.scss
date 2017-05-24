@@ -55,7 +55,10 @@ $toolbar-ios-border-color: #c9c9c9;
 
 $card-ios-margin-left: 3px;
 $card-ios-margin-right: 3px;
-$card-ios-header-padding: 14px 16px 3px 16px;
+$card-ios-header-padding-top: 14px;
+$card-ios-header-padding-bottom: 3px;
+$card-ios-header-padding-start: 16px;
+$card-ios-header-padding-end: 16px;
 
 
 // App Material Design Variables
@@ -70,7 +73,10 @@ $toolbar-md-button-color:                 #fff;
 
 $card-md-margin-left: 3px;
 $card-md-margin-right: 3px;
-$card-md-header-padding: 14px 16px 3px 16px;
+$card-md-header-padding-top: 14px;
+$card-md-header-padding-bottom: 3px;
+$card-md-header-padding-start: 16px;
+$card-md-header-padding-end: 16px;
 
 
 // App Windows Variables
