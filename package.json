@@ -64,7 +64,6 @@
     "onesignal-cordova-plugin": "2.0.11",
     "reselect": "3.0.1",
     "rxjs": "5.1.1",
-    "sw-toolbox": "3.6.0",
     "workbox-sw": "1.0.0",
     "zone.js": "0.8.11"
   },

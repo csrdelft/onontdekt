@@ -9,14 +9,19 @@ const workboxSW = new WorkboxSW({ clientsClaim: true });
 workboxSW.precache([]);
 
 workboxSW.router.registerRoute(
-  'https://csrdelft.nl/API/2.0/(.*)',
+  '/(.*)',
+  workboxSW.strategies.cacheFirst()
+);
+
+workboxSW.router.registerRoute(
+  'https://csrdelft.nl/API/(.*)',
   workboxSW.strategies.networkFirst()
 );
 
 workboxSW.router.registerRoute(
-  'https://csrdelft.nl/plaetjes/pasfoto/(.*)',
+  'https://csrdelft.nl/plaetjes/(.*)',
   workboxSW.strategies.cacheFirst({
-    cacheName: 'pasfotos',
+    cacheName: 'plaetjes',
     cacheExpiration: {
       maxAgeSeconds: 28 * 24 * 60 * 60,
     },
