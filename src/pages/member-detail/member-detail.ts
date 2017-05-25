@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
-import { ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
+import { Contact, ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { Store } from '@ngrx/store';
 import isPast from 'date-fns/is_past';
@@ -55,10 +55,15 @@ export class MemberDetailPage implements OnInit {
 
   save(member: MemberDetail) {
     const actionSheet = this.actionSheetCtrl.create({
+      title: 'Opslaan in...',
       buttons: [{
-        text: 'Maak nieuw contact',
+        text: 'Nieuw contact',
         icon: !this.platform.is('ios') ? 'person-add' : undefined,
         handler: () => this.saveNew(member)
+      }, {
+        text: 'Bestaand contact',
+        icon: !this.platform.is('ios') ? 'edit' : undefined,
+        handler: () => this.addToExisting(member)
       }, {
         text: 'Annuleer',
         icon: !this.platform.is('ios') ? 'close' : undefined,
@@ -70,27 +75,29 @@ export class MemberDetailPage implements OnInit {
 
   saveNew(member: MemberDetail) {
     const contact = this.contacts.create();
-    contact.name = new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel || undefined);
-    contact.phoneNumbers = [new ContactField('mobiel', member.mobiel, false)];
-    contact.emails = [new ContactField('thuis', member.email, false)];
-    contact.addresses = [new ContactAddress(
-      false,
-      member.huis.naam || 'adres',
-      undefined,
-      member.huis.adres,
-      member.huis.woonplaats,
-      undefined,
-      member.huis.postcode,
-      member.huis.land
-    )];
-    contact.birthday = member.geboortedatum;
+    this.saveContact(contact, member);
+  }
 
-    contact.save()
-      .then(() => {
-        this.notifier.notify('Succesvol opgeslagen in contacten.');
-      }, () => {
-        this.notifier.notify('Opslaan in contacten mislukt.');
-      });
+  addToExisting(member: MemberDetail) {
+    this.contacts.pickContact().then(contact => {
+      if (!contact) {
+        return;
+      }
+      this.saveContact(contact, member);
+    });
+  }
+
+  saveContact(contact: Contact, member: MemberDetail) {
+    contact.name = getNameField(member);
+    contact.birthday = member.geboortedatum;
+    contact.phoneNumbers = [...(contact.phoneNumbers || []), getPhoneField(member)];
+    contact.emails = [...(contact.emails || []), getEmailField(member)];
+    contact.addresses = [...(contact.addresses || []), getAddressField(member)];
+
+    contact.save().then(
+      () => this.notifier.notify('Succesvol opgeslagen in contacten.'),
+      () => this.notifier.notify('Opslaan in contacten mislukt.')
+    );
   }
 
   openCalendar(member: MemberDetail) {
@@ -114,4 +121,29 @@ export class MemberDetailPage implements OnInit {
       window.open(url, '_blank');
     }
   }
+}
+
+function getNameField(member: MemberDetail) {
+  return new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel || undefined);
+}
+
+function getPhoneField(member: MemberDetail) {
+  return new ContactField('mobiel', member.mobiel, false);
+}
+
+function getEmailField(member: MemberDetail) {
+  return new ContactField('thuis', member.email, false);
+}
+
+function getAddressField(member: MemberDetail) {
+  return new ContactAddress(
+    false,
+    member.huis.naam || 'adres',
+    undefined,
+    member.huis.adres,
+    member.huis.woonplaats,
+    undefined,
+    member.huis.postcode,
+    member.huis.land
+  );
 }
