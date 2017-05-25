@@ -1,47 +1,49 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Host } from '@angular/core';
-import { Content } from 'ionic-angular';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Host, OnDestroy } from '@angular/core';
+import { Content, DomController, GestureController, Platform } from 'ionic-angular';
 
-declare var Hammer: any;
+import { AlphabetGesture } from './alphabet-gesture';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'csr-alphabet-scroll',
   templateUrl: 'alphabet-scroll.html'
 })
-export class AlphabetScrollComponent implements AfterViewInit {
+export class AlphabetScrollComponent implements AfterViewInit, OnDestroy {
 
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
+  private alphabetGesture: AlphabetGesture;
+
   constructor(
     @Host() private content: Content,
-    private elementRef: ElementRef
+    private domCtrl: DomController,
+    private elementRef: ElementRef,
+    private gestureCtrl: GestureController,
+    private platform: Platform
   ) {}
 
   ngAfterViewInit() {
-    this.setupPanRecognizer();
+    this.content.getScrollElement().style.right = '18px';
+
+    this.alphabetGesture = new AlphabetGesture(this.platform, this, this.gestureCtrl, this.domCtrl);
+    this.alphabetGesture.listen();
+  }
+
+  ngOnDestroy() {
+    if (this.alphabetGesture) {
+      this.alphabetGesture.destroy();
+    }
   }
 
   scrollTo(letter: string) {
-    const content = this.content.getElementRef().nativeElement as HTMLElement;
-    const group = content.querySelector('.scroll-letter-' + letter);
+    const content = this.content.getScrollElement();
+    const group = content.querySelector('.scroll-letter-' + letter) as HTMLElement;
     if (group) {
       group.scrollIntoView(true);
     }
   }
 
-  private setupPanRecognizer() {
-    const mc = new Hammer(this.elementRef.nativeElement, {
-      recognizers: [
-        [Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }],
-      ]
-    });
-
-    mc.on('panup pandown', (e: any) => {
-      const closestEle = document.elementFromPoint(e.center.x, e.center.y) as HTMLElement;
-      if (closestEle && closestEle.tagName === 'A') {
-        const letter = closestEle.innerText;
-        this.scrollTo(letter);
-      }
-    });
+  getGestureElement() {
+    return (this.elementRef.nativeElement as HTMLElement).children[0] as HTMLElement;
   }
 }
