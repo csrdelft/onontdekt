@@ -9,6 +9,7 @@
   "scripts": {
     "ionic:build": "ionic-app-scripts build --prod",
     "ionic:serve": "ionic-app-scripts serve",
+    "generate-sw": "node ./scripts/build/generate-sw.js",
     "test": "karma start ./config/unit-test/karma.conf.js",
     "test-ci": "karma start ./config/unit-test/karma.conf.js --single-run",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
@@ -64,6 +65,7 @@
     "reselect": "3.0.1",
     "rxjs": "5.1.1",
     "sw-toolbox": "3.6.0",
+    "workbox-sw": "1.0.0",
     "zone.js": "0.8.11"
   },
   "devDependencies": {
@@ -92,7 +94,8 @@
     "ts-loader": "2.0.3",
     "ts-node": "3.0.4",
     "tslint": "5.3.2",
-    "typescript": "2.3.3"
+    "typescript": "2.3.3",
+    "workbox-build": "1.0.0"
   },
   "cordova": {
     "platforms": [
