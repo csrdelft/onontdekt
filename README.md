@@ -5,5 +5,5 @@
 ```bash
 npm -g install cordova ionic
 npm install
-ionic serve
+npm start
 ```

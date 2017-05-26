@@ -25,6 +25,8 @@ workboxSW.router.registerRoute(
     cacheExpiration: {
       maxAgeSeconds: 28 * 24 * 60 * 60,
     },
-    cacheableResponse: { statuses: [0, 200] },
+    cacheableResponse: {
+      statuses: [0, 200]
+    }
   })
 );

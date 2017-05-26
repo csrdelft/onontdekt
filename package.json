@@ -7,15 +7,18 @@
     "url": "https://github.com/manduro/onontdekt.git"
   },
   "scripts": {
-    "ionic:build": "ionic-app-scripts build --prod",
-    "ionic:serve": "ionic-app-scripts serve",
+    "start": "npm run remove-sw && ionic serve --nobrowser",
+    "build": "ionic-app-scripts build --prod",
+    "postbuild": "npm run generate-sw",
     "generate-sw": "node ./scripts/build/generate-sw.js",
+    "remove-sw": "rm -rf ./www/service-worker.js",
     "test": "karma start ./config/unit-test/karma.conf.js",
     "test-ci": "karma start ./config/unit-test/karma.conf.js --single-run",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
-    "deploy": "npm run test-ci && npm run lint && npm run deploy-ios && npm run deploy-android",
+    "deploy": "npm run ci && npm run deploy-ios && npm run deploy-android",
     "deploy-ios": "ionic cordova build ios --prod && code-push release-cordova csrdelft.ios ios -d \"Production\"",
-    "deploy-android": "ionic cordova build android --prod && code-push release-cordova csrdelft.android android -d \"Production\""
+    "deploy-android": "ionic cordova build android --prod && code-push release-cordova csrdelft.android android -d \"Production\"",
+    "ci": "npm run lint && npm run test-ci && npm run build"
   },
   "config": {
     "ionic_copy": "./config/app-scripts/copy.config.js"
