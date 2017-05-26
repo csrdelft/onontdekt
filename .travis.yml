@@ -16,7 +16,7 @@ before_script:
   - sh -e /etc/init.d/xvfb start
 
 script:
-  - npm run ionic:build
+  - npm run ci
 
 deploy:
   provider: script
