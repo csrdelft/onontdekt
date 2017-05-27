@@ -9,6 +9,7 @@ export class ActionTypes {
   static readonly LOAD               = type('[Topics] Load');
   static readonly LOAD_COMPLETE      = type('[Topics] Load Complete');
   static readonly SELECT             = type('[Topics] Select');
+  static readonly READ               = type('[Topics] Read');
 }
 
 export class LoadAction implements Action {
@@ -29,7 +30,14 @@ export class SelectAction implements Action {
   constructor(public payload: number) { }
 }
 
+export class ReadAction implements Action {
+  readonly type = ActionTypes.READ;
+
+  constructor(public payload: number) { }
+}
+
 export type Actions
   = LoadAction
   | LoadCompleteAction
-  | SelectAction;
+  | SelectAction
+  | ReadAction;

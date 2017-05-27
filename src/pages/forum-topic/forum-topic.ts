@@ -43,11 +43,6 @@ export class ForumTopicPage implements OnInit {
     this.moreAvailable$ = this.store.select(fromRoot.getSelectedTopicMorePostsAvailable);
 
     this.store.dispatch(new topic.SelectAction(this.topicId));
-
-    this.posts$
-      .take(1)
-      .filter(posts => posts === undefined)
-      .subscribe(() => this.load());
   }
 
   ionViewDidLoad() {
@@ -58,7 +53,11 @@ export class ForumTopicPage implements OnInit {
   }
 
   doInfinite(): Promise<any> {
-    this.load();
+    this.store.dispatch(new post.LoadAction({
+      topicId: this.topicId,
+      reset: false
+    }));
+
     return this.posts$.skip(1).take(1).toPromise();
   }
 
@@ -74,9 +73,4 @@ export class ForumTopicPage implements OnInit {
     const url = AppConfig.SITE_URL + `/forum/onderwerp/${this.topicId}#ongelezen`;
     this.urlService.open(url);
   }
-
-  private load() {
-    this.store.dispatch(new post.LoadAction(this.topicId));
-  }
-
 }

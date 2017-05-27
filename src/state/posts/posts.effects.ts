@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../';
 import { ApiService } from '../../services/api/api';
+import * as topic from '../topics/topics.actions';
 import * as post from './posts.actions';
 import * as fromPost from './posts.reducer';
 
@@ -16,12 +17,18 @@ export class PostEffects {
     .ofType(post.ActionTypes.LOAD)
     .map((action: post.LoadAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength))
-    .switchMap(([topicId, length]) => {
-      const offset = length || 0;
+    .switchMap(([{ topicId, reset }, length]) => {
+      const offset = reset ? 0 : (length || 0);
       const limit = fromPost.POSTS_PER_LOAD;
       return this.api.getForumTopic(topicId, offset, limit)
-        .map(posts => new post.LoadCompleteAction({ topicId, posts }));
+        .map(posts => new post.LoadCompleteAction({ topicId, posts, reset }));
     });
+
+  @Effect()
+  loadComplete$: Observable<Action> = this.actions$
+    .ofType(post.ActionTypes.LOAD_COMPLETE)
+    .map((action: post.LoadCompleteAction) => action.payload)
+    .map(({ topicId, posts }) => new topic.ReadAction(topicId));
 
   constructor(
     private actions$: Actions,

@@ -42,7 +42,13 @@ export function reducer(state = initialState, action: topic.Actions): State {
     case topic.ActionTypes.SELECT: {
       return {
         ...state,
-        selectedId: action.payload,
+        selectedId: action.payload
+      };
+    }
+
+    case topic.ActionTypes.READ: {
+      return {
+        ...state,
         entities: {
           ...state.entities,
           [action.payload]: {

@@ -13,13 +13,13 @@ export class ActionTypes {
 export class LoadAction implements Action {
   readonly type = ActionTypes.LOAD;
 
-  constructor(public payload: number) { }
+  constructor(public payload: { topicId: number; reset: boolean; }) { }
 }
 
 export class LoadCompleteAction implements Action {
   readonly type = ActionTypes.LOAD_COMPLETE;
 
-  constructor(public payload: { topicId: number; posts: ForumPost[]; }) { }
+  constructor(public payload: { topicId: number; posts: ForumPost[]; reset: boolean; }) { }
 }
 
 export type Actions

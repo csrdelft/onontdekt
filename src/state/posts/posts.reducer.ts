@@ -23,6 +23,7 @@ export function reducer(state = initialState, action: post.Actions): State {
     case post.ActionTypes.LOAD_COMPLETE: {
       const topicId = action.payload.topicId;
       const posts = action.payload.posts;
+      const reset = action.payload.reset;
       const postIds = posts.map(post => post.post_id);
       const postEntities = posts.reduce((entities: { [id: number]: ForumPost }, post) => {
         return { ...entities, [post.post_id]: post };
@@ -30,11 +31,11 @@ export function reducer(state = initialState, action: post.Actions): State {
 
       return {
         ...state,
-        entities: { ...state.entities, ...postEntities },
+        entities: reset ? postEntities : { ...state.entities, ...postEntities },
         byTopic: {
           ...state.byTopic,
           [topicId]: {
-            ids: state.byTopic[topicId] !== undefined ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
+            ids: (state.byTopic[topicId] !== undefined && !reset) ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
             isMoreAvailable: posts.length === POSTS_PER_LOAD
           }
         }

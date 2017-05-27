@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../';
 import { ApiService } from '../../services/api/api';
+import * as post from '../posts/posts.actions';
 import * as topic from './topics.actions';
 import * as fromTopic from './topics.reducer';
 
@@ -22,6 +23,22 @@ export class TopicEffects {
       return this.api.getForumRecent(offset, limit)
         .map(topics => new topic.LoadCompleteAction({ reset, topics }));
     });
+
+  @Effect()
+  select$: Observable<Action> = this.actions$
+    .ofType(topic.ActionTypes.SELECT)
+    .map((action: topic.SelectAction) => action.payload)
+    .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsAll), this.store$.select(fromRoot.getSelectedTopic))
+    .filter(([topicId, posts, topic]) => {
+      if (!posts || posts.length === 0) {
+        return true;
+      }
+      if (topic && topic.ongelezen > 0) {
+        return true;
+      }
+      return false;
+    })
+    .map(([topicId, posts, topic]) => new post.LoadAction({ topicId, reset: true }));
 
   constructor(
     private actions$: Actions,
