@@ -29,7 +29,7 @@ ion-icon.ion-md-arrow-forward {
 
 ion-content {
   .button:not(.searchbar-ios-cancel) {
-    font-family: 'BrandonOne';
+    font-family: 'BrandonOne', $font-family-base;
     text-transform: lowercase;
 
     .button-inner {
@@ -39,7 +39,7 @@ ion-content {
 }
 
 .toolbar-title {
-  font-family: 'BrandonOne';
+  font-family: 'BrandonOne', $font-family-base;
   text-transform: lowercase;
   padding-top: 4px;
 }
