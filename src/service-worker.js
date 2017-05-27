@@ -1,6 +1,9 @@
 importScripts('./build/workbox-sw.prod.v1.0.0.js');
 
-const workboxSW = new WorkboxSW({ clientsClaim: true });
+const workboxSW = new WorkboxSW({
+  clientsClaim: true,
+  skipWaiting: true
+});
 
 /**
  * This array will be populated by workboxBuild.injectManifest() when the
