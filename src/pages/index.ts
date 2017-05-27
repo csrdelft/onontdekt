@@ -9,7 +9,6 @@ import { MemberDetailPage } from './member-detail/member-detail';
 import { MemberListPage } from './member-list/member-list';
 import { RankingPage } from './ranking/ranking';
 import { TabsPage } from './tabs/tabs';
-import { TutorialPage } from './tutorial/tutorial';
 
 export const PAGES = [
   AboutPage,
@@ -22,6 +21,5 @@ export const PAGES = [
   MemberDetailPage,
   MemberListPage,
   RankingPage,
-  TabsPage,
-  TutorialPage
+  TabsPage
 ];

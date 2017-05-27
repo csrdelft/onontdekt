@@ -4,8 +4,8 @@ import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Events, Nav, Platform, ToastController } from 'ionic-angular';
 
+import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
-import { TutorialPage } from '../pages/tutorial/tutorial';
 import { AuthService } from '../services/auth/auth';
 
 @Component({
@@ -39,7 +39,7 @@ export class LustrumApp {
 
   private initializeRootPage() {
     this.authService.tryAuthentication().then((authenticated: boolean) => {
-      const pageToLoad = authenticated ? TabsPage : TutorialPage;
+      const pageToLoad = authenticated ? TabsPage : LoginPage;
       this.nav.setRoot(pageToLoad);
       if (this.platform.is('cordova')) {
         this.platform.ready().then(() => {
@@ -64,7 +64,7 @@ export class LustrumApp {
 
   private listenToLogoutEvent() {
     this.events.subscribe('user:logout', () => {
-      this.nav.setRoot(TutorialPage);
+      this.nav.setRoot(LoginPage);
     });
   }
 }
