@@ -9,7 +9,7 @@ export class AppConfig {
   }
 
   static get SITE_URL(): string {
-    return isDevMode() ? 'http://csrdelft.dev' : 'https://csrdelft.nl';
+    return 'https://csrdelft.nl';
   }
 
   static get API_ENDPOINT(): string {
