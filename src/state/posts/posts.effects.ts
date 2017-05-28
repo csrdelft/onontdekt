@@ -16,10 +16,11 @@ export class PostEffects {
   load$: Observable<Action> = this.actions$
     .ofType(post.ActionTypes.LOAD)
     .map((action: post.LoadAction) => action.payload)
-    .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength))
-    .switchMap(([{ topicId, reset }, length]) => {
+    .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength), this.store$.select(fromRoot.getSelectedTopic))
+    .switchMap(([{ topicId, reset }, length, topic]) => {
+      const unread = topic ? topic.ongelezen : 0;
       const offset = reset ? 0 : (length || 0);
-      const limit = fromPost.POSTS_PER_LOAD;
+      const limit = getLimit(unread, fromPost.POSTS_PER_LOAD);
       return this.api.getForumTopic(topicId, offset, limit)
         .map(posts => new post.LoadCompleteAction({ topicId, posts, reset }));
     });
@@ -35,4 +36,12 @@ export class PostEffects {
     private api: ApiService,
     private store$: Store<fromRoot.State>
   ) {}
+}
+
+function getLimit(unread: number, limit: number) {
+  if (unread > limit - 3) {
+    return unread + 3;
+  } else {
+    return limit;
+  }
 }

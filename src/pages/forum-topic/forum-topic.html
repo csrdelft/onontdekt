@@ -21,16 +21,24 @@
 
   <ion-list class="post-list" *ngIf="posts$ | async as posts; else loading">
 
-    <ion-item *ngFor="let post of posts; trackBy:identify" text-wrap>
-      <div item-start tappable (click)="goToMemberDetail(post.uid)">
-        <img class="post-image" [attr.src]="imageUrl + post.uid + '.vierkant.png'">
-      </div>
-      <h3 class="post-author">{{ post.uid_naam }}</h3>
-      <p class="post-date">
-        {{ post.datum_tijd | csrDateCalendar: { sameDay: 'HH:mm', lastDay: '[Gisteren om] HH:mm', lastWeek: 'dddd [om] HH:mm', sameElse: 'D MMMM YYYY HH:mm' } }}
-      </p>
-      <csr-forum-message [text]="post.tekst"></csr-forum-message>
-    </ion-item>
+    <ng-template ngFor let-post [ngForOf]="posts" [ngForTrackBy]="identify" let-index="index">
+
+      <ion-item-divider *ngIf="posts.length - index === unread" class="js-unread-post">
+          {{ unread }} nieuwe bericht{{ unread > 1 ? 'en' : '' }}
+      </ion-item-divider>
+
+      <ion-item text-wrap>
+        <div item-start tappable (click)="goToMemberDetail(post.uid)">
+          <img class="post-image" [attr.src]="imageUrl + post.uid + '.vierkant.png'">
+        </div>
+        <h3 class="post-author">{{ post.uid_naam }}</h3>
+        <p class="post-date">
+          {{ post.datum_tijd | csrDateCalendar: { sameDay: 'HH:mm', lastDay: '[Gisteren om] HH:mm', lastWeek: 'dddd [om] HH:mm', sameElse: 'D MMMM YYYY HH:mm' } }}
+        </p>
+        <csr-forum-message [text]="post.tekst"></csr-forum-message>
+      </ion-item>
+
+    </ng-template>
 
   </ion-list>
 

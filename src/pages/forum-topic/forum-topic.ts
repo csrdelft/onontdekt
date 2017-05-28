@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -17,14 +17,16 @@ import { MemberDetailPage } from '../member-detail/member-detail';
   selector: 'csr-forum-topic',
   templateUrl: 'forum-topic.html'
 })
-export class ForumTopicPage implements OnInit {
+export class ForumTopicPage implements AfterViewInit, OnInit {
   @ViewChild(Content) content: Content;
   @ViewChildren(Item) items: QueryList<Item>;
 
   topic$: Observable<ForumTopic>;
   posts$: Observable<ForumPost[]>;
   moreAvailable$: Observable<boolean>;
+
   imageUrl = AppConfig.SITE_URL + '/plaetjes/pasfoto/';
+  unread: number;
 
   private topicId: number;
 
@@ -42,12 +44,25 @@ export class ForumTopicPage implements OnInit {
     this.posts$ = this.store.select(fromRoot.getSelectedTopicPostsAll);
     this.moreAvailable$ = this.store.select(fromRoot.getSelectedTopicMorePostsAvailable);
 
+    this.topic$
+      .skipWhile(t => t == null)
+      .take(1)
+      .subscribe(topic => this.unread = topic.ongelezen);
+
     this.store.dispatch(new topic.SelectAction(this.topicId));
+  }
+
+  ngAfterViewInit() {
+    this.scrollToUnread();
   }
 
   ionViewDidLoad() {
     const scrollDown = this.items.changes.subscribe(() => {
-      this.content.scrollToBottom(0);
+      if (this.unread === 0) {
+        this.content.scrollToBottom(0);
+      } else {
+        this.scrollToUnread();
+      }
       scrollDown.unsubscribe();
     });
   }
@@ -72,5 +87,18 @@ export class ForumTopicPage implements OnInit {
   viewExternal() {
     const url = AppConfig.SITE_URL + `/forum/onderwerp/${this.topicId}#ongelezen`;
     this.urlService.open(url);
+  }
+
+  private scrollToUnread() {
+    const scroll = this.content.getScrollElement();
+    const unreadEl = scroll.getElementsByClassName('js-unread-post');
+
+    if (unreadEl.length === 0) {
+      return;
+    }
+
+    this.content.scrollDownOnLoad = false;
+    const rect = unreadEl[0].getBoundingClientRect();
+    scroll.scrollTop = rect.top - 100;
   }
 }
