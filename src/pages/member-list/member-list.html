@@ -25,7 +25,7 @@
 
       <ion-item-group *ngFor="let group of members | csrGroupBy:groupBy; trackBy:identifyGroup" [class]="'scroll-letter-' + group.name">
 
-        <ion-item-divider sticky color="light">
+        <ion-item-divider sticky>
           <strong>{{ group.name }}</strong>
         </ion-item-divider>
 

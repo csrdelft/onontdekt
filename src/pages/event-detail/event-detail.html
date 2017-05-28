@@ -16,10 +16,10 @@
     <p><a *ngIf="event.locatie" [csrMapsHref]="event.locatie">
       {{ event.locatie }}
     </a></p>
-    <p ion-text color="subdued" class="preserve-whitespace">{{ getDateTimes(event._meta.start, event._meta.end) }}</p>
-    <p ion-text color="dark" *ngIf="event.samenvatting" class="preserve-whitespace">{{ event.samenvatting }}</p>
-    <p ion-text color="dark" *ngIf="event.omschrijving" class="preserve-whitespace">{{ event.omschrijving }}</p>
-    <p ion-text color="dark" *ngIf="event.beschrijving" class="preserve-whitespace">{{ event.beschrijving }}</p>
+    <p class="text-light preserve-whitespace">{{ getDateTimes(event._meta.start, event._meta.end) }}</p>
+    <p class="text-dark preserve-whitespace" *ngIf="event.samenvatting">{{ event.samenvatting }}</p>
+    <p class="text-dark preserve-whitespace" *ngIf="event.omschrijving">{{ event.omschrijving }}</p>
+    <p class="text-dark preserve-whitespace" *ngIf="event.beschrijving">{{ event.beschrijving }}</p>
 
     <div *ngIf="event._meta.category !== 'agenda'" [ngSwitch]="event._meta.present">
       <button ion-button *ngSwitchCase="false" (click)="join()" [disabled]="!isJoinable()">

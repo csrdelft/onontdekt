@@ -15,17 +15,9 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:         #1f5370,//#387ef5
-  secondary:       #32db64,
-  danger:          #f53d3d,
-  light:           #f4f4f4,
-  subdued:         #666,
-  dark:            #000,
+  primary:         #1f5370,
   lustrumgreen:    #98cd96,
-  lustrumblue:     #1f5370, //#1d4d69
-  lustrumdarkblue: #161a28,
-  lustrumred:      #c32f2f,
-  lustrumyellow:   #ffe9a3
+  lustrumred:      #c32f2f
 );
 
 
@@ -42,7 +34,7 @@ $link-color:                 color($colors, primary);
 $background-color:           #fff;
 $subdued-text-color:         #666;
 
-$ripple-background-color:    #777; //color($colors, lustrumgreen);
+$ripple-background-color:    #777;
 
 
 // App iOS Variables
