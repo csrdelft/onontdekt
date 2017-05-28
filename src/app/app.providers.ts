@@ -32,7 +32,6 @@ import { OneSignal } from '@ionic-native/onesignal';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SafariViewController } from '@ionic-native/safari-view-controller';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
 
 const ionicNativeProviders = [
   Calendar,
@@ -43,8 +42,7 @@ const ionicNativeProviders = [
   OneSignal,
   PhotoViewer,
   SafariViewController,
-  SplashScreen,
-  StatusBar
+  SplashScreen
 ];
 
 /**

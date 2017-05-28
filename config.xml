@@ -23,9 +23,6 @@
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="FadeSplashScreenDuration" value="100" />
     <preference name="SuppressesLongPressGesture" value="true" />
-    <feature name="StatusBar">
-        <param name="ios-package" onload="true" value="CDVStatusBar" />
-    </feature>
     <platform name="android">
         <allow-intent href="market:*" />
         <allow-intent href="geo:*" />
@@ -57,7 +54,7 @@
         <preference name="BackupWebStorage" value="local" />
         <preference name="KeyboardDisplayRequiresUserAction" value="false" />
         <preference name="Orientation" value="all" />
-        <preference name="StatusBarStyle" value="default" />
+        <preference name="StatusBarStyle" value="lightcontent" />
         <config-file parent="CFBundleDevelopmentRegion" target="*-Info.plist">
             <string>nl-NL</string>
         </config-file>

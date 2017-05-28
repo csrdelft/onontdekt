@@ -39,7 +39,6 @@
     "@ionic-native/photo-viewer": "3.10.3",
     "@ionic-native/safari-view-controller": "3.10.3",
     "@ionic-native/splash-screen": "3.10.3",
-    "@ionic-native/status-bar": "3.10.3",
     "@ionic/storage": "2.0.1",
     "@ngrx/core": "1.2.0",
     "@ngrx/effects": "2.0.3",
