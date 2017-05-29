@@ -23,7 +23,7 @@
 
     <ng-template ngFor let-post [ngForOf]="posts" [ngForTrackBy]="identify" let-index="index">
 
-      <ion-item-divider *ngIf="posts.length - index === unread" class="js-unread-post">
+      <ion-item-divider *ngIf="posts.length - index === unread && posts.length !== unread" class="js-unread-post">
         {{ unread }} {{ unread > 1 ? 'nieuwe berichten' : 'nieuw bericht' }}
       </ion-item-divider>
 

@@ -60,6 +60,8 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
     const scrollDown = this.items.changes.subscribe(() => {
       if (this.unread === 0) {
         this.content.scrollToBottom(0);
+      } else if (this.unread === this.items.length) {
+        this.content.scrollToTop(0);
       } else {
         this.scrollToUnread();
       }
