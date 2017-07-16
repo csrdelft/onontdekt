@@ -14,10 +14,9 @@ csr-member-detail {
     }
   }
 
-  p[color=primary] {
-    color: color($colors, primary);
+  a[ion-item] a[ion-button] ion-icon {
+    font-size: 2.8rem;
   }
-
 }
 
 .md csr-member-detail {
@@ -26,10 +25,6 @@ csr-member-detail {
     height: 68px;
     padding: 9px 16px;
     margin: 0 -8px 0 0;
-
-    ion-icon {
-      font-size: 2.4rem;
-    }
   }
 
 }
