@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget android-versionCode="90" id="nl.csrdelft.lustrum" ios-CFBundleVersion="16" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Onontdekt</name>
-    <description>Het XIe Lustrum der Civitas Studiosorum Reformatorum.</description>
+    <name>C.S.R. Delft</name>
+    <description>De app der Civitas Studiosorum Reformatorum.</description>
     <author email="lustrumcie@csrdelft.nl" href="https://csrdelft.nl/">LustrumCie Post</author>
     <content src="index.html" />
     <access origin="*" />
@@ -23,6 +23,7 @@
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="FadeSplashScreenDuration" value="100" />
     <preference name="SuppressesLongPressGesture" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
         <allow-intent href="market:*" />
         <allow-intent href="geo:*" />
@@ -109,6 +110,7 @@
         <icon height="120" src="resources/ios/icon/icon-40@3x.png" width="120" />
         <icon height="50" src="resources/ios/icon/icon-50.png" width="50" />
         <icon height="100" src="resources/ios/icon/icon-50@2x.png" width="100" />
+        <icon height="60" src="resources/ios/icon/icon-60.png" width="60" />
         <icon height="120" src="resources/ios/icon/icon-60@2x.png" width="120" />
         <icon height="180" src="resources/ios/icon/icon-60@3x.png" width="180" />
         <icon height="72" src="resources/ios/icon/icon-72.png" width="72" />
@@ -124,8 +126,10 @@
         <splash height="2208" src="resources/ios/splash/Default-736h.png" width="1242" />
         <splash height="1242" src="resources/ios/splash/Default-Landscape-736h.png" width="2208" />
         <splash height="1536" src="resources/ios/splash/Default-Landscape@2x~ipad.png" width="2048" />
+        <splash height="2048" src="resources/ios/splash/Default-Landscape@~ipadpro.png" width="2732" />
         <splash height="768" src="resources/ios/splash/Default-Landscape~ipad.png" width="1024" />
         <splash height="2048" src="resources/ios/splash/Default-Portrait@2x~ipad.png" width="1536" />
+        <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
         <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />

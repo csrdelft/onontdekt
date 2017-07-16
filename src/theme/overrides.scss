@@ -1,16 +1,6 @@
-// Using an ion-refresher with content padding makes it visible behind the content,
-// so the scroll-content gets a background-color to hide it behind.
-.has-refresher > .scroll-content {
-  background-color: #fff;
-}
-
 .toolbar-ios ion-title {
   padding-left: 45px;
   padding-right: 45px;
-}
-
-.header-ios .toolbar-ios:last-child .toolbar-background-ios {
-  border-bottom-width: 0;
 }
 
 ion-infinite-scroll.hideinf ion-infinite-scroll-content {

@@ -20,7 +20,7 @@ import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/withLatestFrom';
 
-import { LustrumApp } from './app.component';
+import { CSRApp } from './app.component';
 import { ionicConfig } from './app.config';
 import { PROVIDERS } from './app.providers';
 
@@ -36,7 +36,7 @@ import { PIPES } from '../pipes';
 
 @NgModule({
   declarations: [
-    LustrumApp,
+    CSRApp,
     COMPONENTS,
     DIRECTIVES,
     PAGES,
@@ -45,7 +45,7 @@ import { PIPES } from '../pipes';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(LustrumApp, ionicConfig),
+    IonicModule.forRoot(CSRApp, ionicConfig),
     IonicStorageModule.forRoot(),
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentOnlyWithExtension(),
@@ -54,7 +54,7 @@ import { PIPES } from '../pipes';
     EffectsModule.run(TopicEffects)
   ],
   entryComponents: [
-    LustrumApp,
+    CSRApp,
     PAGES
   ],
   bootstrap: [IonicApp],

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar>
     <ion-title>
       <span *ngIf="member$ | async as member; else detailName">
         {{ member.voornaam }} {{ member.tussenvoegsel }} {{ member.achternaam }}
@@ -86,7 +86,7 @@
   </ng-template>
 
   <ion-fab *ngIf="memberDetail$ | async as member" right bottom showWhen="cordova" hideWhen="ios">
-    <button ion-fab color="lustrumgreen" (click)="save(member)">
+    <button ion-fab color="primary" (click)="save(member)">
       <ion-icon name="person-add"></ion-icon>
     </button>
   </ion-fab>

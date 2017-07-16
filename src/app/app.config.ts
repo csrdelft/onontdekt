@@ -25,11 +25,6 @@ export const ionicConfig = {
   preloadModules: true,
   tabbarLayout: 'title-hide',
   platforms: {
-    android: {
-      tabsPlacement: 'top',
-      tabsHideOnSubPages: true,
-      tabsHighlight: true
-    },
     ios: {
       backButtonText: ''
     }

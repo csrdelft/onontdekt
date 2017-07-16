@@ -1,6 +1,6 @@
 {
-  "name": "Onontdekt",
-  "short_name": "Onontdekt",
+  "name": "C.S.R. Delft",
+  "short_name": "C.S.R. Delft",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
@@ -12,6 +12,6 @@
     "sizes": "512x512",
     "type": "image\/png"
 	}],
-  "background_color": "#1d4e6a",
-  "theme_color": "#1d4e6a"
+  "background_color": "#0a3292",
+  "theme_color": "#0a3292"
 }

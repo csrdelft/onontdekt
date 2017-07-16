@@ -11,7 +11,7 @@ import { AuthService } from '../services/auth/auth';
 @Component({
   templateUrl: 'app.component.html'
 })
-export class LustrumApp {
+export class CSRApp {
   @ViewChild(Nav) nav: Nav;
 
   constructor(
