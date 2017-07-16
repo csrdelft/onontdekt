@@ -16,16 +16,24 @@
     <ion-list class="topic-list" *ngIf="topics.length > 0; else loading">
 
       <button ion-item *ngFor="let topic of topics; trackBy:identify" (click)="goToTopicDetail(topic)">
-        <h2>
-          <ion-icon name="star" *ngIf="topic.belangrijk"></ion-icon>
-          <ion-icon name="lock" *ngIf="topic.gesloten"></ion-icon>
-          {{ topic.titel }}
-        </h2>
-        <h3>{{ topic.laatste_wijziging_naam }}:</h3>
-        <p>{{ topic.laatste_post.tekst | csrBBStrip }}</p>
-        <div item-end>
-          <p>{{ topic.laatst_gewijzigd | csrDateCalendar: { sameDay: 'HH:mm', lastDay: '[Gisteren]', lastWeek: 'dddd', sameElse: 'DD-MM-YY' } }}</p>
-          <ion-badge *ngIf="topic.ongelezen > 0">{{ topic.ongelezen }}</ion-badge>
+        <div class="head">
+          <h2>
+            <ion-icon name="star" *ngIf="topic.belangrijk"></ion-icon>
+            <ion-icon name="lock" *ngIf="topic.gesloten"></ion-icon>
+            {{ topic.titel }}
+          </h2>
+          <p ion-text [color]="topic.ongelezen > 0 ? 'primary' : null">
+            {{ topic.laatst_gewijzigd | csrDateCalendar: { sameDay: 'HH:mm', lastDay: '[Gisteren]', lastWeek: 'dddd', sameElse: 'DD-MM-YY' } }}
+          </p>
+        </div>
+        <div class="body">
+          <div class="text">
+            <h3>{{ topic.laatste_wijziging_naam }}:</h3>
+            <p>{{ topic.laatste_post.tekst | csrBBStrip }}</p>
+          </div>
+          <div class="unread">
+            <ion-badge *ngIf="topic.ongelezen > 0">{{ topic.ongelezen }}</ion-badge>
+          </div>
         </div>
       </button>
 
