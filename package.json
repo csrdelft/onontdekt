@@ -35,7 +35,6 @@
     "@ionic-native/core": "4.0.1",
     "@ionic-native/in-app-browser": "4.0.1",
     "@ionic-native/keyboard": "4.0.1",
-    "@ionic-native/onesignal": "4.0.1",
     "@ionic-native/photo-viewer": "4.0.1",
     "@ionic-native/safari-view-controller": "4.0.1",
     "@ionic-native/splash-screen": "4.0.1",
@@ -63,7 +62,6 @@
     "ionic-angular": "3.5.3",
     "ionic-plugin-keyboard": "2.2.1",
     "ionicons": "3.0.0",
-    "onesignal-cordova-plugin": "2.1.2",
     "reselect": "3.0.1",
     "rxjs": "5.4.2",
     "workbox-sw": "1.1.0",
@@ -117,8 +115,7 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {},
       "cordova-sqlite-storage": {},
-      "ionic-plugin-keyboard": {},
-      "onesignal-cordova-plugin": {}
+      "ionic-plugin-keyboard": {}
     }
   }
 }

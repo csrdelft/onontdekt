@@ -1,30 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
-import { OneSignal, OSDisplayType } from '@ionic-native/onesignal';
 import { Storage } from '@ionic/storage';
 import { AuthHttp, JwtHelper, tokenNotExpired } from 'angular2-jwt';
-import { Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { AppConfig } from '../../app/app.config';
 
 @Injectable()
 export class AuthService {
-  private jwtHelper: JwtHelper = new JwtHelper();
+  private jwtHelper = new JwtHelper();
   private refreshSubscription: any;
   private userId: string | undefined;
 
   constructor(
     private http: Http,
     private authHttp: AuthHttp,
-    private oneSignal: OneSignal,
-    private platform: Platform,
     private storage: Storage
   ) {
     this.storage.get('userId').then((userId: string) => {
       if (userId) {
         this.userId = userId;
-        this.registerLogin('Automatic');
       }
     });
   }
@@ -74,7 +69,6 @@ export class AuthService {
         localStorage.setItem('id_token', data.token);
         this.storage.set('refresh_token', data.refreshToken);
         this.scheduleRefresh();
-        this.registerLogin('Manual');
         resolve();
       }, error => {
         reject(error);
@@ -89,7 +83,6 @@ export class AuthService {
     localStorage.removeItem('id_token');
     this.storage.remove('refresh_token');
     this.unscheduleRefresh();
-    this.registerLogout(reload ? 'Automatic' : 'Manual');
 
     if (reload === true) {
       location.reload();
@@ -98,26 +91,6 @@ export class AuthService {
 
   isDemo() {
     return this.userId === 'x037';
-  }
-
-  private registerLogin(type: string) {
-    if (this.platform.is('cordova')) {
-      this.platform.ready().then(() => {
-        this.oneSignal.startInit('7de617c2-1024-4493-9720-a3c6cb90ee9c', '335763697269');
-        this.oneSignal.inFocusDisplaying(OSDisplayType.None);
-        this.oneSignal.endInit();
-        this.oneSignal.setSubscription(true);
-        this.oneSignal.sendTag('userId', this.userId !);
-      });
-    }
-  }
-
-  private registerLogout(type: string) {
-    if (this.platform.is('cordova')) {
-      this.platform.ready().then(() => {
-        this.oneSignal.setSubscription(false);
-      });
-    }
   }
 
   private authenticated(): boolean {
@@ -134,9 +107,9 @@ export class AuthService {
     const source = this.authHttp.tokenStream.flatMap((token: string) => {
       const jwtIat: number = this.jwtHelper.decodeToken(token).iat;
       const jwtExp: number = this.jwtHelper.decodeToken(token).exp;
-      const iat: Date = new Date(0);
-      const exp: Date = new Date(0);
-      const delay: number = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
+      const iat = new Date(0);
+      const exp = new Date(0);
+      const delay = (exp.setUTCSeconds(jwtExp) - iat.setUTCSeconds(jwtIat));
 
       return Observable.interval(delay - 15);
     });
@@ -154,11 +127,11 @@ export class AuthService {
 
   private startupTokenRefresh() {
     const source = this.authHttp.tokenStream.flatMap((token: string) => {
-      const now: number = new Date().valueOf();
+      const now = new Date().valueOf();
       const jwtExp: number = this.jwtHelper.decodeToken(token).exp;
-      const exp: Date = new Date(0);
+      const exp = new Date(0);
       exp.setUTCSeconds(jwtExp);
-      const delay: number = exp.valueOf() - now;
+      const delay = exp.valueOf() - now;
 
       return Observable.timer(delay - 15);
     });

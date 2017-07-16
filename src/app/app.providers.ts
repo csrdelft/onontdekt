@@ -28,7 +28,6 @@ import { CodePush } from '@ionic-native/code-push';
 import { Contacts } from '@ionic-native/contacts';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Keyboard } from '@ionic-native/keyboard';
-import { OneSignal } from '@ionic-native/onesignal';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SafariViewController } from '@ionic-native/safari-view-controller';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -39,7 +38,6 @@ const ionicNativeProviders = [
   Contacts,
   InAppBrowser,
   Keyboard,
-  OneSignal,
   PhotoViewer,
   SafariViewController,
   SplashScreen
