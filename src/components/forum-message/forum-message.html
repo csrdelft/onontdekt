@@ -1,1 +1,5 @@
 <p class="post-text" [innerHtml]="text" (click)="checkAnchorClick($event)"></p>
+
+<ion-card *ngIf="false">
+  <!-- Do not treeshake ion-card as the styles are used by this component -->
+</ion-card>
