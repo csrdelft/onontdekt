@@ -8,5 +8,6 @@ export function formatLocale(date: Date, format: string): string {
 export function isFullDay(start: Date, end: Date): boolean {
   const isStart = start.getHours() === 0 && start.getMinutes() === 0;
   const isEnd = end.getHours() === 23 && end.getMinutes() === 59;
-  return isStart && isEnd;
+  const midnight = end.getHours() === 0 && end.getMinutes() === 0;
+  return isStart && (isEnd || midnight);
 }
