@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import * as member from './members.actions';
+import * as members from './members.actions';
 import { Member, MemberDetail } from './members.model';
 
 export interface State {
@@ -17,19 +17,17 @@ export const initialState: State = {
   entities: {},
   detailIds: [],
   detailEntities: {},
-  query: '',
+  query: null,
   selectedMemberId: null,
 };
 
-export function reducer(state = initialState, action: member.Actions): State {
+export function reducer(state = initialState, action: members.Actions): State {
   switch (action.type) {
-    case member.ActionTypes.LOAD_ALL_COMPLETE: {
-      const members = action.payload;
-      const memberIds = members.map(member => member.id);
-      const memberEntities = members.reduce((entities: { [id: string]: Member }, member: Member) => {
-        return Object.assign(entities, {
-          [member.id]: member
-        });
+    case members.ActionTypes.LOAD_ALL_COMPLETE: {
+      const loadedMembers = action.payload;
+      const memberIds = loadedMembers.map(member => member.id);
+      const memberEntities = loadedMembers.reduce((entities: { [id: string]: Member }, member: Member) => {
+        return { ...entities, [member.id]: member };
       }, {});
 
       return {
@@ -39,7 +37,7 @@ export function reducer(state = initialState, action: member.Actions): State {
       };
     }
 
-    case member.ActionTypes.LOAD: {
+    case members.ActionTypes.LOAD: {
       const member = action.payload;
 
       if (state.detailIds.indexOf(member.id) > -1) {
@@ -56,14 +54,14 @@ export function reducer(state = initialState, action: member.Actions): State {
       };
     }
 
-    case member.ActionTypes.SELECT: {
+    case members.ActionTypes.SELECT: {
       return {
         ...state,
         selectedMemberId: action.payload
       };
     }
 
-    case member.ActionTypes.SEARCH: {
+    case members.ActionTypes.SEARCH: {
       return {
         ...state,
         query: action.payload
@@ -87,28 +85,28 @@ export const getQuery = (state: State) => state.query;
 export const getSelectedId = (state: State) => state.selectedMemberId;
 
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
-  return selectedId && entities[selectedId];
+  return (selectedId && entities[selectedId]) || null;
 });
 
 export const getSelectedDetail = createSelector(getDetailEntities, getSelectedId, (detailEntities, selectedId) => {
-  return selectedId && detailEntities[selectedId];
+  return (selectedId && detailEntities[selectedId]) || null;
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {
   return ids.map(id => entities[id]);
 });
 
-export const getQueryResults = createSelector(getAll, getQuery, (members, query) => {
+export const getQueryResults = createSelector(getAll, getQuery, (allMembers, query) => {
   if (!query) {
-    return members;
+    return allMembers;
   }
 
   const queryText = query.toLowerCase().replace(/,|\.|-/g, ' ');
   if (queryText.length === 0) {
-    return members;
+    return allMembers;
   }
 
-  return members.filter(member => {
+  return allMembers.filter(member => {
     const mid = member.tussenvoegsel ? member.tussenvoegsel + ' ' : '';
     const search = `${member.id} ${member.voornaam} ${mid}${member.achternaam}`.toLowerCase();
 

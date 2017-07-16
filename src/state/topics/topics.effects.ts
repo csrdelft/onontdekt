@@ -29,16 +29,16 @@ export class TopicEffects {
     .ofType(topic.ActionTypes.SELECT)
     .map((action: topic.SelectAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsAll), this.store$.select(fromRoot.getSelectedTopic))
-    .filter(([topicId, posts, topic]) => {
+    .filter(([topicId, posts, selectedTopic]) => {
       if (!posts || posts.length === 0) {
         return true;
       }
-      if (topic && topic.ongelezen > 0) {
+      if (selectedTopic && selectedTopic.ongelezen > 0) {
         return true;
       }
       return false;
     })
-    .map(([topicId, posts, topic]) => new post.LoadAction({ topicId, reset: true }));
+    .map(([topicId, posts, selectedTopic]) => new post.LoadAction({ topicId, reset: true }));
 
   constructor(
     private actions$: Actions,

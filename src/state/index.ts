@@ -91,7 +91,7 @@ export const getSelectedTopicPostIds = createSelector(getSelectedTopicPosts, (po
 });
 
 export const getSelectedTopicPostsAll = createSelector(getSelectedTopicPostIds, getPostEntities, (ids, entities) => {
-  return ids && ids.map(id => entities[id]);
+  return (ids && ids.map(id => entities[id])) || null;
 });
 
 export const getSelectedTopicPostsLength = createSelector(getSelectedTopicPostIds, (postIds) => {
@@ -99,5 +99,5 @@ export const getSelectedTopicPostsLength = createSelector(getSelectedTopicPostId
 });
 
 export const getSelectedTopicMorePostsAvailable = createSelector(getSelectedTopicPosts, (posts) => {
-  return posts && posts.isMoreAvailable;
+  return (posts && posts.isMoreAvailable) || null;
 });

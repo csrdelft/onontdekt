@@ -19,7 +19,7 @@ export class MemberListPage implements OnInit {
   @ViewChild(Content) content: Content;
 
   members$: Observable<Member[]>;
-  searchQuery$: Observable<string>;
+  searchQuery$: Observable<string | null>;
   searching$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
@@ -65,7 +65,7 @@ export class MemberListPage implements OnInit {
 
   stopSearchSoft() {
     this.searchQuery$.take(1).subscribe(query => {
-      if (query.length === 0) {
+      if (query && query.length === 0) {
         setTimeout(() => {
           this.searching$.next(false);
         }, 200);

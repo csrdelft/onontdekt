@@ -24,11 +24,9 @@ export function reducer(state = initialState, action: topic.Actions): State {
     case topic.ActionTypes.LOAD_COMPLETE: {
       const reset = action.payload.reset;
       const topics = action.payload.topics;
-      const topicIds = topics.map(topic => topic.draad_id);
-      const topicEntities = topics.reduce((entities: { [id: string]: ForumTopic }, topic: ForumTopic) => {
-        return Object.assign(entities, {
-          [topic.draad_id]: topic
-        });
+      const topicIds = topics.map(t => t.draad_id);
+      const topicEntities = topics.reduce((entities: { [id: string]: ForumTopic }, t: ForumTopic) => {
+        return { ...entities, [t.draad_id]: t };
       }, {});
 
       return {
@@ -72,7 +70,7 @@ export const getIds = (state: State) => state.ids;
 export const getSelectedId = (state: State) => state.selectedId;
 
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
-  return selectedId && entities[selectedId];
+  return (selectedId && entities[selectedId]) || null;
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {

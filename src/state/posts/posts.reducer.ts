@@ -1,4 +1,4 @@
-import * as post from './posts.actions';
+import * as posts from './posts.actions';
 import { ForumPost } from './posts.model';
 
 export interface State {
@@ -18,25 +18,24 @@ export const initialState: State = {
 
 export const POSTS_PER_LOAD = 10;
 
-export function reducer(state = initialState, action: post.Actions): State {
+export function reducer(state = initialState, action: posts.Actions): State {
   switch (action.type) {
-    case post.ActionTypes.LOAD_COMPLETE: {
-      const topicId = action.payload.topicId;
-      const posts = action.payload.posts;
-      const reset = action.payload.reset;
-      const postIds = posts.map(post => post.post_id);
-      const postEntities = posts.reduce((entities: { [id: number]: ForumPost }, post) => {
+    case posts.ActionTypes.LOAD_COMPLETE: {
+      const payload = action.payload;
+      const topicId = payload.topicId;
+      const postIds = payload.posts.map(post => post.post_id);
+      const postEntities = payload.posts.reduce((entities: { [id: number]: ForumPost }, post) => {
         return { ...entities, [post.post_id]: post };
       }, {});
 
       return {
         ...state,
-        entities: reset ? postEntities : { ...state.entities, ...postEntities },
+        entities: payload.reset ? postEntities : { ...state.entities, ...postEntities },
         byTopic: {
           ...state.byTopic,
           [topicId]: {
-            ids: (state.byTopic[topicId] !== undefined && !reset) ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
-            isMoreAvailable: posts.length === POSTS_PER_LOAD
+            ids: (state.byTopic[topicId] !== undefined && !payload.reset) ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
+            isMoreAvailable: payload.posts.length === POSTS_PER_LOAD
           }
         }
       };

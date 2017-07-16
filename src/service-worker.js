@@ -1,4 +1,4 @@
-importScripts('./build/workbox-sw.prod.v1.0.0.js');
+importScripts('./build/workbox-sw.prod.v1.1.0.js');
 
 const workboxSW = new WorkboxSW({
   clientsClaim: true,

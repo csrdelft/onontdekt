@@ -21,9 +21,9 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   @ViewChild(Content) content: Content;
   @ViewChildren(Item) items: QueryList<Item>;
 
-  topic$: Observable<ForumTopic>;
-  posts$: Observable<ForumPost[]>;
-  moreAvailable$: Observable<boolean>;
+  topic$: Observable<ForumTopic | null>;
+  posts$: Observable<ForumPost[] | null>;
+  moreAvailable$: Observable<boolean | null>;
 
   imageUrl = AppConfig.SITE_URL + '/plaetjes/pasfoto/';
   unread: number;
@@ -47,7 +47,7 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
     this.topic$
       .skipWhile(t => t == null)
       .take(1)
-      .subscribe(topic => this.unread = topic.ongelezen);
+      .subscribe(t => this.unread = t!.ongelezen);
 
     this.store.dispatch(new topic.SelectAction(this.topicId));
   }
@@ -78,8 +78,8 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
     return this.posts$.skip(1).take(1).toPromise();
   }
 
-  identify(index: number, post: ForumPost) {
-    return post.UUID;
+  identify(index: number, forumPost: ForumPost) {
+    return forumPost.UUID;
   }
 
   goToMemberDetail(id: string) {

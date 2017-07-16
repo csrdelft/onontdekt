@@ -42,7 +42,7 @@ export class EventListPage {
     this.to = endOfDay(addDays(new Date(), DAYS_TO_LOAD - 1));
   }
 
-  updateSchedule(from: Date, to: Date, reset: boolean = false): Promise<boolean> {
+  updateSchedule(from: Date, to: Date, reset: boolean = false) {
     return this.api.getScheduleList(from, to)
       .then((events: Event[]) => {
 
@@ -78,6 +78,7 @@ export class EventListPage {
         return true;
       }, () => {
         this.failedToLoad = true;
+        return false;
       });
   }
 

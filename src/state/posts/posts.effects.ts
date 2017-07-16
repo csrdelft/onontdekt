@@ -17,8 +17,8 @@ export class PostEffects {
     .ofType(post.ActionTypes.LOAD)
     .map((action: post.LoadAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength), this.store$.select(fromRoot.getSelectedTopic))
-    .switchMap(([{ topicId, reset }, length, topic]) => {
-      const unread = topic ? topic.ongelezen : 0;
+    .switchMap(([{ topicId, reset }, length, selectedTopic]) => {
+      const unread = selectedTopic ? selectedTopic.ongelezen : 0;
       const offset = reset ? 0 : (length || 0);
       const limit = getLimit(unread, fromPost.POSTS_PER_LOAD);
       return this.api.getForumTopic(topicId, offset, limit)

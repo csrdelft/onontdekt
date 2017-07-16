@@ -21,8 +21,8 @@ import { NotificationService } from '../../services/notification/notification';
   templateUrl: 'member-detail.html'
 })
 export class MemberDetailPage implements OnInit {
-  member$: Observable<Member>;
-  memberDetail$: Observable<MemberDetail>;
+  member$: Observable<Member | null>;
+  memberDetail$: Observable<MemberDetail | null>;
   imageUrl = AppConfig.SITE_URL + '/plaetjes/';
 
   constructor(
