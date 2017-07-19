@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../';
 import { ApiService } from '../../services/api/api';
@@ -11,18 +10,18 @@ import * as member from './members.actions';
 export class MemberEffects {
 
   @Effect()
-  loadAll$: Observable<Action> = this.actions$
-    .ofType(member.ActionTypes.LOAD_ALL)
+  loadAll$ = this.actions$
+    .ofType(member.LOAD_ALL)
     .withLatestFrom(this.store$.select(fromRoot.getAllMembers))
     .filter(([action, state]) => state.length === 0)
-    .switchMap(() => {
-      return this.api.getMemberList()
-        .map(list => new member.LoadAllCompleteAction(list));
-    });
+    .exhaustMap(() =>
+      this.api.getMemberList()
+        .map(list => new member.LoadAllCompleteAction(list))
+    );
 
   @Effect()
-  select$: Observable<Action> = this.actions$
-    .ofType(member.ActionTypes.SELECT)
+  select$ = this.actions$
+    .ofType(member.SELECT)
     .map((action: member.SelectAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedMemberDetail))
     .filter(([id, selected]) => !selected)

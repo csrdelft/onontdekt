@@ -6,10 +6,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { IonicApp, IonicModule } from 'ionic-angular';
+
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/exhaustMap';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/let';
 import 'rxjs/add/operator/map';
@@ -24,7 +26,7 @@ import { CSRApp } from './app.component';
 import { ionicConfig } from './app.config';
 import { PROVIDERS } from './app.providers';
 
-import { reducer } from '../state';
+import { reducers } from '../state';
 import { MemberEffects } from '../state/members/members.effects';
 import { PostEffects } from '../state/posts/posts.effects';
 import { TopicEffects } from '../state/topics/topics.effects';
@@ -47,11 +49,13 @@ import { PIPES } from '../pipes';
     HttpModule,
     IonicModule.forRoot(CSRApp, ionicConfig),
     IonicStorageModule.forRoot(),
-    StoreModule.provideStore(reducer),
-    StoreDevtoolsModule.instrumentOnlyWithExtension(),
-    EffectsModule.run(MemberEffects),
-    EffectsModule.run(PostEffects),
-    EffectsModule.run(TopicEffects)
+    StoreModule.forRoot(reducers),
+    StoreDevtoolsModule.instrument(),
+    EffectsModule.forRoot([
+      MemberEffects,
+      PostEffects,
+      TopicEffects
+    ])
   ],
   entryComponents: [
     CSRApp,

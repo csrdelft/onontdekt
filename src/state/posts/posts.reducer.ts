@@ -20,7 +20,7 @@ export const POSTS_PER_LOAD = 10;
 
 export function reducer(state = initialState, action: posts.Actions): State {
   switch (action.type) {
-    case posts.ActionTypes.LOAD_COMPLETE: {
+    case posts.LOAD_COMPLETE: {
       const payload = action.payload;
       const topicId = payload.topicId;
       const postIds = payload.posts.map(post => post.post_id);

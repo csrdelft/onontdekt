@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../';
 import { ApiService } from '../../services/api/api';
@@ -13,8 +12,8 @@ import * as fromPost from './posts.reducer';
 export class PostEffects {
 
   @Effect()
-  load$: Observable<Action> = this.actions$
-    .ofType(post.ActionTypes.LOAD)
+  load$ = this.actions$
+    .ofType(post.LOAD)
     .map((action: post.LoadAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsLength), this.store$.select(fromRoot.getSelectedTopic))
     .switchMap(([{ topicId, reset }, length, selectedTopic]) => {
@@ -26,8 +25,8 @@ export class PostEffects {
     });
 
   @Effect()
-  loadComplete$: Observable<Action> = this.actions$
-    .ofType(post.ActionTypes.LOAD_COMPLETE)
+  loadComplete$ = this.actions$
+    .ofType(post.LOAD_COMPLETE)
     .map((action: post.LoadCompleteAction) => action.payload)
     .map(({ topicId, posts }) => new topic.ReadAction(topicId));
 

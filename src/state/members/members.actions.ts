@@ -1,44 +1,41 @@
 import { Action } from '@ngrx/store';
 
-import { type } from '../../util/state';
 import { Member, MemberDetail } from './members.model';
 
 // tslint:disable:max-classes-per-file
 
-export class ActionTypes {
-  static readonly LOAD_ALL          = type('[Members] Load All');
-  static readonly LOAD_ALL_COMPLETE = type('[Members] Load All Complete');
-  static readonly LOAD              = type('[Members] Load');
-  static readonly SELECT            = type('[Members] Select');
-  static readonly SEARCH            = type('[Members] Search');
-}
+export const LOAD_ALL          = '[Members] Load All';
+export const LOAD_ALL_COMPLETE = '[Members] Load All Complete';
+export const LOAD              = '[Members] Load';
+export const SELECT            = '[Members] Select';
+export const SEARCH            = '[Members] Search';
 
 export class LoadAllAction implements Action {
-  readonly type = ActionTypes.LOAD_ALL;
+  readonly type = LOAD_ALL;
 }
 
 export class LoadAllCompleteAction implements Action {
-  readonly type = ActionTypes.LOAD_ALL_COMPLETE;
+  readonly type = LOAD_ALL_COMPLETE;
 
-  constructor(public payload: Member[]) { }
+  constructor(public payload: Member[]) {}
 }
 
 export class LoadAction implements Action {
-  readonly type = ActionTypes.LOAD;
+  readonly type = LOAD;
 
-  constructor(public payload: MemberDetail) { }
+  constructor(public payload: MemberDetail) {}
 }
 
 export class SelectAction implements Action {
-  readonly type = ActionTypes.SELECT;
+  readonly type = SELECT;
 
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class SearchAction implements Action {
-  readonly type = ActionTypes.SEARCH;
+  readonly type = SEARCH;
 
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export type Actions

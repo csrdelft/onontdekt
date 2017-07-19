@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@ngrx/store';
 
 import * as members from './members.actions';
 import { Member, MemberDetail } from './members.model';
@@ -23,7 +23,7 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: members.Actions): State {
   switch (action.type) {
-    case members.ActionTypes.LOAD_ALL_COMPLETE: {
+    case members.LOAD_ALL_COMPLETE: {
       const loadedMembers = action.payload;
       const memberIds = loadedMembers.map(member => member.id);
       const memberEntities = loadedMembers.reduce((entities: { [id: string]: Member }, member: Member) => {
@@ -37,7 +37,7 @@ export function reducer(state = initialState, action: members.Actions): State {
       };
     }
 
-    case members.ActionTypes.LOAD: {
+    case members.LOAD: {
       const member = action.payload;
 
       if (state.detailIds.indexOf(member.id) > -1) {
@@ -54,14 +54,14 @@ export function reducer(state = initialState, action: members.Actions): State {
       };
     }
 
-    case members.ActionTypes.SELECT: {
+    case members.SELECT: {
       return {
         ...state,
         selectedMemberId: action.payload
       };
     }
 
-    case members.ActionTypes.SEARCH: {
+    case members.SEARCH: {
       return {
         ...state,
         query: action.payload

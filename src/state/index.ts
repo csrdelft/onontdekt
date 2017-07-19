@@ -1,24 +1,8 @@
-import { compose } from '@ngrx/core/compose';
-import { ActionReducer, combineReducers } from '@ngrx/store';
-import { storeFreeze } from 'ngrx-store-freeze';
-import { createSelector } from 'reselect';
-
-import { AppConfig } from '../app/app.config';
+import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromMembers from './members/members.reducer';
 import * as fromPosts from './posts/posts.reducer';
 import * as fromTopics from './topics/topics.reducer';
-
-// These imports are somehow needed or the ts compiler throws
-import { Member, MemberDetail } from './members/members.model';
-import { ForumPost } from './posts/posts.model';
-import { ForumTopic } from './topics/topics.model';
-export interface Unused {
-  a: Member;
-  b: MemberDetail;
-  c: ForumPost;
-  d: ForumTopic;
-}
 
 /**
  * Merge sub states
@@ -32,27 +16,16 @@ export interface State {
 /**
  * Merge sub reducers
  */
-const reducers = {
+export const reducers: ActionReducerMap<State> = {
   members: fromMembers.reducer,
   posts: fromPosts.reducer,
   topics: fromTopics.reducer,
 };
 
-const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
-
-export function reducer(state: any, action: any) {
-  if (AppConfig.ENV.production) {
-    return productionReducer(state, action);
-  } else {
-    return developmentReducer(state, action);
-  }
-}
-
 /**
  * Map Members selectors to main state
  */
-export const getMembersState = (state: State) => state.members;
+export const getMembersState = createFeatureSelector<fromMembers.State>('members');
 
 export const getAllMembers = createSelector(getMembersState, fromMembers.getAll);
 export const getMembersQuery = createSelector(getMembersState, fromMembers.getQuery);
@@ -63,7 +36,7 @@ export const getSelectedMemberDetail = createSelector(getMembersState, fromMembe
 /**
  * Map Posts selectors to main state
  */
-export const getPostsState = (state: State) => state.posts;
+export const getPostsState = createFeatureSelector<fromPosts.State>('posts');
 
 export const getPostEntities = createSelector(getPostsState, fromPosts.getEntities);
 export const getPostsByTopic = createSelector(getPostsState, fromPosts.getByTopic);
@@ -71,7 +44,7 @@ export const getPostsByTopic = createSelector(getPostsState, fromPosts.getByTopi
 /**
  * Map Topics selectors to main state
  */
-export const getTopicsState = (state: State) => state.topics;
+export const getTopicsState = createFeatureSelector<fromTopics.State>('topics');
 
 export const getAllTopics = createSelector(getTopicsState, fromTopics.getAll);
 export const getSelectedTopicId = createSelector(getTopicsState, fromTopics.getSelectedId);

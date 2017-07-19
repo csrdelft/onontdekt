@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
 import * as fromRoot from '../';
 import { ApiService } from '../../services/api/api';
@@ -13,8 +12,8 @@ import * as fromTopic from './topics.reducer';
 export class TopicEffects {
 
   @Effect()
-  load$: Observable<Action> = this.actions$
-    .ofType(topic.ActionTypes.LOAD)
+  load$ = this.actions$
+    .ofType(topic.LOAD)
     .map((action: topic.LoadAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getTopicsLength))
     .switchMap(([reset, length]) => {
@@ -25,8 +24,8 @@ export class TopicEffects {
     });
 
   @Effect()
-  select$: Observable<Action> = this.actions$
-    .ofType(topic.ActionTypes.SELECT)
+  select$ = this.actions$
+    .ofType(topic.SELECT)
     .map((action: topic.SelectAction) => action.payload)
     .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsAll), this.store$.select(fromRoot.getSelectedTopic))
     .filter(([topicId, posts, selectedTopic]) => {

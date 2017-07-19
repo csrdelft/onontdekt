@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect';
+import { createSelector } from '@ngrx/store';
 
 import * as topic from './topics.actions';
 import { ForumTopic } from './topics.model';
@@ -21,7 +21,7 @@ export const TOPICS_PER_LOAD = 10;
 
 export function reducer(state = initialState, action: topic.Actions): State {
   switch (action.type) {
-    case topic.ActionTypes.LOAD_COMPLETE: {
+    case topic.LOAD_COMPLETE: {
       const reset = action.payload.reset;
       const topics = action.payload.topics;
       const topicIds = topics.map(t => t.draad_id);
@@ -37,14 +37,14 @@ export function reducer(state = initialState, action: topic.Actions): State {
       };
     }
 
-    case topic.ActionTypes.SELECT: {
+    case topic.SELECT: {
       return {
         ...state,
         selectedId: action.payload
       };
     }
 
-    case topic.ActionTypes.READ: {
+    case topic.READ: {
       return {
         ...state,
         entities: {
