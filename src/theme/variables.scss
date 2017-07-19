@@ -15,7 +15,10 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary: #0a3292,
+  primary: #0A5992,
+  // secondary: #456F54,
+  // tertiary: #BB534F,
+  // dark: #454545,
 );
 
 
@@ -27,10 +30,14 @@ $colors: (
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
 $text-color:                 #000;
-$paragraph-color:            $text-color;
 $link-color:                 color($colors, primary);
 $background-color:           #fff;
 $subdued-text-color:         #666;
+
+$font-family-base:           "Source Sans Pro", sans-serif;
+$font-family-md-base:        $font-family-base;
+
+$paragraph-color:            $text-color;
 
 
 // App iOS Variables
