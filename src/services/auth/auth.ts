@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   login(username: string, password: string): Promise<any> {
-    const url = AppConfig.API_ENDPOINT + '/auth/authorize';
+    const url = AppConfig.ENV.apiEndpoint + '/auth/authorize';
     const params = 'user=' + username + '&pass=' + password;
 
     const headers = new Headers();
@@ -145,7 +145,7 @@ export class AuthService {
   private getNewJwt(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.storage.get('refresh_token').then(refreshToken => {
-        const url = AppConfig.API_ENDPOINT + '/auth/token';
+        const url = AppConfig.ENV.apiEndpoint + '/auth/token';
         const params = 'refresh_token=' + refreshToken;
 
         const headers = new Headers();

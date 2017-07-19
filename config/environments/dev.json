@@ -1,0 +1,5 @@
+{
+  "production": false,
+  "siteUrl": "https://csrdelft.nl",
+  "apiEndpoint": "/api-proxy"
+}

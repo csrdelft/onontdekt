@@ -103,7 +103,7 @@ export class EventDetailPage {
   }
 
   viewExternal() {
-    const url = AppConfig.SITE_URL + `/groepen/activiteiten/${this.event.id}/`;
+    const url = AppConfig.ENV.siteUrl + `/groepen/activiteiten/${this.event.id}/`;
     this.urlService.open(url);
   }
 }

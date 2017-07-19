@@ -23,7 +23,7 @@ import { NotificationService } from '../../services/notification/notification';
 export class MemberDetailPage implements OnInit {
   member$: Observable<Member | null>;
   memberDetail$: Observable<MemberDetail | null>;
-  imageUrl = AppConfig.SITE_URL + '/plaetjes/';
+  imageUrl = AppConfig.ENV.siteUrl + '/plaetjes/';
 
   constructor(
     private sanitizer: DomSanitizer,

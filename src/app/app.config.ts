@@ -1,19 +1,21 @@
-import { isDevMode } from '@angular/core';
-
 /**
  * Environment config
+ *
+ * The environments are loaded by webpack from `/config/environments/${ENV}.json`
  */
+interface Env {
+  env: {
+    production: boolean;
+    siteUrl: string;
+    apiEndpoint: string;
+  };
+}
+
+declare var webpackGlobalVars: Env;
+
 export class AppConfig {
-  static get IS_DEV(): boolean {
-    return isDevMode();
-  }
-
-  static get SITE_URL(): string {
-    return 'https://csrdelft.nl';
-  }
-
-  static get API_ENDPOINT(): string {
-    return isDevMode() ? '/api-proxy' : 'https://csrdelft.nl/API/2.0';
+  static get ENV() {
+    return webpackGlobalVars.env;
   }
 }
 

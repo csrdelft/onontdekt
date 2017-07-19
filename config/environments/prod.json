@@ -1,0 +1,5 @@
+{
+  "production": true,
+  "siteUrl": "https://csrdelft.nl",
+  "apiEndpoint": "https://csrdelft.nl/API/2.0"
+}

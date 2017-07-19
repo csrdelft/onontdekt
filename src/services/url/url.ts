@@ -22,7 +22,7 @@ export class UrlService {
       if ((ext === '.jpg' || ext === '.png') && hashIndex === -1) {
         this.photoViewer.show(url);
       } else if (hashIndex > -1 && url.indexOf('#/plaetjes/') !== -1) {
-        url = AppConfig.SITE_URL + url.substr(hashIndex + 1);
+        url = AppConfig.ENV.siteUrl + url.substr(hashIndex + 1);
         this.photoViewer.show(url);
       } else if (this.platform.is('ios')) {
         this.safariViewController.isAvailable().then(available => {

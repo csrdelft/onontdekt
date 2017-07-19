@@ -42,7 +42,7 @@ const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineRed
 const productionReducer: ActionReducer<State> = combineReducers(reducers);
 
 export function reducer(state: any, action: any) {
-  if (AppConfig.IS_DEV) {
+  if (AppConfig.ENV.production) {
     return productionReducer(state, action);
   } else {
     return developmentReducer(state, action);

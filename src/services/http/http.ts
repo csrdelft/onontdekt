@@ -16,7 +16,7 @@ export class HttpService {
   ) {}
 
   getFromApi(url: string, method: string): Observable<any> {
-    return this.authHttp.request(AppConfig.API_ENDPOINT + url, { method })
+    return this.authHttp.request(AppConfig.ENV.apiEndpoint + url, { method })
       .map(res => parseJsonDates(res))
       .map(data => data.data)
       .catch((error: Response) => {

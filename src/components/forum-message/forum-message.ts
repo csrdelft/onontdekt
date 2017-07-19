@@ -67,7 +67,7 @@ export class ForumMessageComponent {
     }
 
     if (url.substr(0, 1) === '/') {
-      url = AppConfig.SITE_URL + url;
+      url = AppConfig.ENV.siteUrl + url;
     }
 
     if (url.substr(0, 8) === 'https://' || url.substr(0, 7) === 'http://') {

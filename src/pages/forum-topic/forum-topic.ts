@@ -25,7 +25,7 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   posts$: Observable<ForumPost[] | null>;
   moreAvailable$: Observable<boolean | null>;
 
-  imageUrl = AppConfig.SITE_URL + '/plaetjes/pasfoto/';
+  imageUrl = AppConfig.ENV.siteUrl + '/plaetjes/pasfoto/';
   unread: number;
 
   private topicId: number;
@@ -87,7 +87,7 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   }
 
   viewExternal() {
-    const url = AppConfig.SITE_URL + `/forum/onderwerp/${this.topicId}#ongelezen`;
+    const url = AppConfig.ENV.siteUrl + `/forum/onderwerp/${this.topicId}#ongelezen`;
     this.urlService.open(url);
   }
 
