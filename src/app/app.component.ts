@@ -2,11 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { CodePush, SyncStatus } from '@ionic-native/code-push';
 import { Keyboard } from '@ionic-native/keyboard';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Events, Nav, Platform, ToastController } from 'ionic-angular';
+import { select, Store } from '@ngrx/store';
+import { Nav, Platform, ToastController } from 'ionic-angular';
+import { first } from 'rxjs/operators';
 
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
-import { AuthService } from '../services/auth/auth';
+import * as fromRoot from '../state';
 
 @Component({
   templateUrl: 'app.component.html'
@@ -15,16 +17,14 @@ export class CSRApp {
   @ViewChild(Nav) nav: Nav;
 
   constructor(
-    private events: Events,
     private platform: Platform,
-    private authService: AuthService,
     private codePush: CodePush,
     private toastCtrl: ToastController,
     private keyboard: Keyboard,
-    private splashScreen: SplashScreen
+    private splashScreen: SplashScreen,
+    private store: Store<fromRoot.State>
   ) {
     this.initializeRootPage();
-    this.listenToLogoutEvent();
     if (this.platform.is('cordova')) {
       this.initializeCordova();
     }
@@ -38,7 +38,10 @@ export class CSRApp {
   }
 
   private initializeRootPage() {
-    this.authService.tryAuthentication().then((authenticated: boolean) => {
+    this.store.pipe(
+      select(fromRoot.getAuthenticated),
+      first(authed => authed !== undefined)
+    ).subscribe(authenticated => {
       const pageToLoad = authenticated ? TabsPage : LoginPage;
       this.nav.setRoot(pageToLoad);
       if (this.platform.is('cordova')) {
@@ -59,12 +62,6 @@ export class CSRApp {
           }).present();
           break;
       }
-    });
-  }
-
-  private listenToLogoutEvent() {
-    this.events.subscribe('user:logout', () => {
-      this.nav.setRoot(LoginPage);
     });
   }
 }

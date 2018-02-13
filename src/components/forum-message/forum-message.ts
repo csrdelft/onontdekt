@@ -4,7 +4,7 @@ import { AlertController, NavController } from 'ionic-angular';
 import { AppConfig } from '../../app/app.config';
 import { ForumTextPage } from '../../pages/forum-text/forum-text';
 import { MemberDetailPage } from '../../pages/member-detail/member-detail';
-import { UrlService } from '../../services/url/url';
+import { UrlService } from '../../services/url.service';
 import { isNumeric } from '../../util/data';
 
 @Component({

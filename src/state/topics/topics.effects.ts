@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromRoot from '../';
-import { ApiService } from '../../services/api/api';
+import { ApiService } from '../../services/api.service';
 import * as post from '../posts/posts.actions';
 import * as topic from './topics.actions';
 import * as fromTopic from './topics.reducer';
@@ -12,23 +13,29 @@ import * as fromTopic from './topics.reducer';
 export class TopicEffects {
 
   @Effect()
-  load$ = this.actions$
-    .ofType(topic.LOAD)
-    .map((action: topic.LoadAction) => action.payload)
-    .withLatestFrom(this.store$.select(fromRoot.getTopicsLength))
-    .switchMap(([reset, length]) => {
+  load$ = this.actions$.pipe(
+    ofType<topic.LoadAction>(topic.LOAD),
+    map(action => action.payload),
+    withLatestFrom(this.store$.pipe(select(fromRoot.getTopicsLength))),
+    switchMap(([reset, length]) => {
       const offset = reset ? 0 : length;
       const limit = fromTopic.TOPICS_PER_LOAD;
-      return this.api.getForumRecent(offset, limit)
-        .map(topics => new topic.LoadCompleteAction({ reset, topics }));
-    });
+      return this.api.getForumRecent(offset, limit).pipe(
+        map(response => response.data),
+        map(topics => new topic.LoadCompleteAction({ reset, topics }))
+      );
+    })
+  );
 
   @Effect()
-  select$ = this.actions$
-    .ofType(topic.SELECT)
-    .map((action: topic.SelectAction) => action.payload)
-    .withLatestFrom(this.store$.select(fromRoot.getSelectedTopicPostsAll), this.store$.select(fromRoot.getSelectedTopic))
-    .filter(([topicId, posts, selectedTopic]) => {
+  select$ = this.actions$.pipe(
+    ofType(topic.SELECT),
+    map((action: topic.SelectAction) => action.payload),
+    withLatestFrom(
+      this.store$.pipe(select(fromRoot.getSelectedTopicPostsAll)),
+      this.store$.pipe(select(fromRoot.getSelectedTopic))
+    ),
+    filter(([topicId, posts, selectedTopic]) => {
       if (!posts || posts.length === 0) {
         return true;
       }
@@ -36,8 +43,9 @@ export class TopicEffects {
         return true;
       }
       return false;
-    })
-    .map(([topicId, posts, selectedTopic]) => new post.LoadAction({ topicId, reset: true }));
+    }),
+    map(([topicId, posts, selectedTopic]) => new post.LoadAction({ topicId, reset: true }))
+  );
 
   constructor(
     private actions$: Actions,

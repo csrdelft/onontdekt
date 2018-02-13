@@ -17,6 +17,7 @@
     "trailing-comma": [false],
     "no-empty": false,
     "prefer-conditional-expression": false,
+    "no-submodule-imports": false,
 
     /* Codelyzer rules */
     "directive-selector": [true, "attribute", ["csr"], "camelCase"],
@@ -33,9 +34,6 @@
     "use-pipe-transform-interface": true,
     "pipe-naming": [true, "camelCase", "csr"],
     "component-class-suffix": [true, "Component", "Page", "App"],
-    "directive-class-suffix": [true, "Directive"],
-    "templates-use-public": true,
-    "no-access-missing-member": true,
-    "invoke-injectable": true
+    "directive-class-suffix": [true, "Directive"]
   }
 }

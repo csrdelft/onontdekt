@@ -1,5 +1,6 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
+import * as fromAuth from './auth/auth.reducer';
 import * as fromMembers from './members/members.reducer';
 import * as fromPosts from './posts/posts.reducer';
 import * as fromTopics from './topics/topics.reducer';
@@ -8,6 +9,7 @@ import * as fromTopics from './topics/topics.reducer';
  * Merge sub states
  */
 export interface State {
+  auth: fromAuth.State;
   members: fromMembers.State;
   posts: fromPosts.State;
   topics: fromTopics.State;
@@ -17,10 +19,22 @@ export interface State {
  * Merge sub reducers
  */
 export const reducers: ActionReducerMap<State> = {
+  auth: fromAuth.reducer,
   members: fromMembers.reducer,
   posts: fromPosts.reducer,
   topics: fromTopics.reducer,
 };
+
+/**
+ * Map Auth selectors to main state
+ */
+export const getAuthState = createFeatureSelector<fromAuth.State>('auth');
+
+export const getAuthenticated = createSelector(getAuthState, fromAuth.getAuthenticated);
+export const getRefreshing = createSelector(getAuthState, fromAuth.getRefreshing);
+export const getTokens = createSelector(getAuthState, fromAuth.getTokens);
+export const getIdentity = createSelector(getAuthState, fromAuth.getIdentity);
+export const getUserId = createSelector(getAuthState, fromAuth.selectUserId);
 
 /**
  * Map Members selectors to main state

@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
 import { Contact, ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import isPast from 'date-fns/is_past';
 import { ActionSheetController, NavParams, Platform } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ import * as fromRoot from '../../state';
 import * as members from '../../state/members/members.actions';
 import { Member, MemberDetail } from '../../state/members/members.model';
 
-import { NotificationService } from '../../services/notification/notification';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,8 +38,8 @@ export class MemberDetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.member$ = this.store.select(fromRoot.getSelectedMember);
-    this.memberDetail$ = this.store.select(fromRoot.getSelectedMemberDetail);
+    this.member$ = this.store.pipe(select(fromRoot.getSelectedMember));
+    this.memberDetail$ = this.store.pipe(select(fromRoot.getSelectedMemberDetail));
     this.load();
   }
 

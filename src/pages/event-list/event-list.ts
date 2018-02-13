@@ -5,7 +5,7 @@ import startOfToday from 'date-fns/start_of_today';
 import { InfiniteScroll, NavController, Refresher } from 'ionic-angular';
 
 import { Event } from '../../models/event';
-import { ApiService } from '../../services/api/api';
+import { ApiService } from '../../services/api.service';
 import { formatLocale } from '../../util/dates';
 import { EventDetailPage } from '../event-detail/event-detail';
 

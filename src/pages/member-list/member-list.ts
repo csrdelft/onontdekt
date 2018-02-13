@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, Renderer, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Content, NavController, Searchbar } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { first } from 'rxjs/operators';
 
 import { Group } from '../../pipes/group-by/group-by';
 import * as fromRoot from '../../state';
@@ -29,8 +30,8 @@ export class MemberListPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.members$ = this.store.select(fromRoot.getMembersQueryResults);
-    this.searchQuery$ = this.store.select(fromRoot.getMembersQuery);
+    this.members$ = this.store.pipe(select(fromRoot.getMembersQueryResults));
+    this.searchQuery$ = this.store.pipe(select(fromRoot.getMembersQuery));
     this.load();
   }
 
@@ -64,7 +65,7 @@ export class MemberListPage implements OnInit {
   }
 
   stopSearchSoft() {
-    this.searchQuery$.take(1).subscribe(query => {
+    this.searchQuery$.pipe(first()).subscribe(query => {
       if (query && query.length === 0) {
         setTimeout(() => {
           this.searching$.next(false);

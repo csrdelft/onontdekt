@@ -1,10 +1,11 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { skip, skipWhile, take } from 'rxjs/operators';
 
 import { AppConfig } from '../../app/app.config';
-import { UrlService } from '../../services/url/url';
+import { UrlService } from '../../services/url.service';
 import * as fromRoot from '../../state';
 import * as post from '../../state/posts/posts.actions';
 import { ForumPost } from '../../state/posts/posts.model';
@@ -40,14 +41,14 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.topic$ = this.store.select(fromRoot.getSelectedTopic);
-    this.posts$ = this.store.select(fromRoot.getSelectedTopicPostsAll);
-    this.moreAvailable$ = this.store.select(fromRoot.getSelectedTopicMorePostsAvailable);
+    this.topic$ = this.store.pipe(select(fromRoot.getSelectedTopic));
+    this.posts$ = this.store.pipe(select(fromRoot.getSelectedTopicPostsAll));
+    this.moreAvailable$ = this.store.pipe(select(fromRoot.getSelectedTopicMorePostsAvailable));
 
-    this.topic$
-      .skipWhile(t => t == null)
-      .take(1)
-      .subscribe(t => this.unread = t!.ongelezen);
+    this.topic$.pipe(
+      skipWhile(t => t == null),
+      take(1)
+    ).subscribe(t => this.unread = t!.ongelezen);
 
     this.store.dispatch(new topic.SelectAction(this.topicId));
   }
@@ -75,7 +76,7 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
       reset: false
     }));
 
-    return this.posts$.skip(1).take(1).toPromise();
+    return this.posts$.pipe(skip(1), take(1)).toPromise();
   }
 
   identify(index: number, forumPost: ForumPost) {

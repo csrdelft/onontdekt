@@ -1,25 +1,4 @@
 /**
- * Provider for angular2-jwt until they provide an ngModule
- */
-
-import { Http, RequestOptions } from '@angular/http';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
-
-export function authFactory(http: Http, options: RequestOptions) {
-  return new AuthHttp(new AuthConfig({
-    tokenName: 'id_token',
-    tokenGetter: () => localStorage.getItem('id_token') !,
-    headerName: 'X-Csr-Authorization'
-  }), http, options);
-}
-
-const authProvider = {
-  provide: AuthHttp,
-  deps: [Http, RequestOptions],
-  useFactory: authFactory
-};
-
-/**
  * Providers for Ionic Native
  */
 
@@ -47,18 +26,39 @@ const ionicNativeProviders = [
  * Custom app services
  */
 
-import { ApiService } from '../services/api/api';
-import { AuthService } from '../services/auth/auth';
-import { HttpService } from '../services/http/http';
-import { NotificationService } from '../services/notification/notification';
-import { UrlService } from '../services/url/url';
+import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
+import { JwtService } from '../services/jwt.service';
+import { NotificationService } from '../services/notification.service';
+import { UrlService } from '../services/url.service';
 
 const SERVICES = [
   ApiService,
   AuthService,
-  HttpService,
+  JwtService,
   NotificationService,
   UrlService
+];
+
+/**
+ * Interceptors
+ */
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { DateInterceptor } from '../interceptors/date.interceptor';
+import { JwtInterceptor } from '../interceptors/jwt.interceptor';
+
+const INTERCEPTORS = [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtInterceptor,
+    multi: true
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: DateInterceptor,
+    multi: true
+  },
 ];
 
 /**
@@ -78,8 +78,8 @@ const errorProvider = {
  */
 
 export const PROVIDERS = [
-  SERVICES,
-  ionicNativeProviders,
-  authProvider,
+  ...SERVICES,
+  ...INTERCEPTORS,
+  ...ionicNativeProviders,
   errorProvider
 ];

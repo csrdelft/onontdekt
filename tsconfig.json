@@ -14,13 +14,15 @@
     "skipLibCheck": true,
     "strict": true,
     "sourceMap": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["date-fns"],
     "target": "es5"
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "**/*.spec.ts"
   ],
   "compileOnSave": false,
   "atom": {

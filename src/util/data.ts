@@ -1,11 +1,9 @@
-import { Response } from '@angular/http';
-
-export function parseJsonDates(res: Response): any {
+export function parseJsonDates(data: any): any {
   try {
-    const text = res.text();
+    const text = JSON.stringify(data);
     return JSON.parse(text, reviveDateTime);
-  } catch (error) {
-    return {};
+  } catch (e) {
+    return data;
   }
 }
 

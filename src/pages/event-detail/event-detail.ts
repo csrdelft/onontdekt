@@ -6,9 +6,9 @@ import { NavParams } from 'ionic-angular';
 
 import { AppConfig } from '../../app/app.config';
 import { Event } from '../../models/event';
-import { ApiService } from '../../services/api/api';
-import { NotificationService } from '../../services/notification/notification';
-import { UrlService } from '../../services/url/url';
+import { ApiService } from '../../services/api.service';
+import { NotificationService } from '../../services/notification.service';
+import { UrlService } from '../../services/url.service';
 import { formatLocale, isFullDay } from '../../util/dates';
 
 @Component({

@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { NavController, Refresher } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+import { skip, take } from 'rxjs/operators';
 
 import * as fromRoot from '../../state';
 import * as topics from '../../state/topics/topics.actions';
@@ -23,19 +24,19 @@ export class ForumRecentPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.topics$ = this.store.select(fromRoot.getAllTopics);
-    this.moreAvailable$ = this.store.select(fromRoot.moreTopicsAvailable);
+    this.topics$ = this.store.pipe(select(fromRoot.getAllTopics));
+    this.moreAvailable$ = this.store.pipe(select(fromRoot.moreTopicsAvailable));
     this.load(true);
   }
 
   doInfinite(): Promise<any> {
     this.load(false);
-    return this.topics$.skip(1).take(1).toPromise();
+    return this.topics$.pipe(skip(1), take(1)).toPromise();
   }
 
   doRefresh(refresher: Refresher) {
     this.load(true);
-    this.topics$.skip(1).take(1).subscribe(() => {
+    this.topics$.pipe(skip(1), take(1)).subscribe(() => {
       refresher.complete();
     });
   }

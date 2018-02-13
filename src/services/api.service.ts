@@ -1,18 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import addDays from 'date-fns/add_days';
 import addHours from 'date-fns/add_hours';
 import isSameDay from 'date-fns/is_same_day';
 import parse from 'date-fns/parse';
-import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 
-import { Event } from '../../models/event';
-import { Member, MemberDetail } from '../../state/members/members.model';
-import { ForumPost } from '../../state/posts/posts.model';
-import { ForumTopic } from '../../state/topics/topics.model';
-import { formatLocale, isFullDay } from '../../util/dates';
-import { memberDetailMock, membersMock, postsMock, topicsMock } from '../../util/mocks';
-import { AuthService } from '../auth/auth';
-import { HttpService } from '../http/http';
+import { AppConfig } from '../app/app.config';
+import { Event } from '../models/event';
+import { AuthService } from '../services/auth.service';
+import { Member, MemberDetail } from '../state/members/members.model';
+import { ForumPost } from '../state/posts/posts.model';
+import { ForumTopic } from '../state/topics/topics.model';
+import { formatLocale, isFullDay } from '../util/dates';
+import { memberDetailMock, membersMock, postsMock, topicsMock } from '../util/mocks';
 
 @Injectable()
 export class ApiService {
@@ -24,7 +25,7 @@ export class ApiService {
 
   constructor(
     private authService: AuthService,
-    private httpService: HttpService
+    private http: HttpClient
   ) {}
 
   getScheduleList(from: Date, to: Date): Promise<Event[]> {
@@ -32,17 +33,22 @@ export class ApiService {
       const fromISO = from.toISOString();
       const toISO = to.toISOString();
 
-      this.httpService.getFromApi('/agenda?from=' + fromISO + '&to=' + toISO, 'get')
-        .subscribe((res: { events: Event[], joined: { activiteiten: number[], maaltijden: number[] } }) => {
+      this.http.get<{
+        data: {
+          events: Event[],
+          joined: { activiteiten: number[], maaltijden: number[] }
+        }
+      }>(`${AppConfig.ENV.apiEndpoint}/agenda?from=${fromISO}&to=${toISO}`)
+        .subscribe(res => {
           const schedule = {
             from: new Date(from),
             to: new Date(to),
-            events: res.events
+            events: res.data.events
           };
           this.scheduleList.push(schedule);
 
-          this.joinedEvents.maaltijden.push(...res.joined.maaltijden);
-          this.joinedEvents.activiteiten.push(...res.joined.activiteiten);
+          this.joinedEvents.maaltijden.push(...res.data.joined.maaltijden);
+          this.joinedEvents.activiteiten.push(...res.data.joined.activiteiten);
 
           resolve(schedule.events);
         }, error => {
@@ -120,40 +126,40 @@ export class ApiService {
     }
   }
 
-  getForumRecent(offset: number, limit: number): Observable<ForumTopic[]> {
+  getForumRecent(offset: number, limit: number) {
     if (this.useMock()) {
-      return Observable.of(topicsMock);
+      return of({ data: topicsMock });
     }
 
-    return this.httpService.getFromApi(`/forum/recent?offset=${offset}&limit=${limit}`, 'get');
+    return this.http.get<{ data: ForumTopic[] }>(`${AppConfig.ENV.apiEndpoint}/forum/recent?offset=${offset}&limit=${limit}`);
   }
 
-  getForumTopic(id: number, offset: number, limit: number): Observable<ForumPost[]> {
+  getForumTopic(id: number, offset: number, limit: number) {
     if (this.useMock()) {
-      return Observable.of(postsMock);
+      return of({ data: postsMock });
     }
 
-    return this.httpService.getFromApi(`/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`, 'get');
+    return this.http.get<{ data: ForumPost[] }>(`${AppConfig.ENV.apiEndpoint}/forum/onderwerp/${id}?offset=${offset}&limit=${limit}`);
   }
 
-  getMemberList(): Observable<Member[]> {
+  getMemberList() {
     if (this.useMock()) {
-      return Observable.of(membersMock);
+      return of({ data: membersMock });
     }
 
-    return this.httpService.getFromApi('/leden', 'get');
+    return this.http.get<{ data: Member[] }>(`${AppConfig.ENV.apiEndpoint}/leden`);
   }
 
-  getMemberDetail(id: string): Observable<MemberDetail> {
+  getMemberDetail(id: string) {
     if (this.useMock()) {
-      return Observable.of(memberDetailMock);
+      return of({ data: memberDetailMock });
     }
 
-    return this.httpService.getFromApi('/leden/' + id, 'get');
+    return this.http.get<{ data: MemberDetail }>(`${AppConfig.ENV.apiEndpoint}/leden/${id}`);
   }
 
-  postAction(cat: string, id: number, action: string): Observable<any> {
-    return this.httpService.getFromApi('/' + cat + '/' + id + '/' + action, 'post');
+  postAction(cat: string, id: number, action: string) {
+    return this.http.post(`${AppConfig.ENV.apiEndpoint}/${cat}/${id}/${action}`, {});
   }
 
   private useMock() {

@@ -4,7 +4,7 @@ import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { SafariViewController } from '@ionic-native/safari-view-controller';
 import { Platform } from 'ionic-angular';
 
-import { AppConfig } from './../../app/app.config';
+import { AppConfig } from '../app/app.config';
 
 @Injectable()
 export class UrlService {

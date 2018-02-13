@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
 import { AlertController, LoadingController, NavController } from 'ionic-angular';
 
-import { AuthService } from '../../services/auth/auth';
+import { AuthService } from '../../services/auth.service';
+import { State } from '../../state';
+import * as auth from '../../state/auth/auth.actions';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -18,7 +21,8 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private alertCtrl: AlertController,
     private formBuilder: FormBuilder,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private store: Store<State>
   ) {}
 
   ngOnInit() {
@@ -36,13 +40,15 @@ export class LoginPage implements OnInit {
     loading.present();
 
     this.authService
-      .login(this.loginForm.value['username'], this.loginForm.value['password'])
-      .then(() => {
+      .login(this.loginForm.value)
+      .subscribe(tokens => {
+        this.store.dispatch(new auth.SetAuthenticated(true));
+        this.store.dispatch(new auth.SetTokens(tokens));
+
         this.navCtrl.push(TabsPage).then(() => {
           loading.dismiss();
         });
-      })
-      .catch(error => {
+      }, error => {
         loading.dismiss();
         const alert = this.alertCtrl.create({
           title: 'Inloggen mislukt',

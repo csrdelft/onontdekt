@@ -7,5 +7,8 @@
       "proxyUrl": "https://csrdelft.nl/API/2.0"
     }
   ],
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }
