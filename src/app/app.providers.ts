@@ -58,7 +58,7 @@ const INTERCEPTORS = [
     provide: HTTP_INTERCEPTORS,
     useClass: DateInterceptor,
     multi: true
-  },
+  }
 ];
 
 /**

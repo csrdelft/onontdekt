@@ -29,10 +29,7 @@ export class EventListPage {
   private from: Date;
   private to: Date;
 
-  constructor(
-    private api: ApiService,
-    private navCtrl: NavController
-  ) {
+  constructor(private api: ApiService, private navCtrl: NavController) {
     this.initializeMoments();
     this.updateSchedule(this.from, this.to);
   }
@@ -43,9 +40,8 @@ export class EventListPage {
   }
 
   updateSchedule(from: Date, to: Date, reset: boolean = false) {
-    return this.api.getScheduleList(from, to)
-      .then((events: Event[]) => {
-
+    return this.api.getScheduleList(from, to).then(
+      (events: Event[]) => {
         if (events.length === 0) {
           return false;
         }
@@ -60,7 +56,8 @@ export class EventListPage {
             (result[key] = result[key] || []).push(event);
             return result;
           },
-        {});
+          {}
+        );
 
         const mapped = Object.keys(grouped).map(key => {
           return {
@@ -76,10 +73,12 @@ export class EventListPage {
         }
 
         return true;
-      }, () => {
+      },
+      () => {
         this.failedToLoad = true;
         return false;
-      });
+      }
+    );
   }
 
   doInfinite(infiniteScroll: InfiniteScroll) {
@@ -98,7 +97,7 @@ export class EventListPage {
 
   doRefresh(refresher: Refresher) {
     this.initializeMoments();
-    this.updateSchedule(this.from, this.to, true).then((hasEvents) => {
+    this.updateSchedule(this.from, this.to, true).then(hasEvents => {
       refresher.complete();
     });
   }
@@ -119,5 +118,4 @@ export class EventListPage {
   identify(index: number, event: Event) {
     return event.UUID;
   }
-
 }

@@ -21,7 +21,7 @@ export class ForumRecentPage implements OnInit {
   constructor(
     private navCtrl: NavController,
     private store: Store<fromRoot.State>
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.topics$ = this.store.pipe(select(fromRoot.getAllTopics));
@@ -52,5 +52,4 @@ export class ForumRecentPage implements OnInit {
   private load(reset: boolean) {
     this.store.dispatch(new topics.LoadAction(reset));
   }
-
 }

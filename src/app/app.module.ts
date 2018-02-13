@@ -23,13 +23,7 @@ import { PAGES } from '../pages';
 import { PIPES } from '../pipes';
 
 @NgModule({
-  declarations: [
-    CSRApp,
-    COMPONENTS,
-    DIRECTIVES,
-    PAGES,
-    PIPES
-  ],
+  declarations: [CSRApp, COMPONENTS, DIRECTIVES, PAGES, PIPES],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -44,10 +38,7 @@ import { PIPES } from '../pipes';
       TopicEffects
     ])
   ],
-  entryComponents: [
-    CSRApp,
-    PAGES
-  ],
+  entryComponents: [CSRApp, PAGES],
   bootstrap: [IonicApp],
   providers: PROVIDERS
 })

@@ -53,5 +53,4 @@ export class UrlService {
       return 'https://maps.google.com?q=' + query;
     }
   }
-
 }

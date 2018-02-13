@@ -10,10 +10,7 @@ export class MapsHrefDirective implements OnInit {
 
   private el: HTMLElement;
 
-  constructor(
-    el: ElementRef,
-    private urlService: UrlService
-  ) {
+  constructor(el: ElementRef, private urlService: UrlService) {
     this.el = el.nativeElement;
   }
 

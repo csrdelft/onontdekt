@@ -3,9 +3,7 @@ import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class NotificationService {
-  constructor(
-    private toastCtrl: ToastController
-  ) {}
+  constructor(private toastCtrl: ToastController) {}
 
   notify(message: string) {
     const toast = this.toastCtrl.create({
@@ -14,5 +12,4 @@ export class NotificationService {
     });
     toast.present();
   }
-
 }

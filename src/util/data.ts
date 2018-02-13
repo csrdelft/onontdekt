@@ -9,7 +9,10 @@ export function parseJsonDates(data: any): any {
 
 export function reviveDateTime(key: any, value: any): any {
   // Server returns datetimes in the following format: '2017-05-09 18:30:00'
-  if (typeof value === 'string' && /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)) {
+  if (
+    typeof value === 'string' &&
+    /^\d{4}-\d\d-\d\d\ \d\d:\d\d:\d\d$/.test(value)
+  ) {
     const year = Number(value.substr(0, 4));
     const month = Number(value.substr(5, 2)) - 1;
     const date = Number(value.substr(8, 2));

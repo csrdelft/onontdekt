@@ -1,9 +1,13 @@
-import { DomController, GestureController, PanGesture, Platform } from 'ionic-angular';
+import {
+  DomController,
+  GestureController,
+  PanGesture,
+  Platform
+} from 'ionic-angular';
 
 import { AlphabetScrollComponent } from './alphabet-scroll';
 
 export class AlphabetGesture extends PanGesture {
-
   private currentLetter: null | string = null;
 
   constructor(
@@ -12,22 +16,18 @@ export class AlphabetGesture extends PanGesture {
     gestureCtrl: GestureController,
     domCtrl: DomController
   ) {
-    super(
-      plt,
-      alphabetScroll.getGestureElement(),
-      {
-        maxAngle: 10,
-        threshold: 5,
-        direction: 'y',
-        zone: false,
-        domController: domCtrl,
-        gesture: gestureCtrl.createGesture({
-          name: 'alphabet',
-          priority: 40,
-          disableScroll: false
-        })
-      }
-    );
+    super(plt, alphabetScroll.getGestureElement(), {
+      maxAngle: 10,
+      threshold: 5,
+      direction: 'y',
+      zone: false,
+      domController: domCtrl,
+      gesture: gestureCtrl.createGesture({
+        name: 'alphabet',
+        priority: 40,
+        disableScroll: false
+      })
+    });
   }
 
   onDragMove(ev: TouchEvent) {
@@ -57,7 +57,7 @@ export class AlphabetGesture extends PanGesture {
   }
 }
 
-function pointerCoord(ev: TouchEvent): { x: number, y: number } {
+function pointerCoord(ev: TouchEvent): { x: number; y: number } {
   if (ev) {
     const changedTouches = ev.changedTouches;
     if (changedTouches && changedTouches.length > 0) {

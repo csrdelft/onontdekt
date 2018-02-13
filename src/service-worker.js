@@ -26,7 +26,7 @@ workboxSW.router.registerRoute(
   workboxSW.strategies.cacheFirst({
     cacheName: 'plaetjes',
     cacheExpiration: {
-      maxAgeSeconds: 28 * 24 * 60 * 60,
+      maxAgeSeconds: 28 * 24 * 60 * 60
     },
     cacheableResponse: {
       statuses: [0, 200]

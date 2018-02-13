@@ -7,14 +7,14 @@ import { UrlService } from '../../services/url.service';
   selector: '[csrSystemBrowser]'
 })
 export class SystemBrowserDirective {
-
   constructor(
     private el: ElementRef,
     private platform: Platform,
     private urlService: UrlService
   ) {}
 
-  @HostListener('click', ['$event']) onClick(event: MouseEvent) {
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent) {
     if (this.platform.is('cordova')) {
       event.preventDefault();
       const url = this.el.nativeElement.getAttribute('href');

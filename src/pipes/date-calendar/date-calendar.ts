@@ -31,6 +31,5 @@ export class DateCalendarPipe implements PipeTransform {
     }
 
     return formatLocale(date, format);
-
   }
 }

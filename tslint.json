@@ -1,10 +1,6 @@
 {
-  "rulesDirectory": [
-    "./node_modules/codelyzer"
-  ],
-  "extends": [
-    "./node_modules/tslint/lib/configs/latest"
-  ],
+  "rulesDirectory": ["./node_modules/codelyzer"],
+  "extends": ["./node_modules/tslint/lib/configs/latest"],
   "rules": {
     /* TSLint:latest overrides */
     "arrow-parens": false,

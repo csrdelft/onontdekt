@@ -3,13 +3,7 @@ import { Storage } from '@ionic/storage';
 import { Actions, Effect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import * as jwt_decode from 'jwt-decode';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import {
-  exhaustMap,
-  map,
-  mergeMap,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { exhaustMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { AuthService } from '../../services/auth.service';
 import * as auth from './auth.actions';
@@ -26,14 +20,18 @@ export class AuthEffects {
   @Effect()
   initialize$ = this.actions$.pipe(
     ofType<auth.Initialize>(auth.INITIALIZE),
-    switchMap(() => forkJoin(
-      this.storage.get('id_token'),
-      this.storage.get('refresh_token')
-    )),
-    map(([token, refreshToken]) => !!token && !!refreshToken ? {
-      token,
-      refreshToken
-    } : undefined),
+    switchMap(() =>
+      forkJoin(this.storage.get('id_token'), this.storage.get('refresh_token'))
+    ),
+    map(
+      ([token, refreshToken]) =>
+        !!token && !!refreshToken
+          ? {
+              token,
+              refreshToken
+            }
+          : undefined
+    ),
     mergeMap(
       (tokens?: Tokens) =>
         !!tokens

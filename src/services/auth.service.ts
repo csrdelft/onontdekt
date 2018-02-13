@@ -21,7 +21,10 @@ export class AuthService {
 
     const method = 'post';
     const url = `${this.path}/authorize`;
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
     const params = new HttpParams().set('user', username).set('pass', password);
     const body = params.toString();
 
@@ -31,7 +34,10 @@ export class AuthService {
   refresh(refreshToken: string) {
     const method = 'post';
     const url = `${this.path}/token`;
-    const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+    const headers = new HttpHeaders().set(
+      'Content-Type',
+      'application/x-www-form-urlencoded'
+    );
     const params = new HttpParams().set('refresh_token', refreshToken);
     const body = params.toString();
 

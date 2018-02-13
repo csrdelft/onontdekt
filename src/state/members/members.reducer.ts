@@ -18,7 +18,7 @@ export const initialState: State = {
   detailIds: [],
   detailEntities: {},
   query: null,
-  selectedMemberId: null,
+  selectedMemberId: null
 };
 
 export function reducer(state = initialState, action: members.Actions): State {
@@ -26,9 +26,12 @@ export function reducer(state = initialState, action: members.Actions): State {
     case members.LOAD_ALL_COMPLETE: {
       const loadedMembers = action.payload;
       const memberIds = loadedMembers.map(member => member.id);
-      const memberEntities = loadedMembers.reduce((entities: { [id: string]: Member }, member: Member) => {
-        return { ...entities, [member.id]: member };
-      }, {});
+      const memberEntities = loadedMembers.reduce(
+        (entities: { [id: string]: Member }, member: Member) => {
+          return { ...entities, [member.id]: member };
+        },
+        {}
+      );
 
       return {
         ...state,
@@ -84,32 +87,46 @@ export const getQuery = (state: State) => state.query;
 
 export const getSelectedId = (state: State) => state.selectedMemberId;
 
-export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
-  return (selectedId && entities[selectedId]) || null;
-});
+export const getSelected = createSelector(
+  getEntities,
+  getSelectedId,
+  (entities, selectedId) => {
+    return (selectedId && entities[selectedId]) || null;
+  }
+);
 
-export const getSelectedDetail = createSelector(getDetailEntities, getSelectedId, (detailEntities, selectedId) => {
-  return (selectedId && detailEntities[selectedId]) || null;
-});
+export const getSelectedDetail = createSelector(
+  getDetailEntities,
+  getSelectedId,
+  (detailEntities, selectedId) => {
+    return (selectedId && detailEntities[selectedId]) || null;
+  }
+);
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids) => {
   return ids.map(id => entities[id]);
 });
 
-export const getQueryResults = createSelector(getAll, getQuery, (allMembers, query) => {
-  if (!query) {
-    return allMembers;
+export const getQueryResults = createSelector(
+  getAll,
+  getQuery,
+  (allMembers, query) => {
+    if (!query) {
+      return allMembers;
+    }
+
+    const queryText = query.toLowerCase().replace(/,|\.|-/g, ' ');
+    if (queryText.length === 0) {
+      return allMembers;
+    }
+
+    return allMembers.filter(member => {
+      const mid = member.tussenvoegsel ? member.tussenvoegsel + ' ' : '';
+      const search = `${member.id} ${member.voornaam} ${mid}${
+        member.achternaam
+      }`.toLowerCase();
+
+      return search.indexOf(queryText) !== -1;
+    });
   }
-
-  const queryText = query.toLowerCase().replace(/,|\.|-/g, ' ');
-  if (queryText.length === 0) {
-    return allMembers;
-  }
-
-  return allMembers.filter(member => {
-    const mid = member.tussenvoegsel ? member.tussenvoegsel + ' ' : '';
-    const search = `${member.id} ${member.voornaam} ${mid}${member.achternaam}`.toLowerCase();
-
-    return search.indexOf(queryText) !== -1;
-  });
-});
+);

@@ -35,9 +35,14 @@ export class EventDetailPage {
 
     if (isSameDay(start, end)) {
       line1 = formatLocale(start, 'dddd D MMMM YYYY').toLowerCase();
-      line2 = fullDay ? 'Hele dag' : formatLocale(start, '[van] HH:mm [tot] ') + formatLocale(end, 'HH:mm');
+      line2 = fullDay
+        ? 'Hele dag'
+        : formatLocale(start, '[van] HH:mm [tot] ') +
+          formatLocale(end, 'HH:mm');
     } else {
-      const multipleFormat = fullDay ? 'dddd D MMM YYYY' : 'HH:mm [op] dd D MMM YYYY';
+      const multipleFormat = fullDay
+        ? 'dddd D MMM YYYY'
+        : 'HH:mm [op] dd D MMM YYYY';
       line1 = 'van ' + formatLocale(start, multipleFormat).toLowerCase();
       line2 = 'tot ' + formatLocale(end, multipleFormat).toLowerCase();
     }
@@ -50,8 +55,11 @@ export class EventDetailPage {
       const notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      const hasOpened = this.event.aanmelden_vanaf === null || isPast(this.event.aanmelden_vanaf);
-      const notClosed = this.event.aanmelden_tot === null || isFuture(this.event.aanmelden_tot);
+      const hasOpened =
+        this.event.aanmelden_vanaf === null ||
+        isPast(this.event.aanmelden_vanaf);
+      const notClosed =
+        this.event.aanmelden_tot === null || isFuture(this.event.aanmelden_tot);
       return hasOpened && notClosed;
     }
   }
@@ -61,7 +69,8 @@ export class EventDetailPage {
       const notClosed = this.event.gesloten === '0';
       return notClosed;
     } else {
-      const notClosed = this.event.afmelden_tot !== null && isFuture(this.event.afmelden_tot);
+      const notClosed =
+        this.event.afmelden_tot !== null && isFuture(this.event.afmelden_tot);
       return notClosed;
     }
   }
@@ -72,16 +81,23 @@ export class EventDetailPage {
 
     this.processingAction = true;
 
-    this.api.postAction(cat, id, 'aanmelden').toPromise().then((event: Event) => {
-      this.api.addJoined(cat, Number(id));
-      this.event = this.api.addEventMeta(event);
-      return 'Aanmelden gelukt!';
-    }, error => {
-      return 'Aanmelden mislukt: ' + error;
-    }).then(message => {
-      this.notifier.notify(message);
-      this.processingAction = false;
-    });
+    this.api
+      .postAction(cat, id, 'aanmelden')
+      .toPromise()
+      .then(
+        (event: Event) => {
+          this.api.addJoined(cat, Number(id));
+          this.event = this.api.addEventMeta(event);
+          return 'Aanmelden gelukt!';
+        },
+        error => {
+          return 'Aanmelden mislukt: ' + error;
+        }
+      )
+      .then(message => {
+        this.notifier.notify(message);
+        this.processingAction = false;
+      });
   }
 
   leave() {
@@ -90,20 +106,28 @@ export class EventDetailPage {
 
     this.processingAction = true;
 
-    this.api.postAction(cat, id, 'afmelden').toPromise().then((event: Event) => {
-      this.api.removeJoined(cat, Number(id));
-      this.event = this.api.addEventMeta(event);
-      return 'Afmelden gelukt!';
-    }, error => {
-      return 'Afmelden mislukt: ' + error;
-    }).then(message => {
-      this.notifier.notify(message);
-      this.processingAction = false;
-    });
+    this.api
+      .postAction(cat, id, 'afmelden')
+      .toPromise()
+      .then(
+        (event: Event) => {
+          this.api.removeJoined(cat, Number(id));
+          this.event = this.api.addEventMeta(event);
+          return 'Afmelden gelukt!';
+        },
+        error => {
+          return 'Afmelden mislukt: ' + error;
+        }
+      )
+      .then(message => {
+        this.notifier.notify(message);
+        this.processingAction = false;
+      });
   }
 
   viewExternal() {
-    const url = AppConfig.ENV.siteUrl + `/groepen/activiteiten/${this.event.id}/`;
+    const url =
+      AppConfig.ENV.siteUrl + `/groepen/activiteiten/${this.event.id}/`;
     this.urlService.open(url);
   }
 }

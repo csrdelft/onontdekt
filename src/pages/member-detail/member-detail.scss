@@ -1,5 +1,4 @@
 csr-member-detail {
-
   $member-avatar-size: 5rem;
 
   ion-avatar {
@@ -20,11 +19,9 @@ csr-member-detail {
 }
 
 .md csr-member-detail {
-
   a[ion-item] a[ion-button] {
     height: 68px;
     padding: 9px 16px;
     margin: 0 -8px 0 0;
   }
-
 }

@@ -57,10 +57,15 @@ export class ForumMessageComponent {
       return event.preventDefault();
     }
 
-    if (url.substr(0, 10) === '#/peiling/' || url.substr(0, 12) === '#/slideshow/') {
+    if (
+      url.substr(0, 10) === '#/peiling/' ||
+      url.substr(0, 12) === '#/slideshow/'
+    ) {
       this.alertCtrl
         .create()
-        .setMessage('Deze link wordt niet ondersteund. Bekijk het draadje op de stek!')
+        .setMessage(
+          'Deze link wordt niet ondersteund. Bekijk het draadje op de stek!'
+        )
         .addButton('Ok')
         .present();
       return event.preventDefault();

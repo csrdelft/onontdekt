@@ -15,9 +15,13 @@
     "test": "karma start ./config/unit-test/karma.conf.js",
     "test-ci": "karma start ./config/unit-test/karma.conf.js --single-run",
     "lint": "tslint -c ./tslint.json 'src/**/*.ts'",
+    "lint.prettier":
+      "prettier --write \"./{config,src,scripts}/**/*.{ts,js,json,scss}\"",
     "deploy": "npm run ci && npm run deploy-ios && npm run deploy-android",
-    "deploy-ios": "ionic cordova build ios --prod && code-push release-cordova csrdelft.ios ios -d \"Production\"",
-    "deploy-android": "ionic cordova build android --prod && code-push release-cordova csrdelft.android android -d \"Production\"",
+    "deploy-ios":
+      "ionic cordova build ios --prod && code-push release-cordova csrdelft.ios ios -d \"Production\"",
+    "deploy-android":
+      "ionic cordova build android --prod && code-push release-cordova csrdelft.android android -d \"Production\"",
     "ci": "npm run lint && npm run build"
   },
   "config": {
@@ -91,6 +95,7 @@
     "karma-sourcemap-loader": "0.3.7",
     "karma-webpack": "2.0.9",
     "null-loader": "0.1.1",
+    "prettier": "1.10.2",
     "ts-loader": "3.5.0",
     "ts-node": "4.1.0",
     "tslint": "5.9.1",
@@ -98,10 +103,7 @@
     "workbox-build": "2.1.2"
   },
   "cordova": {
-    "platforms": [
-      "android",
-      "ios"
-    ],
+    "platforms": ["android", "ios"],
     "plugins": {
       "com-sarriaroman-photoviewer": {},
       "cordova-custom-config": {},

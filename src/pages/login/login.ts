@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AlertController, LoadingController, NavController } from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  NavController
+} from 'ionic-angular';
 
 import { AuthService } from '../../services/auth.service';
 import { State } from '../../state';
@@ -39,24 +43,26 @@ export class LoginPage implements OnInit {
 
     loading.present();
 
-    this.authService
-      .login(this.loginForm.value)
-      .subscribe(tokens => {
+    this.authService.login(this.loginForm.value).subscribe(
+      tokens => {
         this.store.dispatch(new auth.SetAuthenticated(true));
         this.store.dispatch(new auth.SetTokens(tokens));
 
         this.navCtrl.push(TabsPage).then(() => {
           loading.dismiss();
         });
-      }, error => {
+      },
+      error => {
         loading.dismiss();
         const alert = this.alertCtrl.create({
           title: 'Inloggen mislukt',
-          message: 'Pff, die verplicht ingewikkelde wachtwoorden ook... \
+          message:
+            'Pff, die verplicht ingewikkelde wachtwoorden ook... \
             Het kan zijn dat je even moet wachten voor je een nieuwe poging mag wagen.',
           buttons: ['Probeer het nog eens']
         });
         alert.present();
-      });
+      }
+    );
   }
 }

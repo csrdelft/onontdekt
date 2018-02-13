@@ -1,5 +1,17 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Host, OnDestroy } from '@angular/core';
-import { Content, DomController, GestureController, Platform } from 'ionic-angular';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Host,
+  OnDestroy
+} from '@angular/core';
+import {
+  Content,
+  DomController,
+  GestureController,
+  Platform
+} from 'ionic-angular';
 
 import { AlphabetGesture } from './alphabet-gesture';
 
@@ -9,7 +21,6 @@ import { AlphabetGesture } from './alphabet-gesture';
   templateUrl: 'alphabet-scroll.html'
 })
 export class AlphabetScrollComponent implements AfterViewInit, OnDestroy {
-
   alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
   private alphabetGesture: AlphabetGesture;
@@ -25,7 +36,12 @@ export class AlphabetScrollComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.content.getScrollElement().style.right = '18px';
 
-    this.alphabetGesture = new AlphabetGesture(this.platform, this, this.gestureCtrl, this.domCtrl);
+    this.alphabetGesture = new AlphabetGesture(
+      this.platform,
+      this,
+      this.gestureCtrl,
+      this.domCtrl
+    );
     this.alphabetGesture.listen();
   }
 
@@ -37,13 +53,16 @@ export class AlphabetScrollComponent implements AfterViewInit, OnDestroy {
 
   scrollTo(letter: string) {
     const content = this.content.getScrollElement();
-    const group = content.querySelector('.scroll-letter-' + letter) as HTMLElement;
+    const group = content.querySelector(
+      '.scroll-letter-' + letter
+    ) as HTMLElement;
     if (group) {
       group.scrollIntoView(true);
     }
   }
 
   getGestureElement() {
-    return (this.elementRef.nativeElement as HTMLElement).children[0] as HTMLElement;
+    return (this.elementRef.nativeElement as HTMLElement)
+      .children[0] as HTMLElement;
   }
 }

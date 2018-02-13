@@ -2,7 +2,7 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest,
+  HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -14,9 +14,7 @@ import { JwtService } from '../services/jwt.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(
-    private jwtService: JwtService
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
   intercept(
     request: HttpRequest<any>,

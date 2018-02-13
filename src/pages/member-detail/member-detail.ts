@@ -1,7 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Calendar } from '@ionic-native/calendar';
-import { Contact, ContactAddress, ContactField, ContactName, Contacts } from '@ionic-native/contacts';
+import {
+  Contact,
+  ContactAddress,
+  ContactField,
+  ContactName,
+  Contacts
+} from '@ionic-native/contacts';
 import { PhotoViewer } from '@ionic-native/photo-viewer';
 import { select, Store } from '@ngrx/store';
 import isPast from 'date-fns/is_past';
@@ -39,7 +45,9 @@ export class MemberDetailPage implements OnInit {
 
   ngOnInit() {
     this.member$ = this.store.pipe(select(fromRoot.getSelectedMember));
-    this.memberDetail$ = this.store.pipe(select(fromRoot.getSelectedMemberDetail));
+    this.memberDetail$ = this.store.pipe(
+      select(fromRoot.getSelectedMemberDetail)
+    );
     this.load();
   }
 
@@ -56,19 +64,23 @@ export class MemberDetailPage implements OnInit {
   save(member: MemberDetail) {
     const actionSheet = this.actionSheetCtrl.create({
       title: 'Opslaan in...',
-      buttons: [{
-        text: 'Nieuw contact',
-        icon: !this.platform.is('ios') ? 'person-add' : undefined,
-        handler: () => this.saveNew(member)
-      }, {
-        text: 'Bestaand contact',
-        icon: !this.platform.is('ios') ? 'edit' : undefined,
-        handler: () => this.addToExisting(member)
-      }, {
-        text: 'Annuleer',
-        icon: !this.platform.is('ios') ? 'close' : undefined,
-        role: 'cancel'
-      }]
+      buttons: [
+        {
+          text: 'Nieuw contact',
+          icon: !this.platform.is('ios') ? 'person-add' : undefined,
+          handler: () => this.saveNew(member)
+        },
+        {
+          text: 'Bestaand contact',
+          icon: !this.platform.is('ios') ? 'edit' : undefined,
+          handler: () => this.addToExisting(member)
+        },
+        {
+          text: 'Annuleer',
+          icon: !this.platform.is('ios') ? 'close' : undefined,
+          role: 'cancel'
+        }
+      ]
     });
     actionSheet.present();
   }
@@ -90,14 +102,19 @@ export class MemberDetailPage implements OnInit {
   saveContact(contact: Contact, member: MemberDetail) {
     contact.name = getNameField(member);
     contact.birthday = member.geboortedatum;
-    contact.phoneNumbers = [...(contact.phoneNumbers || []), getPhoneField(member)];
+    contact.phoneNumbers = [
+      ...(contact.phoneNumbers || []),
+      getPhoneField(member)
+    ];
     contact.emails = [...(contact.emails || []), getEmailField(member)];
     contact.addresses = [...(contact.addresses || []), getAddressField(member)];
 
-    contact.save().then(
-      () => this.notifier.notify('Succesvol opgeslagen in contacten.'),
-      () => this.notifier.notify('Opslaan in contacten mislukt.')
-    );
+    contact
+      .save()
+      .then(
+        () => this.notifier.notify('Succesvol opgeslagen in contacten.'),
+        () => this.notifier.notify('Opslaan in contacten mislukt.')
+      );
   }
 
   openCalendar(member: MemberDetail) {
@@ -124,7 +141,12 @@ export class MemberDetailPage implements OnInit {
 }
 
 function getNameField(member: MemberDetail) {
-  return new ContactName(undefined, member.naam.achternaam, member.naam.voornaam, member.naam.tussenvoegsel || undefined);
+  return new ContactName(
+    undefined,
+    member.naam.achternaam,
+    member.naam.voornaam,
+    member.naam.tussenvoegsel || undefined
+  );
 }
 
 function getPhoneField(member: MemberDetail) {

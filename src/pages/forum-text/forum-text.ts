@@ -9,12 +9,9 @@ import { NavParams } from 'ionic-angular';
 export class ForumTextPage implements OnInit {
   text: string;
 
-  constructor(
-    private navParams: NavParams
-  ) {}
+  constructor(private navParams: NavParams) {}
 
   ngOnInit() {
     this.text = this.navParams.get('text');
   }
-
 }

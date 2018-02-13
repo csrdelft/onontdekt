@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit, Renderer, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Renderer,
+  ViewChild
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Content, NavController, Searchbar } from 'ionic-angular';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -87,5 +93,4 @@ export class MemberListPage implements OnInit {
   identifyGroup(index: number, group: Group) {
     return group.name;
   }
-
 }

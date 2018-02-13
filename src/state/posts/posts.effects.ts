@@ -11,7 +11,6 @@ import * as fromPost from './posts.reducer';
 
 @Injectable()
 export class PostEffects {
-
   @Effect()
   load$ = this.actions$.pipe(
     ofType<post.LoadAction>(post.LOAD),
@@ -22,13 +21,15 @@ export class PostEffects {
     ),
     switchMap(([{ topicId, reset }, length, selectedTopic]) => {
       const unread = selectedTopic ? selectedTopic.ongelezen : 0;
-      const offset = reset ? 0 : (length || 0);
+      const offset = reset ? 0 : length || 0;
       const limit = getLimit(unread, fromPost.POSTS_PER_LOAD);
 
-      return this.api.getForumTopic(topicId, offset, limit).pipe(
-        map(response => response.data),
-        map(posts => new post.LoadCompleteAction({ topicId, posts, reset }))
-      );
+      return this.api
+        .getForumTopic(topicId, offset, limit)
+        .pipe(
+          map(response => response.data),
+          map(posts => new post.LoadCompleteAction({ topicId, posts, reset }))
+        );
     })
   );
 

@@ -24,17 +24,25 @@ export function reducer(state = initialState, action: posts.Actions): State {
       const payload = action.payload;
       const topicId = payload.topicId;
       const postIds = payload.posts.map(post => post.post_id);
-      const postEntities = payload.posts.reduce((entities: { [id: number]: ForumPost }, post) => {
-        return { ...entities, [post.post_id]: post };
-      }, {});
+      const postEntities = payload.posts.reduce(
+        (entities: { [id: number]: ForumPost }, post) => {
+          return { ...entities, [post.post_id]: post };
+        },
+        {}
+      );
 
       return {
         ...state,
-        entities: payload.reset ? postEntities : { ...state.entities, ...postEntities },
+        entities: payload.reset
+          ? postEntities
+          : { ...state.entities, ...postEntities },
         byTopic: {
           ...state.byTopic,
           [topicId]: {
-            ids: (state.byTopic[topicId] !== undefined && !payload.reset) ? [...postIds, ...state.byTopic[topicId].ids] : postIds,
+            ids:
+              state.byTopic[topicId] !== undefined && !payload.reset
+                ? [...postIds, ...state.byTopic[topicId].ids]
+                : postIds,
             isMoreAvailable: payload.posts.length === POSTS_PER_LOAD
           }
         }

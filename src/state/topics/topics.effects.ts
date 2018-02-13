@@ -11,7 +11,6 @@ import * as fromTopic from './topics.reducer';
 
 @Injectable()
 export class TopicEffects {
-
   @Effect()
   load$ = this.actions$.pipe(
     ofType<topic.LoadAction>(topic.LOAD),
@@ -20,10 +19,12 @@ export class TopicEffects {
     switchMap(([reset, length]) => {
       const offset = reset ? 0 : length;
       const limit = fromTopic.TOPICS_PER_LOAD;
-      return this.api.getForumRecent(offset, limit).pipe(
-        map(response => response.data),
-        map(topics => new topic.LoadCompleteAction({ reset, topics }))
-      );
+      return this.api
+        .getForumRecent(offset, limit)
+        .pipe(
+          map(response => response.data),
+          map(topics => new topic.LoadCompleteAction({ reset, topics }))
+        );
     })
   );
 
@@ -44,7 +45,10 @@ export class TopicEffects {
       }
       return false;
     }),
-    map(([topicId, posts, selectedTopic]) => new post.LoadAction({ topicId, reset: true }))
+    map(
+      ([topicId, posts, selectedTopic]) =>
+        new post.LoadAction({ topicId, reset: true })
+    )
   );
 
   constructor(

@@ -1,10 +1,9 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 
-$font-path: "../assets/fonts";
+$font-path: '../assets/fonts';
 
-@import "ionic.globals";
-
+@import 'ionic.globals';
 
 // Named Color Variables
 // --------------------------------------------------
@@ -14,13 +13,7 @@ $font-path: "../assets/fonts";
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
-$colors: (
-  primary: #0A5992,
-  // secondary: #456F54,
-  // tertiary: #BB534F,
-  // dark: #454545,
-);
-
+$colors: (primary: #0a5992);
 
 // Shared Variables
 // --------------------------------------------------
@@ -29,16 +22,15 @@ $colors: (
 // To view all the possible Ionic variables, see:
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
-$text-color:                 #000;
-$link-color:                 color($colors, primary);
-$background-color:           #fff;
-$subdued-text-color:         #666;
+$text-color: #000;
+$link-color: color($colors, primary);
+$background-color: #fff;
+$subdued-text-color: #666;
 
-$font-family-base:           "Source Sans Pro", sans-serif;
-$font-family-md-base:        $font-family-base;
+$font-family-base: 'Source Sans Pro', sans-serif;
+$font-family-md-base: $font-family-base;
 
-$paragraph-color:            $text-color;
-
+$paragraph-color: $text-color;
 
 // App iOS Variables
 // --------------------------------------------------
@@ -51,7 +43,6 @@ $card-ios-header-padding-bottom: 3px;
 $card-ios-header-padding-start: 16px;
 $card-ios-header-padding-end: 16px;
 
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
@@ -63,13 +54,9 @@ $card-md-header-padding-bottom: 3px;
 $card-md-header-padding-start: 16px;
 $card-md-header-padding-end: 16px;
 
-
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
-
-
 
 // App Theme
 // --------------------------------------------------
@@ -78,12 +65,11 @@ $card-md-header-padding-end: 16px;
 // so that the above variables are used and Ionic's
 // default are overridden.
 
-@import "ionic.theme.default";
-
+@import 'ionic.theme.default';
 
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
-@import "ionic.ionicons";
+@import 'ionic.ionicons';

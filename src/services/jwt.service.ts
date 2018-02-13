@@ -6,7 +6,7 @@ import { first, map, switchMap } from 'rxjs/operators';
 
 import * as fromRoot from '../state';
 import * as auth from '../state/auth/auth.actions';
-import { AccessTokenPayload, Tokens} from '../state/auth/auth.model';
+import { AccessTokenPayload, Tokens } from '../state/auth/auth.model';
 
 @Injectable()
 export class JwtService {

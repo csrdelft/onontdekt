@@ -38,28 +38,33 @@ export class CSRApp {
   }
 
   private initializeRootPage() {
-    this.store.pipe(
-      select(fromRoot.getAuthenticated),
-      first(authed => authed !== undefined)
-    ).subscribe(authenticated => {
-      const pageToLoad = authenticated ? TabsPage : LoginPage;
-      this.nav.setRoot(pageToLoad);
-      if (this.platform.is('cordova')) {
-        this.platform.ready().then(() => {
-          setTimeout(() => this.splashScreen.hide(), 400);
-        });
-      }
-    });
+    this.store
+      .pipe(
+        select(fromRoot.getAuthenticated),
+        first(authed => authed !== undefined)
+      )
+      .subscribe(authenticated => {
+        const pageToLoad = authenticated ? TabsPage : LoginPage;
+        this.nav.setRoot(pageToLoad);
+        if (this.platform.is('cordova')) {
+          this.platform.ready().then(() => {
+            setTimeout(() => this.splashScreen.hide(), 400);
+          });
+        }
+      });
   }
 
   private runUpdate() {
     this.codePush.sync().subscribe(status => {
       switch (status) {
         case SyncStatus.INSTALLING_UPDATE:
-          this.toastCtrl.create({
-            message: 'Er is een update beschikbaar. Herstart de app om deze direct te gebruiken.',
-            duration: 6000
-          }).present();
+          this.toastCtrl
+            .create({
+              message:
+                'Er is een update beschikbaar. Herstart de app om deze direct te gebruiken.',
+              duration: 6000
+            })
+            .present();
           break;
       }
     });

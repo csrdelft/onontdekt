@@ -9,12 +9,11 @@ $categories: (
 }
 
 csr-event-list {
-
   .event-list {
     margin-bottom: 0;
 
     @each $category, $value in auxiliary-categories() {
-      [ion-item][category=#{$category}] ion-label {
+      [ion-item][category='#{$category}'] ion-label {
         border-left: 2px solid $value;
         padding-left: 10px;
       }

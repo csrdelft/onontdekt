@@ -13,26 +13,30 @@ module.exports = {
   },
 
   module: {
-    rules: [{
-      test: /\.ts$/,
-      loaders: [
-        {
-          loader: 'ts-loader',
-          options: {
-            compilerOptions: {
-              strictNullChecks: false
+    rules: [
+      {
+        test: /\.ts$/,
+        loaders: [
+          {
+            loader: 'ts-loader',
+            options: {
+              compilerOptions: {
+                strictNullChecks: false
+              }
             }
-          }
-        },
-        'angular2-template-loader'
-      ]
-    }, {
-      test: /\.html$/,
-      loader: 'html-loader?attrs=false'
-    }, {
-      test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-      loader: 'null-loader'
-    }]
+          },
+          'angular2-template-loader'
+        ]
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader?attrs=false'
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+        loader: 'null-loader'
+      }
+    ]
   },
 
   plugins: [

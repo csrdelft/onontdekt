@@ -1,4 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Content, Item, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
@@ -43,12 +51,13 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   ngOnInit() {
     this.topic$ = this.store.pipe(select(fromRoot.getSelectedTopic));
     this.posts$ = this.store.pipe(select(fromRoot.getSelectedTopicPostsAll));
-    this.moreAvailable$ = this.store.pipe(select(fromRoot.getSelectedTopicMorePostsAvailable));
+    this.moreAvailable$ = this.store.pipe(
+      select(fromRoot.getSelectedTopicMorePostsAvailable)
+    );
 
-    this.topic$.pipe(
-      skipWhile(t => t == null),
-      take(1)
-    ).subscribe(t => this.unread = t!.ongelezen);
+    this.topic$
+      .pipe(skipWhile(t => t == null), take(1))
+      .subscribe(t => (this.unread = t!.ongelezen));
 
     this.store.dispatch(new topic.SelectAction(this.topicId));
   }
@@ -71,10 +80,12 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   }
 
   doInfinite(): Promise<any> {
-    this.store.dispatch(new post.LoadAction({
-      topicId: this.topicId,
-      reset: false
-    }));
+    this.store.dispatch(
+      new post.LoadAction({
+        topicId: this.topicId,
+        reset: false
+      })
+    );
 
     return this.posts$.pipe(skip(1), take(1)).toPromise();
   }
@@ -88,7 +99,8 @@ export class ForumTopicPage implements AfterViewInit, OnInit {
   }
 
   viewExternal() {
-    const url = AppConfig.ENV.siteUrl + `/forum/onderwerp/${this.topicId}#ongelezen`;
+    const url =
+      AppConfig.ENV.siteUrl + `/forum/onderwerp/${this.topicId}#ongelezen`;
     this.urlService.open(url);
   }
 

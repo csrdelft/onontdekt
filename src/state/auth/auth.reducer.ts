@@ -14,7 +14,7 @@ export const initialState: State = {
   authenticated: undefined,
   refreshing: false,
   tokens: undefined,
-  identity: undefined,
+  identity: undefined
 };
 
 export function reducer(state = initialState, action: auth.Actions): State {

@@ -22,7 +22,9 @@ module.exports = {
     dest: '{{WWW}}/assets/fonts'
   },
   copySwToolbox: {
-    src: ['{{ROOT}}/node_modules/workbox-sw/build/importScripts/workbox-sw.prod.v2.1.2.js'],
+    src: [
+      '{{ROOT}}/node_modules/workbox-sw/build/importScripts/workbox-sw.prod.v2.1.2.js'
+    ],
     dest: '{{BUILD}}'
   }
 };
