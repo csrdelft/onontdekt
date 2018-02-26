@@ -1,4 +1,12 @@
 {
   "$schema": "http://json.schemastore.org/prettierrc",
-  "singleQuote": true
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": "package.json",
+      "options": {
+        "printWidth": 300
+      }
+    }
+  ]
 }
