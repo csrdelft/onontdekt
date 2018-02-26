@@ -14,6 +14,7 @@ import { ForumPost } from '../state/posts/posts.model';
 import { ForumTopic } from '../state/topics/topics.model';
 import { formatLocale, isFullDay } from '../util/dates';
 import {
+  eventsMock,
   memberDetailMock,
   membersMock,
   postsMock,
@@ -32,6 +33,11 @@ export class ApiService {
 
   getScheduleList(from: Date, to: Date): Promise<Event[]> {
     return new Promise((resolve, reject) => {
+      if (this.useMock()) {
+        resolve(eventsMock);
+        return;
+      }
+
       const fromISO = from.toISOString();
       const toISO = to.toISOString();
 

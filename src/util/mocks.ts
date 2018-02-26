@@ -1,6 +1,40 @@
+import { Event } from '../models/event';
 import { Member, MemberDetail } from '../state/members/members.model';
 import { ForumPost } from '../state/posts/posts.model';
 import { ForumTopic } from '../state/topics/topics.model';
+
+export const eventsMock: Event[] = [
+  {
+    UUID: '',
+    id: 1,
+    maaltijd_id: 1,
+    titel: 'Example Event',
+    naam: 'Example Event',
+    soort: 'Event Type',
+    datum: '11-11-2011',
+    tijd: '11:11',
+    locatie: 'Location',
+    samenvatting: 'Description',
+    omschrijving: 'Description',
+    beschrijving: 'Description',
+    gesloten: '1',
+    prijs: '300',
+    begin_moment: new Date('2011-11-11T11:11:11Z'),
+    eind_moment: new Date('2011-11-11T20:11:11Z'),
+    aanmelden_vanaf: new Date('2011-11-11T11:11:11Z'),
+    aanmelden_tot: new Date('2011-11-11T11:11:11Z'),
+    afmelden_tot: new Date('2011-11-11T11:11:11Z'),
+    aantal_aanmeldingen: 11,
+    aanmeld_limiet: 2011,
+    _meta: {
+      start: new Date('2011-11-11T11:11:11Z'),
+      end: new Date('2011-11-11T20:11:11Z'),
+      formattedListDate: '11-11-2011 11:11',
+      category: 'maaltijd',
+      present: true
+    }
+  }
+];
 
 export const postsMock: ForumPost[] = [
   {

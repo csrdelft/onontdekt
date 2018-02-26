@@ -59,6 +59,13 @@ export class AuthEffects {
     map(tokenPayload => new auth.SetIdentity(tokenPayload.data))
   );
 
+  @Effect({ dispatch: false })
+  setIdentity$ = this.actions$.pipe(
+    ofType<auth.SetIdentity>(auth.SET_IDENTITY),
+    map(action => action.payload),
+    tap(identity => (this.authService.userId = identity.userId))
+  );
+
   @Effect()
   logout$ = this.actions$.pipe(
     ofType<auth.Logout>(auth.LOGOUT),
