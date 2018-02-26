@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="90" id="nl.csrdelft.lustrum" ios-CFBundleVersion="16" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="200" id="nl.csrdelft.lustrum" ios-CFBundleVersion="20" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>C.S.R. Delft</name>
     <description>De app der Civitas Studiosorum Reformatorum.</description>
     <author email="lustrumcie@csrdelft.nl" href="https://csrdelft.nl/">LustrumCie Post</author>
