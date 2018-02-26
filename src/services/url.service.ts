@@ -27,7 +27,9 @@ export class UrlService {
       } else if (this.platform.is('ios')) {
         this.safariViewController.isAvailable().then(available => {
           if (available) {
-            this.safariViewController.show({ url });
+            this.safariViewController
+              .show({ url, tintColor: '#0a3292' })
+              .subscribe();
           } else {
             this.inAppBrowser.create(url, '_system');
           }
