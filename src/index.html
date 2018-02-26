@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="nl">
+
 <head>
   <meta charset="UTF-8">
   <title>C.S.R. Delft</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
 
@@ -20,7 +21,9 @@
   <link rel="icon" type="image/png" href="assets/icons/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="assets/icons/favicon-16x16.png" sizes="16x16">
   <meta name="msapplication-config" content="assets/icons/browserconfig.xml">
-  <meta name="theme-color" content="#1d4e6a">
+  <meta name="theme-color" content="#0a3292">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
   <script>
     if ('serviceWorker' in navigator) {
@@ -49,6 +52,7 @@
     !function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
   </script>
 </head>
+
 <body>
 
   <ion-app>
@@ -83,4 +87,5 @@
   <script src="build/main.js"></script>
 
 </body>
+
 </html>
