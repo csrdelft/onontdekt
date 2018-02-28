@@ -40,11 +40,15 @@ export class AuthEffects {
     )
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   refresh$ = this.actions$.pipe(
     ofType<auth.Refresh>(auth.REFRESH),
     map(action => action.payload),
-    exhaustMap(refreshToken => this.authService.refresh(refreshToken))
+    exhaustMap(refreshToken =>
+      this.authService
+        .refresh(refreshToken)
+        .pipe(map(({ token }) => new auth.SetTokens({ token, refreshToken })))
+    )
   );
 
   @Effect()

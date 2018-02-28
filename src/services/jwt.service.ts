@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as jwt_decode from 'jwt-decode';
 import { of } from 'rxjs/observable/of';
-import { first, map, switchMap } from 'rxjs/operators';
+import { delay, first, map, switchMap } from 'rxjs/operators';
 
 import * as fromRoot from '../state';
 import * as auth from '../state/auth/auth.actions';
@@ -27,9 +27,10 @@ export class JwtService {
     return !(date.valueOf() > new Date().valueOf() + offsetSeconds * 1000);
   }
 
-  private getCurrentTokens() {
+  private getCurrentTokens(refreshStarted = false) {
     return this.store.pipe(
       select(fromRoot.getRefreshing),
+      delay(refreshStarted ? 10 : 0),
       first(refreshing => refreshing === false),
       switchMap(refreshed =>
         this.store.pipe(select(fromRoot.getTokens), first())
@@ -44,6 +45,6 @@ export class JwtService {
     }
 
     this.store.dispatch(new auth.Refresh(tokens.refreshToken));
-    return this.getCurrentTokens();
+    return this.getCurrentTokens(true);
   }
 }
